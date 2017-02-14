@@ -8,3 +8,148 @@ The idea generating a new configuration file using ~org-mode~ and literate
 programming is taken from [[https://youtu.be/SzA2YODtgK4][Harry Schwartz's talk about ~org-mode~]]. When Emacs is
 booted, all the source blocks from this file are used to generate the
 configuration file.
+
+* Basic Emacs Setup
+
+** Add MELPA
+
+*The* package repository for Emacs. Must have, it's really really useful for
+installing all kinds of packages.
+
+#+BEGIN_SRC elisp
+;; Add MELPA
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   '("MELPA" . "http://melpa.org/packages/") t)
+  (package-initialize))
+#+END_SRC
+
+** Disable ~yes-or-no~ messages.
+
+For some reason, there are different types of confirmation prompts in
+Emacs. One of them forces you to write "yes" and the other one only to press
+"y", so I disable the first type.
+
+#+BEGIN_SRC elisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+** Disable startup message
+
+I simply prefer to have a scratch buffer ready when I boot up.
+
+#+BEGIN_SRC elisp
+(setq inhibit-startup-message t)
+#+END_SRC
+
+** Disable the warning when killing a buffer w/ process
+
+When a buffer (i.e ~something.py~) has an associated process (in that case,
+~Python~ for completion), Emacs will prompt you when trying to kill it, asking
+for confirmation. I think it just interferes in my way, so I disable it as
+well.
+
+#+BEGIN_SRC elisp
+(setq kill-buffer-query-functions
+  (remq 'process-kill-buffer-query-function
+         kill-buffer-query-functions))
+#+END_SRC
+
+** Fill the ~exec-path~ variable
+
+I spent too much time until I figured this out. Since I mostly use GUI Emacs,
+the ~exec-path~ variable is empty at start (it has not been started through
+shell). That's why we need a function to loading the contents of ~$PATH~ to
+Emacs variable and call it at start.
+
+#+BEGIN_SRC elisp
+(defun set-exec-path-from-shell-PATH ()
+  "Update the variable 'exec-path' using the contents of $PATH."
+  (interactive)
+  (let ((path-from-shell
+	 (replace-regexp-in-string
+	  "[ \t\n]*$" "" (shell-command-to-string
+			  "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
+#+END_SRC
+
+** Enable auto-indent
+
+By default, inserting a new line in Emacs is not associated with indent.
+
+#+BEGIN_SRC elisp
+(define-key global-map (kbd "RET") 'newline-and-indent)
+#+END_SRC
+
+-----
+
+* Graphical Interface
+
+** Disabling GUI defaults
+
+I always use Emacs in its GUI client, but because of the visual capabilities
+and not the tools and bars. That's why I like to disable all the graphical
+clutter.
+
+#+BEGIN_SRC elisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+#+END_SRC
+
+** Setting default font
+
+I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
+weird in the beginning, then it's a joy to have all your code properly fitting
+in the screen.
+
+#+BEGIN_SRC elisp
+(set-default-font "Iosevka 14")
+#+END_SRC
+
+** Enabling font ligatures
+
+Emacs by default does not support font ligatures. However, I found this
+workaround in a Fira Code issue in Github:
+
+#+BEGIN_SRC elisp
+(when (window-system)
+(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+               (36 . ".\\(?:>\\)")
+               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+               (48 . ".\\(?:x[a-zA-Z]\\)")
+               (58 . ".\\(?:::\\|[:=]\\)")
+               (59 . ".\\(?:;;\\|;\\)")
+               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+               (91 . ".\\(?:]\\)")
+               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+               (94 . ".\\(?:=\\)")
+               (119 . ".\\(?:ww\\)")
+	       (123 . ".\\(?:-\\)")
+               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+               )
+             ))
+  (dolist (char-regexp alist)
+    (set-char-table-range composition-function-table (car char-regexp)
+                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+#+END_SRC
+
+As a TODO, it is also worth it to check [[https://gist.github.com/mordocai/50783defab3c3d1650e068b4d1c91495][this other workaround]] that looks much
+much better and allows to use it with different hooks.
