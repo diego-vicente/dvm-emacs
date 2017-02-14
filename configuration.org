@@ -1,0 +1,10 @@
+#+TITLE:  My Emacs Configuration
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  diegovicente@protonmail.com
+
+* Introduction
+
+The idea generating a new configuration file using ~org-mode~ and literate
+programming is taken from [[https://youtu.be/SzA2YODtgK4][Harry Schwartz's talk about ~org-mode~]]. When Emacs is
+booted, all the source blocks from this file are used to generate the
+configuration file.
