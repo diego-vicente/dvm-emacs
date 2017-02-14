@@ -86,8 +86,25 @@ By default, inserting a new line in Emacs is not associated with indent.
 (define-key global-map (kbd "RET") 'newline-and-indent)
 #+END_SRC
 
------
+** Insert new line without breaking
 
+One of the things I really miss from vim is the shortcut ~o~, which was used to
+insert a new line below the line in which the cursor is. To have the same
+behavior in Emacs, I found this custom function that I bound to ~C-o~.
+
+#+BEGIN_SRC elisp
+(defun insert-new-line-below ()
+  "Add a new line below the current line"
+  (interactive)
+  (let ((oldpos (point)))
+    (end-of-line)
+    (newline-and-indent)))
+
+(global-set-key (kbd "<C-o>") 'insert-new-line-below)
+#+END_SRC
+
+** 
+-----
 * Graphical Interface
 
 ** Disabling GUI defaults
@@ -153,3 +170,63 @@ workaround in a Fira Code issue in Github:
 
 As a TODO, it is also worth it to check [[https://gist.github.com/mordocai/50783defab3c3d1650e068b4d1c91495][this other workaround]] that looks much
 much better and allows to use it with different hooks.
+
+** Adding ~powerline~ configuration
+
+~powerline~ transforms the mode-line to show a different information with a
+very characteristic aesthetic. My configuration for ~powerline~ just sets the
+theme and the separators to be the character (due to strange contrast in
+MacOS). 
+
+#+BEGIN_SRC elisp
+(require 'powerline)
+(powerline-default-theme)
+(setq powerline-default-separator 'utf-8)
+#+END_SRC
+
+-----
+
+* Programming Modes
+
+* ~org-mode~
+
+** Basic setup and other habits
+
+
+*** Enable ~auto-fill-mode~ in Emacs
+
+I truly believe that code and other text files have to respect a 79 characters
+per line bound. No, 120 is not enough. Of course, for me ~org-mode~ should also
+be, so we enable this behaviour to be automatic
+
+#+BEGIN_SRC elisp
+(add-hook 'org-mode-hook 'auto-fill-mode)
+#+END_SRC
+
+
+* Other Major Modes
+
+** ~erc~
+
+~erc~ is a IRC client for Emacs. It is a wonderful tool worth checking out, and
+requires really little configuration to make to be great.
+
+*** Hide messages from inactive people
+
+This snippet hides all the IRC messages that notify someone has joined, parted
+or quitted if that user has been inactive for more than half an hour.
+
+#+BEGIN_SRC elisp
+(setq erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+(setq erc-lurker-threshold-time 1800)
+#+END_SRC
+
+*** Use the proper default nickname
+
+~erc~ suggests a default nickname when logging in. ~agis~ is my username, if
+you want to set another one just change that argument.
+
+#+BEGIN_SRC elisp
+(setq erc-nick "agis")
+#+END_SRC
+
