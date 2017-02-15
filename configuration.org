@@ -192,7 +192,6 @@ MacOS).
 
 ** Basic setup and other habits
 
-
 *** Enable ~auto-fill-mode~ in Emacs
 
 I truly believe that code and other text files have to respect a 79 characters
@@ -203,6 +202,80 @@ be, so we enable this behaviour to be automatic
 (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
 
+** ~org-ref~
+
+~org-ref~ is a great package that enables a great deal of references and
+shortcuts in ~org-mode~ when exporting to different formats like HTML or
+LaTeX. The configuration can be a bit of a pain in the ass:
+
+*** Basic setup and default dirs
+
+We require the packages and set the default for the bibliography notes, the
+main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
+
+#+BEGIN_SRC elisp
+(require 'org-ref)
+(require 'org-ref-pdf)
+(require 'org-ref-url-utils)
+(setq org-ref-bibliography-notes "~/bibliography/notes.org"
+      org-ref-default-bibliography '("~/bibliography/refs.bib")
+      org-ref-pdf-directory "~/bibliography/pdfs")
+#+END_SRC 
+
+We also make sure to create the directory if it does not exist
+
+#+BEGIN_SRC elisp
+(unless (file-exists-p org-ref-pdf-directory)
+  (make-directory org-ref-pdf-directory t))
+#+END_SRC
+
+*** Update the export process
+
+We have to take into account the Bibtex process for the references to
+work. TODO: sometimes does not even work this way.
+
+#+BEGIN_SRC elisp
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+*** Set default key in Bibltex entries
+
+When using tools like ~crossref-add-bibtex-entry~, we want a meaningful key to
+be defined in the entries. I found this method in the ~org-ref~ config file.
+
+#+BEGIN_SRC elisp
+(setq bibtex-autokey-year-length 4
+      bibtex-autokey-name-year-separator "-"
+      bibtex-autokey-year-title-separator "-"
+      bibtex-autokey-titleword-separator "-"
+      bibtex-autokey-titlewords 2
+      bibtex-autokey-titlewords-stretch 1
+      bibtex-autokey-titleword-length 5)
+#+END_SRC
+
+*** Set default LaTeX headings
+
+For the links to work properly we need some default packages in every exported
+file.
+
+#+BEGIN_SRC elisp
+(setq org-latex-default-packages-alist
+      (-remove-item
+       '("" "hyperref" nil)
+       org-latex-default-packages-alist))
+
+(add-to-list 'org-latex-default-packages-alist '("" "natbib" "") t)
+(add-to-list 'org-latex-default-packages-alist
+	     '("linktocpage,pdfstartview=FitH,colorlinks,
+linkcolor=blue,anchorcolor=blue,
+citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
+	       "hyperref" nil)
+	     t)
+#+END_SRC
 
 * Other Major Modes
 
