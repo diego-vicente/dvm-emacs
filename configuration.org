@@ -282,6 +282,41 @@ Auto-close parenthesis and other characters. Useful as it seems.
 #+END_SRC
 
 * Programming Modes
+** Python
+
+*** Enable ~elpy~
+
+~elpy~ is, in a way, the ~intero~ for Python. To configure it, we first have to
+enable it.
+
+#+BEGIN_SRC elisp
+(require 'elpy)
+(elpy-enable)
+#+END_SRC
+
+*** Set UTF-8 to prevent encoding hell
+
+This is not compulsory but can save you from some headaches.
+
+#+BEGIN_SRC elisp
+(setenv "LANG" "en_US.UTF-8")
+(setenv "LC_ALL" "en_US.UTF-8")
+(setenv "LC_CTYPE" "en_US.UTF-8")
+#+END_SRC
+
+*** Set the backends and version
+
+I like to use Python 3 and ~ipython~ as a REPL. To set these environments:
+
+#+BEGIN_SRC elisp
+(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
+(add-to-list 'python-shell-completion-native-disabled-interpreters "python3")
+(elpy-use-ipython)
+(setq elpy-rpc-python-command "python3"
+      python-shell-interpreter "ipython"
+      python-shell-interpreter-args "--simple-prompt -i")
+#+END_SRC
+
 ** Haskell
 *** Add ~ghci~ to path
 
