@@ -10,7 +10,6 @@ booted, all the source blocks from this file are used to generate the
 configuration file.
 
 * Basic Emacs Setup
-
 ** Add MELPA
 
 *The* package repository for Emacs. Must have, it's really really useful for
@@ -101,10 +100,8 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
     (newline-and-indent)))
 
 (global-set-key (kbd "<C-o>") 'insert-new-line-below)
-#+END_SRC
+#+END_SRC 
 
-** 
------
 * Graphical Interface
 ** Disabling GUI defaults
 
@@ -184,7 +181,6 @@ MacOS).
 #+END_SRC
 
 -----
-* Programming Modes
 * Packages & Tools
 ** ~ido~
 
@@ -220,8 +216,94 @@ also binds the status function to ~C-x g~.
 (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
 
-* ~org-mode~
+** ~projectile~
 
+Enables different tools and functions to deal with files related to a
+project. To work, it searches for a VCS and sets it as the root of a project. I
+have it configured to ignore all files that has not been staged in the git
+project. 
+
+#+BEGIN_SRC elisp
+(require 'projectile)
+((projectile-global-mode +1)
+(setq projectile-use-git-grep t)
+#+END_SRC
+
+** ~flycheck~
+
+Checks syntax for different languages. Works wonders, even though sometimes has
+to be configured because it really makes things slow.
+
+#+BEGIN_SRC elisp
+(require 'flycheck)
+(global-flycheck-mode)
+#+END_SRC
+
+** ~company~
+*** Require and basic setup
+
+A great auto-completion backend. In my experience is a better choice than
+~auto-complete~. In this setup, I enable it everywhere and set the delay and
+sorting criteria
+
+#+BEGIN_SRC elisp
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-idle-delay 0.5)
+(setq company-transformers '(company-sort-by-occurrence))
+#+END_SRC
+
+*** Enable ~yasnippet~ backends
+
+To plug ~yasnippet~ in the suggestions, we use this solution, found in this
+[[https://github.com/syl20bnr/spacemacs/pull/179][Spacemacs issue]].
+
+#+BEGIN_SRC elisp
+(defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas)
+	  (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+	    '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+#+END_SRC
+
+** ~smartparens~
+
+Auto-close parenthesis and other characters. Useful as it seems.
+
+#+BEGIN_SRC elisp
+(require 'smartparens)
+(require 'smartparens-config)
+(add-hook 'prog-mode-hook #'smartparens-mode)
+#+END_SRC
+
+* Programming Modes
+** Haskell
+*** Add ~ghci~ to path
+
+Just make sure that Emacs can find it.
+
+#+BEGIN_SRC elisp
+(setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
+#+END_SRC
+
+*** Enable ~intero~
+
+In my experience, trying to deal with ~haskell-mode~ head-on is a pain in the
+ass, and makes programming really slow. However, ~intero~ is a package with
+batteries-included that works wonders. The best idea is to install it and hook
+it to haskell
+
+#+BEGIN_SRC elisp
+(require 'intero)
+(add-hook 'haskell-mode-hook 'intero-mode)
+#+END_SRC
+
+* ~org-mode~
 ** Basic setup and other habits
 
 *** Enable ~auto-fill-mode~ in Emacs
@@ -310,7 +392,6 @@ citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 #+END_SRC
 
 * Other Major Modes
-
 ** ~erc~
 
 ~erc~ is a IRC client for Emacs. It is a wonderful tool worth checking out, and
