@@ -106,7 +106,6 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
 ** 
 -----
 * Graphical Interface
-
 ** Disabling GUI defaults
 
 I always use Emacs in its GUI client, but because of the visual capabilities
@@ -185,8 +184,41 @@ MacOS).
 #+END_SRC
 
 -----
-
 * Programming Modes
+* Packages & Tools
+** ~ido~
+
+~ido~ enables some fuzzy finders in different commands like ~find-file~ or
+other buffer related commands. Probably ~helm~ is a better option but I still
+have to properly configure it. This enables fuzzy search and enables it everywhere.
+
+#+BEGIN_SRC elisp
+(require 'ido)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+#+END_SRC
+
+** ~helm~
+
+As I said, probably redundant to be used alongside ~ido~, but still has much
+more places to be used.
+
+#+BEGIN_SRC elisp
+(require 'helm-config)
+(helm-mode 1)
+#+END_SRC
+
+** ~magit~
+
+A porcelain client for git. ~magit~ alone is a reason to use Emacs over
+vi/vim. It is really wonderful to use and you should install right now. This
+also binds the status function to ~C-x g~.
+
+#+BEGIN_SRC elisp
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
 
 * ~org-mode~
 
