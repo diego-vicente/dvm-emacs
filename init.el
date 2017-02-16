@@ -1,2 +1,2 @@
 ;; Loads everything from the real configuration
-(org-babel-load-file "~/.emacs.d/configuration.org")
+(org-babel-load-file "~/my-emacs/configuration.org")

@@ -15,7 +15,7 @@ configuration file.
 *The* package repository for Emacs. Must have, it's really really useful for
 installing all kinds of packages.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Add MELPA
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -31,7 +31,7 @@ For some reason, there are different types of confirmation prompts in
 Emacs. One of them forces you to write "yes" and the other one only to press
 "y", so I disable the first type.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
@@ -39,7 +39,7 @@ Emacs. One of them forces you to write "yes" and the other one only to press
 
 I simply prefer to have a scratch buffer ready when I boot up.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t)
 #+END_SRC
 
@@ -50,7 +50,7 @@ When a buffer (i.e ~something.py~) has an associated process (in that case,
 for confirmation. I think it just interferes in my way, so I disable it as
 well.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
@@ -63,7 +63,7 @@ the ~exec-path~ variable is empty at start (it has not been started through
 shell). That's why we need a function to loading the contents of ~$PATH~ to
 Emacs variable and call it at start.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (defun set-exec-path-from-shell-PATH ()
   "Update the variable 'exec-path' using the contents of $PATH."
   (interactive)
@@ -81,7 +81,7 @@ Emacs variable and call it at start.
 
 By default, inserting a new line in Emacs is not associated with indent.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (define-key global-map (kbd "RET") 'newline-and-indent)
 #+END_SRC
 
@@ -91,7 +91,7 @@ One of the things I really miss from vim is the shortcut ~o~, which was used to
 insert a new line below the line in which the cursor is. To have the same
 behavior in Emacs, I found this custom function that I bound to ~C-o~.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (defun insert-new-line-below ()
   "Add a new line below the current line"
   (interactive)
@@ -109,7 +109,7 @@ I always use Emacs in its GUI client, but because of the visual capabilities
 and not the tools and bars. That's why I like to disable all the graphical
 clutter.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -121,8 +121,34 @@ I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]],
 weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (set-default-font "Iosevka 14")
+#+END_SRC
+
+** Setting my favorite theme
+
+I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially Eighties. They
+are available in MELPA.
+
+#+BEGIN_SRC emacs-lisp
+(require 'base16-theme)
+(load-theme 'base16-eighties)
+#+END_SRC
+
+** Setting the fringe color
+
+I dont'like the fringe to have a different color than the background,
+so I run this function at start to set the same color in it. However,
+take into account that if you change themes on the fly you need to run
+the function again (there is no hook for that).
+
+#+BEGIN_SRC emacs-lisp
+(defun set-fringe-as-background ()
+  (set-face-attribute 'fringe nil
+                      :foreground (face-foreground 'default)
+                      :background (face-background 'default)))
+
+(set-fringe-as-background)
 #+END_SRC
 
 ** Enabling font ligatures
@@ -130,8 +156,7 @@ in the screen.
 Emacs by default does not support font ligatures. However, I found this
 workaround in a Fira Code issue in Github:
 
-#+BEGIN_SRC elisp
-(when (window-system)
+#+BEGIN_SRC emacs-lisp
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
                (36 . ".\\(?:>\\)")
@@ -174,7 +199,7 @@ very characteristic aesthetic. My configuration for ~powerline~ just sets the
 theme and the separators to be the character (due to strange contrast in
 MacOS). 
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'powerline)
 (powerline-default-theme)
 (setq powerline-default-separator 'utf-8)
@@ -188,7 +213,7 @@ MacOS).
 other buffer related commands. Probably ~helm~ is a better option but I still
 have to properly configure it. This enables fuzzy search and enables it everywhere.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -200,7 +225,7 @@ have to properly configure it. This enables fuzzy search and enables it everywhe
 As I said, probably redundant to be used alongside ~ido~, but still has much
 more places to be used.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'helm-config)
 (helm-mode 1)
 #+END_SRC
@@ -211,7 +236,7 @@ A porcelain client for git. ~magit~ alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
 also binds the status function to ~C-x g~.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
@@ -223,9 +248,9 @@ project. To work, it searches for a VCS and sets it as the root of a project. I
 have it configured to ignore all files that has not been staged in the git
 project. 
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'projectile)
-((projectile-global-mode +1)
+(projectile-global-mode +1)
 (setq projectile-use-git-grep t)
 #+END_SRC
 
@@ -234,7 +259,7 @@ project.
 Checks syntax for different languages. Works wonders, even though sometimes has
 to be configured because it really makes things slow.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'flycheck)
 (global-flycheck-mode)
 #+END_SRC
@@ -246,7 +271,7 @@ A great auto-completion backend. In my experience is a better choice than
 ~auto-complete~. In this setup, I enable it everywhere and set the delay and
 sorting criteria
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-idle-delay 0.5)
@@ -258,7 +283,7 @@ sorting criteria
 To plug ~yasnippet~ in the suggestions, we use this solution, found in this
 [[https://github.com/syl20bnr/spacemacs/pull/179][Spacemacs issue]].
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
 
 (defun company-mode/backend-with-yas (backend)
@@ -275,7 +300,7 @@ To plug ~yasnippet~ in the suggestions, we use this solution, found in this
 
 Auto-close parenthesis and other characters. Useful as it seems.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'smartparens)
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook #'smartparens-mode)
@@ -289,7 +314,7 @@ Auto-close parenthesis and other characters. Useful as it seems.
 ~elpy~ is, in a way, the ~intero~ for Python. To configure it, we first have to
 enable it.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'elpy)
 (elpy-enable)
 #+END_SRC
@@ -298,7 +323,7 @@ enable it.
 
 This is not compulsory but can save you from some headaches.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setenv "LANG" "en_US.UTF-8")
 (setenv "LC_ALL" "en_US.UTF-8")
 (setenv "LC_CTYPE" "en_US.UTF-8")
@@ -308,7 +333,7 @@ This is not compulsory but can save you from some headaches.
 
 I like to use Python 3 and ~ipython~ as a REPL. To set these environments:
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
 (add-to-list 'python-shell-completion-native-disabled-interpreters "python3")
 (elpy-use-ipython)
@@ -322,7 +347,7 @@ I like to use Python 3 and ~ipython~ as a REPL. To set these environments:
 
 Just make sure that Emacs can find it.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
 #+END_SRC
 
@@ -333,85 +358,40 @@ ass, and makes programming really slow. However, ~intero~ is a package with
 batteries-included that works wonders. The best idea is to install it and hook
 it to haskell
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (require 'intero)
 (add-hook 'haskell-mode-hook 'intero-mode)
 #+END_SRC
 
 * ~org-mode~
 ** Basic setup and other habits
-
 *** Enable ~auto-fill-mode~ in Emacs
 
 I truly believe that code and other text files have to respect a 79 characters
 per line bound. No, 120 is not enough. Of course, for me ~org-mode~ should also
 be, so we enable this behaviour to be automatic
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
 
-** ~org-ref~
+*** Use syntax highlight in source blocks
 
-~org-ref~ is a great package that enables a great deal of references and
-shortcuts in ~org-mode~ when exporting to different formats like HTML or
-LaTeX. The configuration can be a bit of a pain in the ass:
+When writing source code on a block, if this variable is enabled it will use
+the same syntax highlight as the mode supposed to deal with it.
 
-*** Basic setup and default dirs
-
-We require the packages and set the default for the bibliography notes, the
-main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
-
-#+BEGIN_SRC elisp
-(require 'org-ref)
-(require 'org-ref-pdf)
-(require 'org-ref-url-utils)
-(setq org-ref-bibliography-notes "~/bibliography/notes.org"
-      org-ref-default-bibliography '("~/bibliography/refs.bib")
-      org-ref-pdf-directory "~/bibliography/pdfs")
-#+END_SRC 
-
-We also make sure to create the directory if it does not exist
-
-#+BEGIN_SRC elisp
-(unless (file-exists-p org-ref-pdf-directory)
-  (make-directory org-ref-pdf-directory t))
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
 #+END_SRC
 
-*** Update the export process
+*** Ensure LaTeX export options
 
-We have to take into account the Bibtex process for the references to
-work. TODO: sometimes does not even work this way.
+We need to ensure that the indentation is left unaltered when exporting to
+LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
-#+BEGIN_SRC elisp
-(setq org-latex-pdf-process
-      '("pdflatex -interaction nonstopmode -output-directory %o %f"
-	"bibtex %b"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"))
-#+END_SRC
+#+BEGIN_SRC emacs-lisp
+(setq org-src-preserve-indentation t)
 
-*** Set default key in Bibltex entries
-
-When using tools like ~crossref-add-bibtex-entry~, we want a meaningful key to
-be defined in the entries. I found this method in the ~org-ref~ config file.
-
-#+BEGIN_SRC elisp
-(setq bibtex-autokey-year-length 4
-      bibtex-autokey-name-year-separator "-"
-      bibtex-autokey-year-title-separator "-"
-      bibtex-autokey-titleword-separator "-"
-      bibtex-autokey-titlewords 2
-      bibtex-autokey-titlewords-stretch 1
-      bibtex-autokey-titleword-length 5)
-#+END_SRC
-
-*** Set default LaTeX headings
-
-For the links to work properly we need some default packages in every exported
-file.
-
-#+BEGIN_SRC elisp
 (setq org-latex-default-packages-alist
       (-remove-item
        '("" "hyperref" nil)
@@ -426,6 +406,61 @@ citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 	     t)
 #+END_SRC
 
+** ~org-ref~
+
+~org-ref~ is a great package that enables a great deal of references and
+shortcuts in ~org-mode~ when exporting to different formats like HTML or
+LaTeX. The configuration can be a bit of a pain in the ass:
+
+*** Basic setup and default dirs
+
+We require the packages and set the default for the bibliography notes, the
+main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-ref)
+(require 'org-ref-pdf)
+(require 'org-ref-url-utils)
+(setq org-ref-bibliography-notes "~/bibliography/notes.org"
+      org-ref-default-bibliography '("~/bibliography/refs.bib")
+      org-ref-pdf-directory "~/bibliography/pdfs")
+#+END_SRC 
+
+We also make sure to create the directory if it does not exist
+
+#+BEGIN_SRC emacs-lisp
+(unless (file-exists-p org-ref-pdf-directory)
+  (make-directory org-ref-pdf-directory t))
+#+END_SRC
+
+*** Update the export process
+
+We have to take into account the Bibtex process for the references to
+work. TODO: sometimes does not even work this way.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+*** Set default key in Bibtex entries
+
+When using tools like ~crossref-add-bibtex-entry~, we want a meaningful key to
+be defined in the entries. I found this method in the ~org-ref~ config file.
+
+#+BEGIN_SRC emacs-lisp
+(setq bibtex-autokey-year-length 4
+      bibtex-autokey-name-year-separator "-"
+      bibtex-autokey-year-title-separator "-"
+      bibtex-autokey-titleword-separator "-"
+      bibtex-autokey-titlewords 2
+      bibtex-autokey-titlewords-stretch 1
+      bibtex-autokey-titleword-length 5)
+#+END_SRC
+
 * Other Major Modes
 ** ~erc~
 
@@ -437,7 +472,7 @@ requires really little configuration to make to be great.
 This snippet hides all the IRC messages that notify someone has joined, parted
 or quitted if that user has been inactive for more than half an hour.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
 (setq erc-lurker-threshold-time 1800)
 #+END_SRC
@@ -447,7 +482,7 @@ or quitted if that user has been inactive for more than half an hour.
 ~erc~ suggests a default nickname when logging in. ~agis~ is my username, if
 you want to set another one just change that argument.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (setq erc-nick "agis")
 #+END_SRC
 
