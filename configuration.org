@@ -430,7 +430,7 @@ We need to ensure that the indentation is left unaltered when exporting to
 LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
 #+BEGIN_SRC emacs-lisp
-;;(setq org-src-preserve-indentation t)
+(setq org-src-preserve-indentation t)
 
 (setq org-latex-default-packages-alist
       (-remove-item
