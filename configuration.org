@@ -102,6 +102,42 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
 (global-set-key (kbd "<C-o>") 'insert-new-line-below)
 #+END_SRC 
 
+** Move buffers around
+
+If we want to swap buffers location in frames, there's no fast way to do it in
+Emacs by default. To do it, a good option that I found is to use ~buffer-move~
+package, and use these key bindings.
+
+#+BEGIN_SRC emacs-lisp
+(require 'buffer-move)
+(global-set-key (kbd "C-x w <up>")     'buf-move-up)
+(global-set-key (kbd "C-x w <down>")   'buf-move-down)
+(global-set-key (kbd "C-x w <left>")   'buf-move-left)
+(global-set-key (kbd "C-x w <right>")  'buf-move-right)
+#+END_SRC 
+
+** Define keybindings to ~eval-buffer~ on init and open ~configuration.org~
+
+Before this magical ~org~ configuration, it was easier to reload Emacs
+configuration on the fly: ~M-x eval-buffer RET~. However, now the buffer to
+evaluate is not this one, but ~.emacs.d/init.el~. That's why it's probably a
+better idea to define a new keybinding that automatically reloads that buffer.
+
+#+BEGIN_SRC emacs-lisp
+(defun reload-emacs-configuration()
+  "Reload the configuration"
+  (interactive)
+    (load "~/.emacs.d/init.el"))
+
+(defun open-emacs-configuration ()
+  "Open the configuration.org file in buffer"
+  (interactive)
+    (find-file "~/my-emacs/configuration.org"))
+
+(global-set-key (kbd "C-x \\ r") 'reload-emacs-configuration)
+(global-set-key (kbd "C-x \\ o") 'open-emacs-configuration)
+#+END_SRC
+
 * Graphical Interface
 ** Disabling GUI defaults
 
@@ -128,11 +164,13 @@ in the screen.
 ** Setting my favorite theme
 
 I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially Eighties. They
-are available in MELPA.
+are available in MELPA. We also use the ~NO-CONFIRM~ flag when loading, since
+the file tangling probably makes the code be not in order for
+~custom-set-variables~ to do its job.
 
 #+BEGIN_SRC emacs-lisp
 (require 'base16-theme)
-(load-theme 'base16-eighties)
+(load-theme 'base16-eighties t)
 #+END_SRC
 
 ** Setting the fringe color
@@ -369,10 +407,12 @@ it to haskell
 
 I truly believe that code and other text files have to respect a 79 characters
 per line bound. No, 120 is not enough. Of course, for me ~org-mode~ should also
-be, so we enable this behaviour to be automatic
+be, so we enable this behaviour to be automatic. Also, keep in mind that Emacs
+auto fills to 70 characters, so we have to manually set the 79 limit.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'auto-fill-mode)
+(set-fill-column 79)
 #+END_SRC
 
 *** Use syntax highlight in source blocks
@@ -390,7 +430,7 @@ We need to ensure that the indentation is left unaltered when exporting to
 LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
 #+BEGIN_SRC emacs-lisp
-(setq org-src-preserve-indentation t)
+;;(setq org-src-preserve-indentation t)
 
 (setq org-latex-default-packages-alist
       (-remove-item
