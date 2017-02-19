@@ -10,6 +10,19 @@ booted, all the source blocks from this file are used to generate the
 configuration file.
 
 * Basic Emacs Setup
+** My information
+
+All the relevant and personal information that Emacs needs. If you are going to
+use it, needless to say to use your own information.
+
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Diego Vicente"
+      user-mail-address "diegovicente@protonmail.com"
+      calendar-latitude 63.4
+      calendar-longitude 10.4
+      calendar-location-name "Trondheim, Norway")
+#+END_SRC
+
 ** Add MELPA
 
 *The* package repository for Emacs. Must have, it's really really useful for
@@ -43,7 +56,8 @@ all the third-party packages that I use.
                       smartparens
                       elpy
                       intero
-                      org-ref)
+                      org-ref
+                      org-bullets)
   "My packages")
 #+END_SRC
 
@@ -66,7 +80,7 @@ install them if necessary.
       (package-install pkg))))
 #+END_SRC
 
-** Disable ~yes-or-no~ messages.
+** Disable ~yes-or-no~ messages
 
 For some reason, there are different types of confirmation prompts in
 Emacs. One of them forces you to write "yes" and the other one only to press
@@ -143,7 +157,7 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
     (end-of-line)
     (newline-and-indent)))
 
-(global-set-key (kbd "<C-o>") 'insert-new-line-below)
+(global-set-key (kbd "C-o") 'insert-new-line-below)
 #+END_SRC 
 
 ** Move buffers around
@@ -175,7 +189,7 @@ in programming modes, we can use this function:
 
 ** More intuitive regions
 
-Make Emacs substitute the selected text when typing. It is something I always
+
 thought as default, so I turn it on myself.
 
 #+BEGIN_SRC emacs-lisp
@@ -201,8 +215,8 @@ better idea to define a new keybinding that automatically reloads that buffer.
   (interactive)
     (find-file "~/my-emacs/configuration.org"))
 
-(global-set-key (kbd "C-x \\ r") 'reload-emacs-configuration)
-(global-set-key (kbd "C-x \\ o") 'open-emacs-configuration)
+(global-set-key (kbd "C-c c r") 'reload-emacs-configuration)
+(global-set-key (kbd "C-c c o") 'open-emacs-configuration)
 #+END_SRC
 
 * Graphical Interface
@@ -230,14 +244,15 @@ in the screen.
 
 ** Setting my favorite theme
 
-I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially Eighties. They
-are available in MELPA. We also use the ~NO-CONFIRM~ flag when loading, since
-the file tangling probably makes the code be not in order for
+I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially
+Eighties. However, lately I am really enjoying Oceanic. They are
+available in MELPA. We also use the ~NO-CONFIRM~ flag when loading,
+since the file tangling probably makes the code be not in order for
 ~custom-set-variables~ to do its job.
 
 #+BEGIN_SRC emacs-lisp
 (require 'base16-theme)
-(load-theme 'base16-eighties t)
+(load-theme 'base16-oceanicnext t)
 #+END_SRC
 
 ** Setting the fringe color
@@ -310,7 +325,6 @@ MacOS).
 (setq powerline-default-separator 'utf-8)
 #+END_SRC
 
------
 * Packages & Tools
 ** ~ido~
 
@@ -411,6 +425,16 @@ Auto-close parenthesis and other characters. Useful as it seems.
 (add-hook 'prog-mode-hook #'smartparens-mode)
 #+END_SRC
 
+** ~expand-region~
+
+Expand region allows to select hierarchically different text regions. It is, in
+a way, a replacement for vim text objects.
+
+#+BEGIN_SRC emacs-lisp
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+#+END_SRC
+
 * Programming Modes
 ** Python
 
@@ -479,7 +503,7 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'auto-fill-mode)
-(set-fill-column 79)
+(setq-default fill-column 79)
 #+END_SRC
 
 *** Use syntax highlight in source blocks
@@ -511,6 +535,33 @@ linkcolor=blue,anchorcolor=blue,
 citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 	       "hyperref" nil)
 	     t)
+#+END_SRC
+
+*** Aesthetics!
+
+Enable ~org-bullets~ to make it clearer. Also, the defaults are maybe
+a bit too much for me, so edit them.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-bullets-bullet-list
+        '("◉" "◎" "○" "○" "○" "○"))
+#+END_SRC
+
+Also, I don't really like ~...~ to be the symbol for an ~org~ ellipsis. I
+prefer to set something much more visual:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-ellipsis "⤵")
+#+END_SRC
+
+And define a different font for ~org~ headings. (NOT WORKING)
+
+#+BEGIN_SRC emacs-lisp
+;;(custom-set-faces
+;; '(org-bullet-face ((t (:weight bold :height 1.6)))))
+;;(setq org-bullets-face-name (quote org-bullet-face))
 #+END_SRC
 
 ** ~org-ref~
