@@ -25,6 +25,47 @@ installing all kinds of packages.
   (package-initialize))
 #+END_SRC
 
+** Define my packages
+
+Inspired by [[http://aaronbedra.com/emacs.d/][Aaron Bedra's Emacs 24 Configuration]], I use this variable to define
+all the third-party packages that I use. 
+
+#+BEGIN_SRC emacs-lisp
+(defvar my-packages '(buffer-move
+                      base16-theme
+                      powerline
+                      ido
+                      helm
+                      magit
+                      projectile
+                      flycheck
+                      company
+                      smartparens
+                      elpy
+                      intero
+                      org-ref)
+  "My packages")
+#+END_SRC
+
+** Install my packages
+
+Using the same variable defined before, check if the packages are installed and
+install them if necessary.
+
+#+BEGIN_SRC emacs-lisp
+(defun packages-installed ()
+  (cl-loop for pkg in my-packages
+           when (not (package-installed-p pkg)) do (cl-return nil)
+           finally (cl-return t)))
+
+(unless (packages-installed)
+  (message "%s" "Refreshing package database...")
+  (package-refresh-contents)
+  (dolist (pkg my-packages)
+    (when (not (package-installed-p pkg))
+      (package-install pkg))))
+#+END_SRC
+
 ** Disable ~yes-or-no~ messages.
 
 For some reason, there are different types of confirmation prompts in
@@ -37,10 +78,13 @@ Emacs. One of them forces you to write "yes" and the other one only to press
 
 ** Disable startup message
 
-I simply prefer to have a scratch buffer ready when I boot up.
+I simply prefer to have a scratch buffer ready when I boot up, with ~org-mode~
+running. Not a great Lisp developer myself.
 
 #+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-message t)
+(setq inhibit-splash-screen t
+      initial-scratch-message nil
+      initial-major-mode 'org-mode)
 #+END_SRC
 
 ** Disable the warning when killing a buffer w/ process
@@ -115,6 +159,29 @@ package, and use these key bindings.
 (global-set-key (kbd "C-x w <left>")   'buf-move-left)
 (global-set-key (kbd "C-x w <right>")  'buf-move-right)
 #+END_SRC 
+
+** Auto-fill comments
+
+For our comments (only comments, not code) to be automatically filled
+in programming modes, we can use this function:
+
+#+BEGIN_SRC emacs-lisp
+(defun comment-auto-fill ()
+      (setq-local comment-auto-fill-only-comments t)
+      (auto-fill-mode 1))
+
+(add-hook 'prog-mode-hook 'comment-auto-fill)
+#+END_SRC
+
+** More intuitive regions
+
+Make Emacs substitute the selected text when typing. It is something I always
+thought as default, so I turn it on myself.
+
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode t)
+(transient-mark-mode t)
+#+END_SRC
 
 ** Define keybindings to ~eval-buffer~ on init and open ~configuration.org~
 
