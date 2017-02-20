@@ -57,7 +57,9 @@ all the third-party packages that I use.
                       elpy
                       intero
                       org-ref
-                      org-bullets)
+                      org-bullets
+                      git-gutter
+                      git-gutter-fringe)
   "My packages")
 #+END_SRC
 
@@ -325,6 +327,18 @@ MacOS).
 (setq powerline-default-separator 'utf-8)
 #+END_SRC
 
+** Highlight changed and uncommited lines
+
+Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
+have it in programming modes and in ~org-mode~.
+
+#+BEGIN_SRC emacs-lisp
+(require 'git-gutter)
+(require 'git-gutter-fringe)
+(add-hook 'prog-mode-hook 'git-gutter-mode)
+(add-hook 'org-mode-hook 'git-gutter-mode)
+#+END_SRC
+
 * Packages & Tools
 ** ~ido~
 
@@ -506,15 +520,6 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 (setq-default fill-column 79)
 #+END_SRC
 
-*** Use syntax highlight in source blocks
-
-When writing source code on a block, if this variable is enabled it will use
-the same syntax highlight as the mode supposed to deal with it.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t)
-#+END_SRC
-
 *** Ensure LaTeX export options
 
 We need to ensure that the indentation is left unaltered when exporting to
@@ -537,7 +542,17 @@ citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 	     t)
 #+END_SRC
 
-*** Aesthetics!
+** Graphical aspects
+*** Use syntax highlight in source blocks
+
+When writing source code on a block, if this variable is enabled it will use
+the same syntax highlight as the mode supposed to deal with it.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+#+END_SRC
+
+*** Enable ~org-bullets~
 
 Enable ~org-bullets~ to make it clearer. Also, the defaults are maybe
 a bit too much for me, so edit them.
@@ -549,12 +564,16 @@ a bit too much for me, so edit them.
         '("◉" "◎" "○" "○" "○" "○"))
 #+END_SRC
 
+*** Custom ellipsis
+
 Also, I don't really like ~...~ to be the symbol for an ~org~ ellipsis. I
 prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp
-(setq org-ellipsis "⤵")
+(setq org-ellipsis " ⤵")
 #+END_SRC
+
+*** TODO Edit headings
 
 And define a different font for ~org~ headings. (NOT WORKING)
 
