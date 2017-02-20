@@ -330,11 +330,14 @@ MacOS).
 ** Highlight changed and uncommited lines
 
 Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
-have it in programming modes and in ~org-mode~.
+have it in programming modes and in ~org-mode~. Problem is I don't like the
+defaults, so I have it quite heavily modified.
 
 #+BEGIN_SRC emacs-lisp
 (require 'git-gutter)
 (require 'git-gutter-fringe)
+
+(setq-default left-fringe-width  20)
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 (add-hook 'org-mode-hook 'git-gutter-mode)
 #+END_SRC
@@ -447,6 +450,15 @@ a way, a replacement for vim text objects.
 #+BEGIN_SRC emacs-lisp
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+#+END_SRC
+
+** Bind ~shell~
+
+I don't use shell as much as I did before customizing Emacs, but still a good
+command line is the best option sometimes. Bound it to ~C-c t~
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c t") 'shell)
 #+END_SRC
 
 * Programming Modes
