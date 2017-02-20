@@ -330,8 +330,7 @@ MacOS).
 ** Highlight changed and uncommited lines
 
 Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
-have it in programming modes and in ~org-mode~. Problem is I don't like the
-defaults, so I have it quite heavily modified.
+have it in programming modes and in ~org-mode~.
 
 #+BEGIN_SRC emacs-lisp
 (require 'git-gutter)
@@ -552,6 +551,47 @@ linkcolor=blue,anchorcolor=blue,
 citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 	       "hyperref" nil)
 	     t)
+#+END_SRC
+
+*** Native ~TAB~ in source blocks
+
+This option makes ~TAB~ work as if the keystroke was issued in the code's major
+mode. 
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-tab-acts-natively t)
+#+END_SRC
+
+*** Open source blocks in the same window
+
+When editing source code in an ~org~ source block, we can open a new buffer to
+edit the code in its major mode. This option makes it use the same window
+instead of popping a new one.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-src-window-setup 'current-window)
+#+END_SRC
+
+*** Set the directory
+
+I set my org-directory in Dropbox. In there is the agenda files as well.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Dropbox/org")
+
+(defun org-file-path (filename)
+  "Return the absolute address of an org file, given its relative name."
+  (concat (file-name-as-directory org-directory) filename))
+
+(setq org-agenda-files (list (org-file-path "agenda.org")))
+#+END_SRC
+
+*** Keybinding for ~org-agenda~
+
+I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
 ** Graphical aspects
