@@ -9,6 +9,13 @@ programming is taken from [[https://youtu.be/SzA2YODtgK4][Harry Schwartz's talk 
 booted, all the source blocks from this file are used to generate the
 configuration file.
 
+To do this, the only thing needed is to have the configuration file parsed and
+evaluated on startup. This can be done by moving ~init.el~ to the ~emacs.d~
+directory. This can be done by executing =mv init.el ~/.emacs.d/init.el= on the
+terminal. Note: this file assumes that this repository has been cloned to your
+home, if you are going to install it elsewhere please edit ~init.el~ to find
+this file.
+
 * Basic Emacs Setup
 ** My information
 
