@@ -222,10 +222,20 @@ better idea to define a new keybinding that automatically reloads that buffer.
 (defun open-emacs-configuration ()
   "Open the configuration.org file in buffer"
   (interactive)
-    (find-file "~/my-emacs/configuration.org"))
+    (find-file "~/my-emacs/README.org"))
 
 (global-set-key (kbd "C-c c r") 'reload-emacs-configuration)
 (global-set-key (kbd "C-c c o") 'open-emacs-configuration)
+#+END_SRC
+
+** Scroll in the compilation buffer
+
+It is really annoying to not have the last part of the output in the screen
+when compiling. This automatically scrolls the buffer for you as the output is
+printed. 
+
+#+BEGIN_SRC emacs-lisp
+(setq compilation-scroll-output t)
 #+END_SRC
 
 * Graphical Interface
@@ -657,9 +667,9 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 (require 'org-ref)
 (require 'org-ref-pdf)
 (require 'org-ref-url-utils)
-(setq org-ref-bibliography-notes "~/bibliography/notes.org"
-      org-ref-default-bibliography '("~/bibliography/refs.bib")
-      org-ref-pdf-directory "~/bibliography/pdfs")
+(setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
+      org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
+      org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs")
 #+END_SRC 
 
 We also make sure to create the directory if it does not exist
