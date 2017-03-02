@@ -448,6 +448,28 @@ To plug ~yasnippet~ in the suggestions, we use this solution, found in this
 (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 #+END_SRC
 
+** ~auto-complete~
+
+It is probably redundant with ~company~, but works like a charm for the Python
+environment. This bare-bones config just enables auto completion for language
+specific words and other words in the buffer, so it's not really super
+useful. For language specific settings, check each of the langauge configs.
+
+#+BEGIN_SRC emacs-lisp
+(require 'auto-complete-config)
+(ac-config-default)
+(setq ac-show-menu-immediately-on-auto-complete t)
+#+END_SRC
+
+Also, I like to customize a bit the looks of the pop-up menu
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
+(set-face-attribute 'popup-tip-face nil 
+    :foreground "#c0c5ce"
+    :background "#4f5b66")
+#+END_SRC
+
 ** ~smartparens~
 
 Auto-close parenthesis and other characters. Useful as it seems.
