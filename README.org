@@ -502,37 +502,181 @@ command line is the best option sometimes. Bound it to ~C-c t~
 * Programming Modes
 ** Python
 
-*** Enable ~elpy~
+This Python config is inspired from [[https://www.youtube.com/watch?v=6BlTGPsjGJk][the talk given by Drew Werner]]. With this
+setup, we want to have these features:
+- Easy navigation through function definitions.
+- Contextual documentation.
+- Inline help for function calls.
 
-~elpy~ is, in a way, the ~intero~ for Python. To configure it, we first have to
-enable it.
+*** Basic ~jedi~ setup
+
+This snippet sets some variable that we are going to need to use ~jedi~
+properly, specially variables that will 
 
 #+BEGIN_SRC emacs-lisp
-(require 'elpy)
-(elpy-enable)
+(defvar jedi-config:use-system-python nil
+  "Will use system python and active environment for Jedi server.
+May be necessary for some GUI environments (e.g., Mac OS X)")
+
+(defvar jedi-config:with-virtualenv nil
+  "Set to non-nil to point to a particular virtualenv.")
+
+(defvar jedi-config:vcs-root-sentinel ".git")
+
+(defvar jedi-config:python-module-sentinel "__init__.py")
 #+END_SRC
 
-*** Set UTF-8 to prevent encoding hell
+*** Create a setup in the Python hook
 
-This is not compulsory but can save you from some headaches.
+All this setup from here is bounded to a hook, so keep that in mind if you
+scrap parts of it.
 
 #+BEGIN_SRC emacs-lisp
-(setenv "LANG" "en_US.UTF-8")
-(setenv "LC_ALL" "en_US.UTF-8")
-(setenv "LC_CTYPE" "en_US.UTF-8")
+(add-hook
+ 'after-init-hook
+ '(lambda ()
+
+    ;; Jedi
+    (require 'jedi)
 #+END_SRC
 
-*** Set the backends and version
+*** Define the functions to get the root of a project
 
-I like to use Python 3 and ~ipython~ as a REPL. To set these environments:
+For setting up the auto-completion and context-sensitive suggestions, we need a
+way to get the root of a project. The functions defined below to exactly
+this, using the variables set before.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
-(add-to-list 'python-shell-completion-native-disabled-interpreters "python3")
-(elpy-use-ipython)
-(setq elpy-rpc-python-command "python3"
-      python-shell-interpreter "ipython"
-      python-shell-interpreter-args "--simple-prompt -i")
+    (defun get-project-root-with-file (buf repo-file &optional init-file)
+      "Guesses that the python root is the less 'deep' of either:
+         -- the root directory of the repository, or
+         -- the directory before the first directory after the root
+            having the init-file file (e.g., '__init__.py'."
+
+      ;; make list of directories from root, removing empty
+      (defun make-dir-list (path)
+        (delq nil (mapcar (lambda (x) (and (not (string= x "")) x))
+                          (split-string path "/"))))
+      ;; convert a list of directories to a path starting at "/"
+      (defun dir-list-to-path (dirs)
+        (mapconcat 'identity (cons "" dirs) "/"))
+      ;; a little something to try to find the "best" root directory
+      (defun try-find-best-root (base-dir buffer-dir current)
+        (cond
+         (base-dir ;; traverse until we reach the base
+          (try-find-best-root (cdr base-dir) (cdr buffer-dir)
+                              (append current (list (car buffer-dir)))))
+
+         (buffer-dir ;; try until we hit the current directory
+          (let* ((next-dir (append current (list (car buffer-dir))))
+                 (file-file (concat (dir-list-to-path next-dir) "/" init-file)))
+            (if (file-exists-p file-file)
+                (dir-list-to-path current)
+              (try-find-best-root nil (cdr buffer-dir) next-dir))))
+
+         (t nil)))
+
+      (let* ((buffer-dir (expand-file-name (file-name-directory (buffer-file-name buf))))
+             (vc-root-dir (vc-find-root buffer-dir repo-file)))
+        (if (and init-file vc-root-dir)
+            (try-find-best-root
+             (make-dir-list (expand-file-name vc-root-dir))
+             (make-dir-list buffer-dir)
+             '())
+          vc-root-dir))) ;; default to vc root if init file not given
+
+    ;; Set this variable to find project root
+    (defvar jedi-config:find-root-function 'get-project-root-with-file)
+
+    (defun current-buffer-project-root ()
+      (funcall jedi-config:find-root-function
+               (current-buffer)
+               jedi-config:vcs-root-sentinel
+               jedi-config:python-module-sentinel))
+#+END_SRC
+
+*** Setting up the server args
+
+To launch the server, we set some variables for it. In this snippet, we can
+find how to set the root of the project (we will use the functions we just
+defined) and which ~virtualenv~ to use.
+
+#+BEGIN_SRC emacs-lisp
+    (defun jedi-config:setup-server-args ()
+      ;; little helper macro for building the arglist
+      (defmacro add-args (arg-list arg-name arg-value)
+        `(setq ,arg-list (append ,arg-list (list ,arg-name ,arg-value))))
+      ;; and now define the args
+      (let ((project-root (current-buffer-project-root)))
+
+        (make-local-variable 'jedi:server-args)
+
+        (when project-root
+          (message (format "Adding system path: %s" project-root))
+          (add-args jedi:server-args "--sys-path" project-root))
+
+        (when jedi-config:with-virtualenv
+          (message (format "Adding virtualenv: %s" jedi-config:with-virtualenv))
+          (add-args jedi:server-args "--virtual-env" jedi-config:with-virtualenv))))
+#+END_SRC
+
+*** Set the Python executable
+
+I particularly have it set to Python 3.
+
+#+BEGIN_SRC emacs-lisp
+    ;; Use system python
+    (defun jedi-config:set-python-executable ()
+      (set-exec-path-from-shell-PATH)
+      (make-local-variable 'jedi:server-command)
+      (set 'jedi:server-command
+           (list (executable-find "python3") ;; may need help if running from GUI
+                 (cadr default-jedi-server-command))))
+#+END_SRC
+
+*** Set the hooks for the mode
+
+We need to set the ~auto-complete~ hook to fing the ~jedi~ backend, hook the
+~jedi~ setup to Python and define the buffer specific variables in each of
+them. 
+
+#+BEGIN_SRC emacs-lisp
+    ;; Now hook everything up
+    ;; Hook up to autocomplete
+    (add-to-list 'ac-sources 'ac-source-jedi-direct)
+
+    ;; Enable Jedi setup on mode start
+    (add-hook 'python-mode-hook 'jedi:setup)
+
+    ;; Buffer-specific server options
+    (add-hook 'python-mode-hook
+              'jedi-config:setup-server-args)
+    (when jedi-config:use-system-python
+      (add-hook 'python-mode-hook
+                'jedi-config:set-python-executable))
+#+END_SRC
+
+*** Personal setup of the mode
+
+Last, define a couple of keybindings and make ~jedi~ suggest completion after
+typing.
+
+#+BEGIN_SRC emacs-lisp
+    ;; And custom keybindings
+    (defun jedi-config:setup-keys ()
+      (local-set-key (kbd "M-.") 'jedi:goto-definition)
+      (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
+      (local-set-key (kbd "M-?") 'jedi:show-doc)
+      (local-set-key (kbd "M-/") 'jedi:get-in-function-call))
+
+    ;; Don't let tooltip show up automatically
+    ;; (setq jedi:get-in-function-call-delay 10000000)
+    ;; Start completion at method dot
+    (setq jedi:complete-on-dot t)
+    ;; Use custom keybinds
+    (add-hook 'python-mode-hook 'jedi-config:setup-keys)
+
+))
 #+END_SRC
 
 ** Haskell
