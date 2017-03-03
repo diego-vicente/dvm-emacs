@@ -394,9 +394,22 @@ have to properly configure it. This enables fuzzy search and enables it everywhe
 
 #+BEGIN_SRC emacs-lisp
 (require 'ido)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
+(setq ido-enable-flex-matching t
+      ido-enable-dot-prefix t
+      ido-enable-tramp-completion t
+      ido-everywhere t)
 (ido-mode 1)
+#+END_SRC
+
+Also, I feel it's much easier to understand what's going on when the options
+are displayed in a vertical list. The cleanest way to achieve this is using a
+package. 
+
+#+BEGIN_SRC emacs-lisp
+(require 'ido-vertical-mode)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only
+      ido-vertical-show-count t)
 #+END_SRC
 
 ** ~helm~
