@@ -331,17 +331,44 @@ workaround in a Fira Code issue in Github:
 As a TODO, it is also worth it to check [[https://gist.github.com/mordocai/50783defab3c3d1650e068b4d1c91495][this other workaround]] that looks much
 much better and allows to use it with different hooks.
 
-** Adding ~powerline~ configuration
+** ~smart-mode-line~ configuration
 
-~powerline~ transforms the mode-line to show a different information with a
-very characteristic aesthetic. My configuration for ~powerline~ just sets the
-theme and the separators to be the character (due to strange contrast in
-MacOS). 
+~smart-mode-line~ allows us to do a greater configuration of the mode-line
+without being as flashy (and accessible tbh). This is the bare-bones
+configuration for the package, that makes it not even load a theme.
 
 #+BEGIN_SRC emacs-lisp
-(require 'powerline)
-(powerline-default-theme)
-(setq powerline-default-separator 'utf-8)
+(require 'smart-mode-line)
+(setq sml/theme nil)
+(sml/setup)
+#+END_SRC
+
+It doesn't load a theme because the colors are not really suitable for the rest
+of my color scheme, so I set a simple theme myself:
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
+(set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
+
+(base16-set-faces
+   'base16-oceanicnext
+   base16-oceanicnext-colors
+     '(
+       (mode-line            :background base02 
+                             :box (:line-width 4
+                                   :color base02
+                                   :style nil))
+       (mode-line-inactive   :background base01 
+                             :box (:line-width 4
+                                   :color base01
+                                   :style nil))
+       (sml/global           :foreground base07)
+       (sml/filename         :foreground base0A)
+       (sml/prefix           :foreground base09)
+       (sml/git              :foreground base0D)
+       (sml/modified         :foreground base08)
+       (sml/outside-modified :background base07
+                             :foreground base08)))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
