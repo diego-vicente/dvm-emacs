@@ -385,6 +385,19 @@ have it in programming modes and in ~org-mode~.
 (add-hook 'org-mode-hook 'git-gutter-mode)
 #+END_SRC
 
+** Set the cursor as a low bar
+
+This is less agressive than the default brick, for sure. Thanks [[https://github.com/Alexrs95][Alex]] for this
+snippet!
+
+#+BEGIN_SRC emacs-lisp
+(setq-default cursor-type 'hbar)
+(base16-set-faces
+   'base16-oceanicnext
+   base16-oceanicnext-colors
+     '((cursor :background base09)))
+#+END_SRC
+
 * Packages & Tools
 ** ~ido~
 
@@ -397,6 +410,7 @@ have to properly configure it. This enables fuzzy search and enables it everywhe
 (setq ido-enable-flex-matching t
       ido-enable-dot-prefix t
       ido-enable-tramp-completion t
+      ido-show-dot-for-dired t
       ido-everywhere t)
 (ido-mode 1)
 #+END_SRC
