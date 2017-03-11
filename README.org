@@ -123,6 +123,30 @@ well.
          kill-buffer-query-functions))
 #+END_SRC
 
+** Disable the bell
+
+It is incredibly annoying after 20 minutes.
+
+#+BEGIN_SRC emacs-lisp
+(setq ring-bell-function 'ignore)
+#+END_SRC
+
+** Set the backups folder
+
+This feature is super useful sometimes, but it kills me to swarm my projects
+with ~foo~~ files. That's why I set them to a backup directory and stop them
+from polluting everywhere.
+
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+#+END_SRC
+
 ** Fill the ~exec-path~ variable
 
 I spent too much time until I figured this out. Since I mostly use GUI Emacs,
@@ -236,6 +260,14 @@ printed.
 
 #+BEGIN_SRC emacs-lisp
 (setq compilation-scroll-output t)
+#+END_SRC
+
+** Add other keybindings
+
+Miscellaneous keybindings that don't really fit anywhere else.
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c b") 'bookmark-jump)
 #+END_SRC
 
 * Graphical Interface
@@ -438,38 +470,6 @@ to be configured because it really makes things slow.
 #+BEGIN_SRC emacs-lisp
 (require 'flycheck)
 (global-flycheck-mode)
-#+END_SRC
-
-** ~company~
-*** Require and basic setup
-
-A great auto-completion backend. In my experience is a better choice than
-~auto-complete~. In this setup, I enable it everywhere and set the delay and
-sorting criteria
-
-#+BEGIN_SRC emacs-lisp
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0.5)
-(setq company-transformers '(company-sort-by-occurrence))
-#+END_SRC
-
-*** Enable ~yasnippet~ backends
-
-To plug ~yasnippet~ in the suggestions, we use this solution, found in this
-[[https://github.com/syl20bnr/spacemacs/pull/179][Spacemacs issue]].
-
-#+BEGIN_SRC emacs-lisp
-(defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
-
-(defun company-mode/backend-with-yas (backend)
-  (if (or (not company-mode/enable-yas)
-	  (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-	    '(:with company-yasnippet))))
-
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 #+END_SRC
 
 ** ~auto-complete~
@@ -897,6 +897,18 @@ be defined in the entries. I found this method in the ~org-ref~ config file.
       bibtex-autokey-titleword-length 5)
 #+END_SRC
 
+** ~ditaa~
+
+~ditaa~ is a command-line utility, packed with ~org~, that allows conversion
+from ascii art to bitmap. This is basically sorcery for taking notes. To enable
+it, we have to explicitly load it to ~babel~:
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ditaa . t)))
+#+END_SRC
+
 * Other Major Modes
 ** ~erc~
 
@@ -921,4 +933,3 @@ you want to set another one just change that argument.
 #+BEGIN_SRC emacs-lisp
 (setq erc-nick "agis")
 #+END_SRC
-
