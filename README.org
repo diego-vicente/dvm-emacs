@@ -230,6 +230,20 @@ thought as default, so I turn it on myself.
 (transient-mark-mode t)
 #+END_SRC
 
+** Add functions to determine system
+
+To know in which system we are running, I use these functions:
+
+#+BEGIN_SRC emacs-lisp
+(defun system-is-mac ()
+  (interactive)
+  (string-equal system-type "darwin"))
+
+(defun system-is-linux ()
+  (interactive)
+  (string-equal system-type "gnu/linux"))
+#+END_SRC
+
 ** Define keybindings to ~eval-buffer~ on init and open ~configuration.org~
 
 Before this magical ~org~ configuration, it was easier to reload Emacs
@@ -290,7 +304,7 @@ weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen.
 
 #+BEGIN_SRC emacs-lisp
-(set-default-font "Iosevka 14")
+(set-default-font "Iosevka 14" t t)
 #+END_SRC
 
 ** Setting my favorite theme
@@ -523,6 +537,16 @@ command line is the best option sometimes. Bound it to ~C-c t~
 (global-set-key (kbd "C-c t") 'shell)
 #+END_SRC
 
+** ~iedit~
+
+This tool allows us to edit all variable names at once just by entering a
+single keystroke.
+
+#+BEGIN_SRC emacs-lisp
+(require 'iedit)
+(global-set-key (kbd "C-c ;") 'iedit-mode)
+#+END_SRC
+
 * Programming Modes
 ** Python
 
@@ -696,10 +720,24 @@ typing.
     ;; Don't let tooltip show up automatically
     ;; (setq jedi:get-in-function-call-delay 10000000)
     ;; Start completion at method dot
-    (setq jedi:complete-on-dot t)
+    (setq jedi:complete-on-dot t
+	  python-shell-interpreter "python3")
     ;; Use custom keybinds
     (add-hook 'python-mode-hook 'jedi-config:setup-keys)
 
+    (setq python-shell-interpreter "ipython"
+	  python-shell-interpreter-args (if (system-is-mac)
+					    "--matplotlib=osx --colors=Linux"
+					  (if (system-is-linux)
+					      "--gui=wx --matplotlib=wx --colors=Linux"))
+	  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+	  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+	  python-shell-completion-setup-code
+	    "from IPython.core.completerlib import module_completion"
+	  python-shell-completion-module-string-code
+	    "';'.join(module_completion('''%s'''))\n"
+	  python-shell-completion-string-code
+	    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 ))
 #+END_SRC
 
@@ -907,6 +945,28 @@ it, we have to explicitly load it to ~babel~:
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ditaa . t)))
+#+END_SRC
+
+** ~org-wiki~
+
+This packages allows us to control a wiki-like repository form ~org~. I use
+this package to store all the code templates, stencils, tricks that I use or
+come up with, so I can access them easily.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/packages/org-wiki")
+(require 'org-wiki)
+(setq org-wiki-location "~/secret-sauce")
+(global-set-key (kbd "C-c w") 'org-wiki-index)
+#+END_SRC
+
+** ~org-recipes~
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/packages/org-recipes")
+(require 'org-recipes)
+;; (org-recipes--build-source)
+(global-set-key (kbd "C-c s") 'org-recipes)
 #+END_SRC
 
 * Other Major Modes
