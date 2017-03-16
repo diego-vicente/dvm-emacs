@@ -547,6 +547,20 @@ single keystroke.
 (global-set-key (kbd "C-c ;") 'iedit-mode)
 #+END_SRC
 
+** ~easy-escape~
+
+Makes Lisp regular expressions more readable.
+
+#+BEGIN_SRC emacs-lisp
+(require 'easy-escape)
+(add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
+(add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
+(base16-set-faces
+   'base16-oceanicnext
+   base16-oceanicnext-colors
+     '((easy-escape-face :foreground base08)))
+#+END_SRC
+
 * Programming Modes
 ** Python
 
@@ -967,6 +981,14 @@ come up with, so I can access them easily.
 (require 'org-recipes)
 ;; (org-recipes--build-source)
 (global-set-key (kbd "C-c s") 'org-recipes)
+#+END_SRC
+
+** Beamer export
+
+We need to manually enable the export to Beamer option.
+
+#+BEGIN_SRC emacs-lisp
+(require 'ox-beamer)
 #+END_SRC
 
 * Other Major Modes
