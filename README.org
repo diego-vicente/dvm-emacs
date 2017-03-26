@@ -301,10 +301,10 @@ clutter.
 
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
 weird in the beginning, then it's a joy to have all your code properly fitting
-in the screen.
+in the screen. However, lately I have really been into Liberation Mono.
 
 #+BEGIN_SRC emacs-lisp
-(set-default-font "Iosevka 14" t t)
+(set-default-font "Liberation Mono 13" t t)
 #+END_SRC
 
 ** Setting my favorite theme
@@ -560,6 +560,16 @@ Makes Lisp regular expressions more readable.
    'base16-oceanicnext
    base16-oceanicnext-colors
      '((easy-escape-face :foreground base08)))
+#+END_SRC
+
+** ~undo-tree~
+
+This awesome package enables a gret undo-redo system that includes creating new
+undo-redo branches. It's really amazing.
+
+#+BEGIN_SRC emacs-lisp
+(require 'undo-tree)
+(global-undo-tree-mode)
 #+END_SRC
 
 * Programming Modes
@@ -1017,6 +1027,9 @@ you want to set another one just change that argument.
 (setq erc-nick "agis")
 #+END_SRC
 * ~evil~
+  :PROPERTIES:
+  :tangle:   no
+  :END:      
 ** Basic setup
 
 Just require and enable ~evil~ to add al the vim controls and modal editing to
