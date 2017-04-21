@@ -11,7 +11,7 @@ configuration file.
 
 To do this, the only thing needed is to have the configuration file parsed and
 evaluated on startup. This can be done by moving ~init.el~ to the ~emacs.d~
-directory. This can be done by executing =mv init.el ~/.emacs.d/init.el= on the
+directory. This can be done by executing =cp init.el ~/.emacs.d/init.el= on the
 terminal. Note: this file assumes that this repository has been cloned to your
 home, if you are going to install it elsewhere please edit ~init.el~ to find
 this file.
@@ -61,12 +61,20 @@ all the third-party packages that I use.
                       flycheck
                       company
                       smartparens
-                      elpy
+                      jedi
                       intero
                       org-ref
                       org-bullets
                       git-gutter
-                      git-gutter-fringe)
+                      git-gutter-fringe
+                      smart-mode-line
+                      ido-vertical-mode
+                      auto-complete
+                      expand-region
+                      iedit
+                      easy-escape
+                      undo-tree
+                      )
   "My packages")
 #+END_SRC
 
@@ -535,7 +543,7 @@ I don't use shell as much as I did before customizing Emacs, but still a good
 command line is the best option sometimes. Bound it to ~C-c t~
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c t") 'shell)
+(global-set-key (kbd "C-c t") 'eshell)
 #+END_SRC
 
 ** ~iedit~
@@ -973,6 +981,9 @@ it, we have to explicitly load it to ~babel~:
 #+END_SRC
 
 ** ~org-wiki~
+  :PROPERTIES:
+  :tangle:   no
+  :END:      
 
 This packages allows us to control a wiki-like repository form ~org~. I use
 this package to store all the code templates, stencils, tricks that I use or
@@ -986,6 +997,9 @@ come up with, so I can access them easily.
 #+END_SRC
 
 ** ~org-recipes~
+  :PROPERTIES:
+  :tangle:   no
+  :END:      
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/packages/org-recipes")
