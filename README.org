@@ -74,6 +74,7 @@ all the third-party packages that I use.
                       iedit
                       easy-escape
                       undo-tree
+		      org-autolist
                       )
   "My packages")
 #+END_SRC
@@ -866,90 +867,13 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
 
 *** Better RET
 
-I saw this snippet of code in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][The Kitchin Research Group website]], and it
-provides a better behavior of return in ~org-mode~. The description as posted
-in the blog is:
-
-#+BEGIN_QUOTE
-I improve on it to add new items to lists, new headings after a heading, and
-new rows to tables. In each case, a double return on an empty item, headline or
-table row will delete that line, and terminate the list, headlines or
-table. You can still use M-Ret, and this function falls through to org-return
-like it did before. You can use a prefix arg to get a regular return if you
-want one (e.g. you want to press enter on a headline to push it down).
-#+END_QUOTE
+While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][the Kitchin Research Group website]], I stumbled into
+this package that allows a better behavior of ~RET~ in ~org-mode~. 
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-inlinetask)
+(require 'org-autolist)
 
-(defun scimax/org-return (&optional ignore)
-  "Add new list item, heading or table row with RET.
-A double return on an empty element deletes it.
-Use a prefix arg to get regular RET. "
-  (interactive "P")
-  (if ignore
-      (org-return)
-    (cond
-
-     ((eq 'line-break (car (org-element-context)))
-      (org-return-indent))
-
-     ;; Open links like usual, unless point is at the end of a line.
-     ;; and if at beginning of line, just press enter.
-     ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-          (bolp))
-      (org-return))
-
-     ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
-     ;; Johansson!
-     ((org-inlinetask-in-task-p)
-      (org-return))
-
-     ;; checkboxes too
-     ((org-at-item-checkbox-p)
-      (org-insert-todo-heading nil))
-
-     ;; lists end with two blank lines, so we need to make sure we are also not
-     ;; at the beginning of a line to avoid a loop where a new entry gets
-     ;; created with only one blank line.
-     ((org-in-item-p)
-      (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-          (org-insert-heading)
-        (beginning-of-line)
-        (delete-region (line-beginning-position) (line-end-position))
-        (org-return)))
-
-     ;; org-heading
-     ((org-at-heading-p)
-      (if (not (string= "" (org-element-property :title (org-element-context))))
-          (progn (org-end-of-meta-data)
-                 (org-insert-heading-respect-content)
-                 (outline-show-entry))
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")))
-
-     ;; tables
-     ((org-at-table-p)
-      (if (-any?
-           (lambda (x) (not (string= "" x)))
-           (nth
-            (- (org-table-current-dline) 1)
-            (org-table-to-lisp)))
-          (org-return)
-        ;; empty row
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-
-     ;; fall-through case
-     (t
-      (org-return)))))
-
-
-(define-key org-mode-map (kbd "RET")
-  'scimax/org-return)
+(add-hook 'org-mode-hook (lambda () (org-autolist-mode)))
 #+END_SRC
 
 *** Keybinding for ~org-agenda~
