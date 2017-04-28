@@ -387,19 +387,38 @@ of my color scheme, so I set a simple theme myself:
        (sml/modified         :foreground base08)
        (sml/outside-modified :background base07
                              :foreground base08)))
-
-(column-number-mode 1)
 #+END_SRC
 
 Apart from the mere aesthetics, I also configure the column number display and
-different short names for my folders
+different short names for my folders. The last part edits slightly the mode
+line by adding a single white-space below the fringe, which helps when
+rendering.
 
 #+BEGIN_SRC emacs-lisp
+(column-number-mode 1)
+
 (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
 (add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
 (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
 (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/" 
 					 ":BIB:" ))
+
+(setq mode-line-format
+      (list " %e" 
+	    mode-line-front-space 
+	    mode-line-mule-info 
+	    mode-line-client 
+	    mode-line-modified 
+	    mode-line-remote 
+	    mode-line-frame-identification 
+	    mode-line-buffer-identification 
+	    sml/pos-id-separator 
+	    mode-line-position
+	    (vc-mode vc-mode)
+	    sml/pre-modes-separator 
+	    mode-line-modes 
+	    mode-line-misc-info 
+	    mode-line-end-spaces))
 #+END_SRC
 
 ** Configure modes in mode line to be shorter
