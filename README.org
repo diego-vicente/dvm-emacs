@@ -75,6 +75,8 @@ all the third-party packages that I use.
                       easy-escape
                       undo-tree
 		      org-autolist
+		      exec-path-from-shell
+		      cyphejor
                       )
   "My packages")
 #+END_SRC
@@ -161,20 +163,11 @@ from polluting everywhere.
 I spent too much time until I figured this out. Since I mostly use GUI Emacs,
 the ~exec-path~ variable is empty at start (it has not been started through
 shell). That's why we need a function to loading the contents of ~$PATH~ to
-Emacs variable and call it at start.
+Emacs variable and call it at start. This function was improved and uploaded as
+package to MELPA, so to install it:
 
 #+BEGIN_SRC emacs-lisp
-(defun set-exec-path-from-shell-PATH ()
-  "Update the variable 'exec-path' using the contents of $PATH."
-  (interactive)
-  (let ((path-from-shell
-	 (replace-regexp-in-string
-	  "[ \t\n]*$" "" (shell-command-to-string
-			  "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-
-(set-exec-path-from-shell-PATH)
+(exec-path-from-shell-initialize)
 #+END_SRC
 
 ** Enable auto-indent
@@ -394,6 +387,63 @@ of my color scheme, so I set a simple theme myself:
        (sml/modified         :foreground base08)
        (sml/outside-modified :background base07
                              :foreground base08)))
+
+(column-number-mode 1)
+#+END_SRC
+
+Apart from the mere aesthetics, I also configure the column number display and
+different short names for my folders
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
+(add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
+(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
+(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/" 
+					 ":BIB:" ))
+#+END_SRC
+
+** Configure modes in mode line to be shorter
+
+~cyphejor~ is a package that allows to make shorter names in the
+mode-line. And, as you can see, my way to use it is maybe a little bit
+aggresive.
+
+#+BEGIN_SRC emacs-lisp
+(require 'cyphejor)
+(setq
+ cyphejor-rules
+ '(:upcase
+   ("bookmark"    "→")
+   ("buffer"      "β")
+   ("diff"        "Δ")
+   ("dired"       "δ")
+   ("emacs"       "ε")
+   ("fundamental" "Ⓕ")
+   ("inferior"    "i" :prefix)
+   ("interaction" "i" :prefix)
+   ("interactive" "i" :prefix)
+   ("lisp"        "λ" :postfix)
+   ("menu"        "▤" :postfix)
+   ("haskell"     "λ=")
+   ("mode"        "")
+   ("package"     "↓")
+   ("python"      "π")
+   ("shell"       "sh" :postfix)
+   ("text"        "ξ")))
+
+(cyphejor-mode 1)
+#+END_SRC
+
+On the other hand, I use ~rich-minority~ to select which are the minor modes
+that I am interested in. All the modes below are black listed, that is, they
+don't appear in the mode line even if they are active. *Important*: I don't
+install it or activate it because ~smart-mode-line~ does that already. Also
+important, notice that all modes include a whitespace as the first
+character. This is actually needed for ~rich-minority~ to find the mode
+
+#+BEGIN_SRC emacs-lisp
+(setq rm-blacklist '(" GitGutter" " Fill" " Autolist" " Undo-Tree" " ARev" 
+		     " Helm" " SP" " AC"))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -423,8 +473,7 @@ snippet!
      '((cursor :background base09)))
 #+END_SRC
 
-* Packages & Tools
-  
+* Packages & Tools  
 ** ~ido~
 
 ~ido~ enables some fuzzy finders in different commands like ~find-file~ or
