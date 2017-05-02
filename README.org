@@ -167,7 +167,8 @@ Emacs variable and call it at start. This function was improved and uploaded as
 package to MELPA, so to install it:
 
 #+BEGIN_SRC emacs-lisp
-(exec-path-from-shell-initialize)
+(require 'exec-path-from-shell)
+(add-hook 'emacs-startup-hook 'exec-path-from-shell-initialize)
 #+END_SRC
 
 ** Enable auto-indent
@@ -519,7 +520,7 @@ package.
 #+BEGIN_SRC emacs-lisp
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-and-C-p-only
+(setq ido-vertical-define-keys 'C-n-C-p-up-and-down
       ido-vertical-show-count t)
 #+END_SRC
 
@@ -615,7 +616,7 @@ I don't use shell as much as I did before customizing Emacs, but still a good
 command line is the best option sometimes. Bound it to ~C-c t~
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c t") 'eshell)
+(global-set-key (kbd "C-c t") 'shell)
 #+END_SRC
 
 ** ~iedit~
