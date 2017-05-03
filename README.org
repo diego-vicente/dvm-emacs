@@ -483,13 +483,13 @@ have it in programming modes and in ~org-mode~.
 (add-hook 'org-mode-hook 'git-gutter-mode)
 #+END_SRC
 
-** Set the cursor as a low bar
+** Set the cursor as a vertical bar
 
 This is less agressive than the default brick, for sure. Thanks [[https://github.com/Alexrs95][Alex]] for this
 snippet!
 
 #+BEGIN_SRC emacs-lisp
-(setq-default cursor-type 'hbar)
+(setq-default cursor-type 'bar)
 (base16-set-faces
    'base16-oceanicnext
    base16-oceanicnext-colors
