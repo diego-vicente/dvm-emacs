@@ -77,6 +77,7 @@ all the third-party packages that I use.
 		      org-autolist
 		      exec-path-from-shell
 		      cyphejor
+		      auctex
                       )
   "My packages")
 #+END_SRC
@@ -912,6 +913,33 @@ it to haskell
 (require 'intero)
 (add-hook 'haskell-mode-hook 'intero-mode)
 #+END_SRC
+
+** LaTeX
+
+With this configuration, we try to aim for a WYSIWYG editor in Emacs. It
+requires to have ~AUCTeX~ installed.
+
+*** Basic ~AUCTeX~ setup
+
+This snippet makes that the ~AUCTeX~ macros are loaded every time the editor
+requires them.
+
+#+BEGIN_SRC emacs-lisp
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-save-query nil)
+;(setq TeX-PDF-mode t)
+#+END_SRC 
+
+*** Enable ~flyspell~ in Tex edition
+
+Add the hook to enable it by default.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
+#+END_SRC
+
 
 * ~org-mode~
 ** Basic setup and other habits
