@@ -568,6 +568,51 @@ to be configured because it really makes things slow.
 (global-flycheck-mode)
 #+END_SRC
 
+** ~flyspell~
+
+Just like ~flycheck~, but it checks natural language in a text. Super useful
+for note taking and other text edition, specially if you use Emacs for
+everything like I do. ~flyspell~ is installed in new Emacs versions, but there
+are no completion tools by default in macOS, so we need to install the ~aspell~
+engine by running ~brew install aspell --with-lang-en~
+
+#+BEGIN_SRC emacs-lisp
+(setq ispell-program-name "aspell")
+(setq ispell-dictionary "english")
+#+END_SRC
+
+In case I am writing a text in a different language, I can just use ~M-x
+ispell-change-dictionary~. Emacs seems to have a wide enough range of
+dictionaries preinstalled to suit my needs. Later in the configurations, hooks
+are added to each of the major-modes where I want ~flyspell~ to work.
+
+To make ~flyspell~ not clash with different syntax in the same file (like for
+example, LaTeX or ~org-mode~ one) we need the next snippet, that changes turns
+on the LaTeX parser.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))
+#+END_SRC
+
+And this function prevents the spell checker to get inside source blocks in
+~org~. 
+
+#+BEGIN_SRC emacs-lisp
+;; NO spell check for embedded snippets
+(defadvice org-mode-flyspell-verify (after org-mode-flyspell-verify-hack activate)
+  (let* ((rlt ad-return-value)
+         (begin-regexp "^[ \t]*#\\+begin_\\(src\\|html\\|latex\\|example\\|quote\\)")
+         (end-regexp "^[ \t]*#\\+end_\\(src\\|html\\|latex\\|example\\|quote\\)")
+         (case-fold-search t)
+         b e)
+    (when ad-return-value
+      (save-excursion
+        (setq b (re-search-backward begin-regexp nil t))
+        (if b (setq e (re-search-forward end-regexp nil t))))
+      (if (and b e (< (point) e)) (setq rlt nil)))
+    (setq ad-return-value rlt)))
+#+END_SRC
+
 ** ~auto-complete~
 
 It is probably redundant with ~company~, but works like a charm for the Python
@@ -995,6 +1040,16 @@ And define a different font for ~org~ headings. (NOT WORKING)
 ;;(custom-set-faces
 ;; '(org-bullet-face ((t (:weight bold :height 1.6)))))
 ;;(setq org-bullets-face-name (quote org-bullet-face))
+#+END_SRC
+
+** Spell checking
+
+Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
+~flyspell~ is above.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-buffer)
 #+END_SRC
 
 ** ~org-ref~
