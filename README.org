@@ -340,17 +340,6 @@ the function again (there is no hook for that).
 (set-fringe-as-background)
 #+END_SRC
 
-** Enabling font ligatures
-
-Emacs by default does not support font ligatures. However, I found this
-workaround in a Fira Code issue in Github:
-
-Nope, this was removed because it fucks with org-mode edit source code in its
-own language code.
-
-As a TODO, it is also worth it to check [[https://gist.github.com/mordocai/50783defab3c3d1650e068b4d1c91495][this other workaround]] that looks much
-much better and allows to use it with different hooks.
-
 ** ~smart-mode-line~ configuration
 
 ~smart-mode-line~ allows us to do a greater configuration of the mode-line
