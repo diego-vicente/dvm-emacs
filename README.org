@@ -78,6 +78,8 @@ all the third-party packages that I use.
 		      exec-path-from-shell
 		      cyphejor
 		      auctex
+		      evil
+		      evil-magit
                       )
   "My packages")
 #+END_SRC
@@ -661,7 +663,7 @@ single keystroke.
 
 #+BEGIN_SRC emacs-lisp
 (require 'iedit)
-(global-set-key (kbd "C-c ;") 'iedit-mode)
+(global-set-key (kbd "C-c i") 'iedit-mode)
 #+END_SRC
 
 ** ~easy-escape~
@@ -1196,9 +1198,6 @@ you want to set another one just change that argument.
 (setq erc-nick "agis")
 #+END_SRC
 * ~evil~
-  :PROPERTIES:
-  :tangle:   no
-  :END:      
 ** Basic setup
 
 Just require and enable ~evil~ to add al the vim controls and modal editing to
