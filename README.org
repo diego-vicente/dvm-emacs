@@ -80,6 +80,7 @@ all the third-party packages that I use.
 		      auctex
 		      evil
 		      evil-magit
+                      relative-line-numbers
                       )
   "My packages")
 #+END_SRC
@@ -486,6 +487,17 @@ snippet!
    'base16-oceanicnext
    base16-oceanicnext-colors
      '((cursor :background base09)))
+#+END_SRC
+
+** Set the relative line numbers
+
+To have relative line numbers I use a package called ~relative-line-numbers~
+(unexpected, right?). I like to have it enabled in all the programming
+buffers, so I set it with hooks instead of enabling the global mode.
+
+#+BEGIN_SRC emacs-lisp
+(require 'relative-line-numbers)
+(add-hook 'prog-mode-hook #'relative-line-numbers-mode)
 #+END_SRC
 
 * Packages & Tools  
