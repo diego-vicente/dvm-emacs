@@ -81,6 +81,7 @@ all the third-party packages that I use.
 		      evil
 		      evil-magit
                       relative-line-numbers
+                      evil-mc
                       )
   "My packages")
 #+END_SRC
@@ -701,6 +702,17 @@ undo-redo branches. It's really amazing.
 #+BEGIN_SRC emacs-lisp
 (require 'undo-tree)
 (global-undo-tree-mode)
+#+END_SRC
+
+** ~multiple-cursors~
+
+This package let us enable multiple cursors, by pressing the key defined below
+(~C-c m~), we can create one cursor in each of the lines included in the visual
+region. This is incredibly powerful wen using ~evil~ as well.
+
+#+BEGIN_SRC emacs-lisp
+(require 'evil-mc)
+(global-evil-mc-mode  1)
 #+END_SRC
 
 * Programming Modes
