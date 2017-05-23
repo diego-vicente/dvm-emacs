@@ -231,11 +231,11 @@ in programming modes, we can use this function:
 ** More intuitive regions
 
 
-thought as default, so I turn it on myself.
+This makes the visual region behave more like the contemporary concept of
+highlighted text, that can be erased or overwritten as a whole.
 
 #+BEGIN_SRC emacs-lisp
 (delete-selection-mode t)
-(transient-mark-mode t)
 #+END_SRC
 
 ** Add functions to determine system
@@ -1221,6 +1221,11 @@ things without going out of Emacs. It's super geeky, I know.
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c w") 'w3m)
+
+(setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid
+ Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile 
+ Safari/533.")
+
 #+END_SRC
 
 TODO: In my current setup, the colors are incredibly aggressive.
