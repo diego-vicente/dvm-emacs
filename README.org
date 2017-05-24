@@ -534,8 +534,7 @@ package.
 I also like to enable ~ido~ in my ~M-x~ prompt, for which I can use:
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key
-     "\M-x"
+(global-set-key (kbd "M-x")
      (lambda ()
        (interactive)
        (call-interactively
