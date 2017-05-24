@@ -1076,6 +1076,36 @@ And define a different font for ~org~ headings. (NOT WORKING)
 ;;(setq org-bullets-face-name (quote org-bullet-face))
 #+END_SRC
 
+** Formatting functions
+
+I have defined several functions to help me format text using the org markup
+language. When I have selected text, I can use those keybindings to surround
+the text with the different signs.
+
+#+BEGIN_SRC emacs-lisp
+(defun org-mode-format-bold (&optional arg)
+  "Surround the selected text with asterisks (bold)"
+  (interactive "P")
+  (insert-pair arg ?\* ?\*))
+
+(defun org-mode-format-italics (&optional arg)
+  "Surround the selcted text with forward slashes (italics)"
+  (interactive "P")
+  (insert-pair arg ?\/ ?\/))
+
+(defun org-mode-format-tt (&optional arg)
+  "Surround the selcted text with virgules (monotype)"
+  (interactive "P")
+  (insert-pair arg ?\~ ?\~))
+
+
+(add-hook 'org-mode-hook
+	  (lambda () 
+	    (local-set-key (kbd "C-c f *") 'org-mode-format-bold)
+	    (local-set-key (kbd "C-c f /") 'org-mode-format-italics)
+	    (local-set-key (kbd "C-c f ~") 'org-mode-format-tt)))
+#+END_SRC
+
 ** Spell checking
 
 Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
