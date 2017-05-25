@@ -531,17 +531,17 @@ package.
       ido-vertical-show-count t)
 #+END_SRC
 
-I also like to enable ~ido~ in my ~M-x~ prompt, for which I can use:
+I also like to enable ~ido~ in my ~M-x~ prompt, for which I use the package
+~smex~, that builds on top of an ~ido~ buffer and shows the most relevant
+commands without keybindings on a certain mode.
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "M-x")
-     (lambda ()
-       (interactive)
-       (call-interactively
-        (intern
-         (ido-completing-read
-          "M-x "
-          (all-completions "" obarray 'commandp))))))
+(require 'smex)
+(smex-initialize)
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+END_SRC
 
 
