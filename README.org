@@ -1042,6 +1042,36 @@ this package that allows a better behavior of ~RET~ in ~org-mode~.
 (add-hook 'org-mode-hook (lambda () (org-autolist-mode)))
 #+END_SRC
 
+*** Formatting functions
+
+I have defined several functions to help me format text using the org markup
+language. When I have selected text, I can use those keybindings to surround
+the text with the different signs.
+
+#+BEGIN_SRC emacs-lisp
+(defun org-mode-format-bold (&optional arg)
+  "Surround the selected text with asterisks (bold)"
+  (interactive "P")
+  (insert-pair arg ?\* ?\*))
+
+(defun org-mode-format-italics (&optional arg)
+  "Surround the selcted text with forward slashes (italics)"
+  (interactive "P")
+  (insert-pair arg ?\/ ?\/))
+
+(defun org-mode-format-tt (&optional arg)
+  "Surround the selcted text with virgules (monotype)"
+  (interactive "P")
+  (insert-pair arg ?\~ ?\~))
+
+
+(add-hook 'org-mode-hook
+	  (lambda () 
+	    (local-set-key (kbd "C-c f b") 'org-mode-format-bold)
+	    (local-set-key (kbd "C-c f i") 'org-mode-format-italics)
+	    (local-set-key (kbd "C-c f m") 'org-mode-format-tt)))
+#+END_SRC
+
 *** Keybinding for ~org-agenda~
 
 I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
@@ -1089,36 +1119,6 @@ And define a different font for ~org~ headings. (NOT WORKING)
 ;;(custom-set-faces
 ;; '(org-bullet-face ((t (:weight bold :height 1.6)))))
 ;;(setq org-bullets-face-name (quote org-bullet-face))
-#+END_SRC
-
-** Formatting functions
-
-I have defined several functions to help me format text using the org markup
-language. When I have selected text, I can use those keybindings to surround
-the text with the different signs.
-
-#+BEGIN_SRC emacs-lisp
-(defun org-mode-format-bold (&optional arg)
-  "Surround the selected text with asterisks (bold)"
-  (interactive "P")
-  (insert-pair arg ?\* ?\*))
-
-(defun org-mode-format-italics (&optional arg)
-  "Surround the selcted text with forward slashes (italics)"
-  (interactive "P")
-  (insert-pair arg ?\/ ?\/))
-
-(defun org-mode-format-tt (&optional arg)
-  "Surround the selcted text with virgules (monotype)"
-  (interactive "P")
-  (insert-pair arg ?\~ ?\~))
-
-
-(add-hook 'org-mode-hook
-	  (lambda () 
-	    (local-set-key (kbd "C-c f *") 'org-mode-format-bold)
-	    (local-set-key (kbd "C-c f /") 'org-mode-format-italics)
-	    (local-set-key (kbd "C-c f ~") 'org-mode-format-tt)))
 #+END_SRC
 
 ** Spell checking
@@ -1264,8 +1264,6 @@ you want to set another one just change that argument.
 substitute of your regular browser, but it's handy to have a fast way to query
 things without going out of Emacs. It's super geeky, I know.
 
-*Note*: this is super experimental, so don't get your hopes really high
-
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c w") 'w3m)
 #+END_SRC
@@ -1276,7 +1274,7 @@ Basically, making it the default browser from Emacs, enable the cookies and
 setting an Android agent to prevent clutter.
 
 #+BEGIN_SRC emacs-lisp
-(setq browse-url-browser-function 'w3m-goto-url-new-session)
+;; (setq browse-url-browser-function 'w3m-goto-url-new-session)
 (setq w3m-set-cookies t)
 (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid
  Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile 
