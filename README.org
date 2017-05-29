@@ -516,7 +516,6 @@ have to properly configure it. This enables fuzzy search and enables it everywhe
 (setq ido-enable-flex-matching t
       ido-enable-dot-prefix t
       ido-enable-tramp-completion t
-      ido-show-dot-for-dired t
       ido-everywhere t)
 (ido-mode 1)
 #+END_SRC
