@@ -215,6 +215,17 @@ package, and use these key bindings.
 (global-set-key (kbd "C-x w <right>")  'buf-move-right)
 #+END_SRC 
 
+** Redefining sentences in Emacs
+
+Emacs allows you to move in sentences using the commands ~M-a~ and ~M-e~ (to go
+to the beginning or the end of the sentence). This is super useful for editing
+text, but Emacs assumes that you always end sentences using a period and /two/
+whitespaces, which... I actually don't. We can override this behavior with:
+
+#+BEGIN_SRC emacs-lisp
+(setq-default sentence-end-double-space nil)  
+#+END_SRC
+
 ** Auto-fill comments
 
 For our comments (only comments, not code) to be automatically filled
