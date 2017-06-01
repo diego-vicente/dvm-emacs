@@ -555,7 +555,6 @@ commands without keybindings on a certain mode.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+END_SRC
 
-
 ** ~helm~
 
 As I said, probably redundant to be used alongside ~ido~, but still has much
@@ -1121,16 +1120,6 @@ prefer to set something much more visual:
 (setq org-ellipsis " ⤵")
 #+END_SRC
 
-*** TODO Edit headings
-
-And define a different font for ~org~ headings. (NOT WORKING)
-
-#+BEGIN_SRC emacs-lisp
-;;(custom-set-faces
-;; '(org-bullet-face ((t (:weight bold :height 1.6)))))
-;;(setq org-bullets-face-name (quote org-bullet-face))
-#+END_SRC
-
 ** Spell checking
 
 Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
@@ -1171,7 +1160,7 @@ We also make sure to create the directory if it does not exist
 *** Update the export process
 
 We have to take into account the Bibtex process for the references to
-work. TODO: sometimes does not even work this way.
+work.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-latex-pdf-process
