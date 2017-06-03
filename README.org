@@ -696,6 +696,37 @@ command line is the best option sometimes. Bound it to ~C-c t~
 (global-set-key (kbd "C-c t") 'shell)
 #+END_SRC
 
+** ~eshell~
+
+To use the native Emacs shell with a sexier prompt, we can use this design
+posted in Reddit.
+
+#+BEGIN_SRC emacs-lisp
+(setq eshell-prompt-function
+      (lambda ()
+	(let ((blue (plist-get base16-oceanicnext-colors :base0D))
+	      (purple (plist-get base16-oceanicnext-colors :base0E))
+	      (cyan (plist-get base16-oceanicnext-colors :base0C))
+	      (yellow (plist-get base16-oceanicnext-colors :base0D))
+	      (orange (plist-get base16-oceanicnext-colors :base09))
+	      (grey (plist-get base16-oceanicnext-colors :base05)))
+	  (concat
+	   (propertize "┌─[" 'face '(:foreground blue))
+	   (propertize (user-login-name) 'face '(:foreground purple))
+	   (propertize "@" 'face '(:foreground blue))
+	   (propertize (system-name) 'face '(:foreground cyan))
+	   (propertize "]──[" 'face '(:foreground blue))
+	   (propertize (format-time-string "%H:%M" (current-time))
+		       'face '(:foreground grey))
+	   (propertize "]──[" 'face '(:foreground blue))
+	   (propertize (concat (eshell/pwd)) 'face '(:foreground orange))
+	   (propertize "]\n" 'face '(:foreground blue))
+	   (propertize "└─>" 'face '(:foreground blue))
+	   (propertize (if (= (user-uid) 0) " # " " $ ")
+		       'face '(:foreground blue))
+	   ))))
+#+END_SRC
+
 ** ~iedit~
 
 This tool allows us to edit all variable names at once just by entering a
