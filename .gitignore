@@ -1,5 +1,10 @@
+.DS_Store
+
 # Compiled
 *.elc
 
 # Packaging
 .cask
+
+# Tangled init file
+README.el
