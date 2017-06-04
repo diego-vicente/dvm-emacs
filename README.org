@@ -82,6 +82,8 @@ all the third-party packages that I use.
 		      evil-magit
                       relative-line-numbers
                       evil-mc
+		      perspective
+		      persp-projectile
                       )
   "My packages")
 #+END_SRC
@@ -587,6 +589,17 @@ project.
 (require 'projectile)
 (projectile-global-mode +1)
 (setq projectile-use-git-grep t)
+#+END_SRC
+
+** ~perspective~
+
+This package lets us store the window distributions that we use and switch
+between them. I like to use it with ~persp-projectile~, which creates
+perspectives automatically integrating them with each project. To configure it:
+
+#+BEGIN_SRC emacs-lisp
+(persp-mode)
+(require 'persp-projectile)
 #+END_SRC
 
 ** ~flycheck~
