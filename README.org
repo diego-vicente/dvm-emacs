@@ -604,6 +604,9 @@ perspectives automatically integrating them with each project. To configure it:
 #+BEGIN_SRC emacs-lisp
 (persp-mode)
 (require 'persp-projectile)
+
+(set-face-attribute 'persp-selected-face nil
+		    :foreground (plist-get base16-oceanicnext-colors :base0D))
 #+END_SRC
 
 ** ~flycheck~
