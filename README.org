@@ -473,8 +473,12 @@ important, notice that all modes include a whitespace as the first
 character. This is actually needed for ~rich-minority~ to find the mode
 
 #+BEGIN_SRC emacs-lisp
-(setq rm-blacklist '(" GitGutter" " Fill" " Autolist" " Undo-Tree" " ARev" 
-		     " Helm" " SP" " AC"))
+(let (minor-mode-regexps )
+  (setq rm-blacklist (mapconcat 'identity 
+				'(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
+				  " ARev" " Helm" " SP" " AC" " Fly"
+				  " Projectile.+") 
+				"\\|")))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
