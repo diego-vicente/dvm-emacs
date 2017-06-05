@@ -32,8 +32,8 @@ use it, needless to say to use your own information.
 
 ** Add MELPA
 
-*The* package repository for Emacs. Must have, it's really really useful for
-installing all kinds of packages.
+The main package repository for Emacs. Must have, probably all the packages
+that you need are already in MELPA.
 
 #+BEGIN_SRC emacs-lisp
 ;; Add MELPA
@@ -88,6 +88,9 @@ all the third-party packages that I use.
   "My packages")
 #+END_SRC
 
+TODO: migrating this init to ~use-package~ should be able to get rid of this
+hacky solution.
+
 ** Install my packages
 
 Using the same variable defined before, check if the packages are installed and
@@ -120,7 +123,7 @@ Emacs. One of them forces you to write "yes" and the other one only to press
 ** Disable startup message
 
 I simply prefer to have a scratch buffer ready when I boot up, with ~org-mode~
-running. Not a great Lisp developer myself.
+running. Not a great Lisp developer myself (yet).
 
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-splash-screen t
@@ -176,14 +179,6 @@ package to MELPA, so to install it:
 #+BEGIN_SRC emacs-lisp
 (require 'exec-path-from-shell)
 (add-hook 'emacs-startup-hook 'exec-path-from-shell-initialize)
-#+END_SRC
-
-** Enable auto-indent
-
-By default, inserting a new line in Emacs is not associated with indent.
-
-#+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "RET") 'newline-and-indent)
 #+END_SRC
 
 ** Insert new line without breaking
@@ -306,6 +301,7 @@ Miscellaneous keybindings that don't really fit anywhere else.
 #+END_SRC
 
 * Graphical Interface
+
 ** Disabling GUI defaults
 
 I always use Emacs in its GUI client, but because of the visual capabilities
@@ -477,7 +473,7 @@ character. This is actually needed for ~rich-minority~ to find the mode
   (setq rm-blacklist (mapconcat 'identity 
 				'(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
 				  " ARev" " Helm" " SP" " AC" " Fly"
-				  " Projectile.+") 
+				  " Projectile.+" " Intero") 
 				"\\|")))
 #+END_SRC
 
