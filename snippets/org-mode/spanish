@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Spanish settings
+# group: org-options
+# key: yesp
+# contributor: Diego Vicente
+# --
+#+LANGUAGE: es
+#+LaTeX_HEADER: \usepackage[spanish]{babel}

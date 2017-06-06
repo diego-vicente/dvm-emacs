@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Essay
+# group: templates
+# key: yessay
+# contributor: Diego Vicente
+# --
+#+TITLE:  ${1:title}
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  ${2:email}
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [twocolumn, 10pt]
+
+#+LATEX_HEADER: \setlength\columnsep{18pt}
+#+LATEX_HEADER: \usepackage{amsmath}
+
+#+OPTIONS: toc:nil date:nil H:2
+#+MACRO: vs \vspace{8mm}
+
+* ${3:heading}
