@@ -84,6 +84,7 @@ all the third-party packages that I use.
                       evil-mc
 		      perspective
 		      persp-projectile
+		      yasnippet
                       )
   "My packages")
 #+END_SRC
@@ -776,6 +777,22 @@ undo-redo branches. It's really amazing.
 (require 'undo-tree)
 (global-undo-tree-mode)
 #+END_SRC
+
+** ~yasnippets~
+
+This package is a template and snippet system for Emacs, inspired by the syntax
+of TextMate.
+
+#+BEGIN_SRC emacs-lisp
+(require 'yasnippet)
+(add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
+(yas-global-mode 1)
+#+END_SRC
+
+In the ~/snippets~ folder in this repository you can see my snippets
+collection. A good guide to understand the syntax used is in [[https://joaotavora.github.io/yasnippet/snippet-development.html][the manual for
+YASnippet]]. All the snippets are local to a certain mode (delimited by the name
+of the folder in the collection) and their keys can be expanded using ~TAB~.
 
 * Programming Modes
 ** Python
