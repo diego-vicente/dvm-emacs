@@ -474,7 +474,7 @@ character. This is actually needed for ~rich-minority~ to find the mode
   (setq rm-blacklist (mapconcat 'identity 
 				'(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
 				  " ARev" " Helm" " SP" " AC" " Fly"
-				  " Projectile.+" " Intero") 
+				  " Projectile.+" " Intero" " yas")
 				"\\|")))
 #+END_SRC
 
