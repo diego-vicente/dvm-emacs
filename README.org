@@ -604,6 +604,8 @@ perspectives automatically integrating them with each project. To configure it:
 
 (set-face-attribute 'persp-selected-face nil
 		    :foreground (plist-get base16-oceanicnext-colors :base0D))
+
+(global-set-key (kbd "C-c p n") 'persp-next)
 #+END_SRC
 
 ** ~flycheck~
