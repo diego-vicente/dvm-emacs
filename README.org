@@ -624,7 +624,7 @@ associated perspective:
   (interactive)
   (persp-kill (persp-name persp-curr)))
 
-(define-key projectile-mode-map (kbd "C-c p k") #'kill-curr-perspective)
+(define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
 #+END_SRC
 
 It is important to use ~define-key~ to shadow ~projectile~'s own bindings.
