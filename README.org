@@ -608,6 +608,27 @@ perspectives automatically integrating them with each project. To configure it:
 (global-set-key (kbd "C-c p n") 'persp-next)
 #+END_SRC
 
+This snippet also changes the color of the mode-line widget to a smoother one
+and binds ~C-c p n~ to change next perspective to integrate better the
+perspective and project management.
+
+Now that we have defined this beautiful ~perspective~ + ~projectile~ combo, we
+can tweak a bit more its integration: For example, we can override the
+behavior of ~C-c p k~: by default it is ~projectile-kill-buffers~, that will
+kill all buffers associated to a project. We can make it also delete the
+associated perspective:
+
+#+BEGIN_SRC emacs-lisp
+(defun kill-current-perspective ()
+  "Kill the current project buffers and close its perspective."
+  (interactive)
+  (persp-kill (persp-name persp-curr)))
+
+(define-key projectile-mode-map (kbd "C-c p k") #'kill-curr-perspective)
+#+END_SRC
+
+It is important to use ~define-key~ to shadow ~projectile~'s own bindings.
+
 ** ~flycheck~
 
 Checks syntax for different languages. Works wonders, even though sometimes has
