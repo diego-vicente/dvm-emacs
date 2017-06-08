@@ -178,8 +178,9 @@ Emacs variable and call it at start. This function was improved and uploaded as
 package to MELPA, so to install it:
 
 #+BEGIN_SRC emacs-lisp
-(require 'exec-path-from-shell)
-(add-hook 'emacs-startup-hook 'exec-path-from-shell-initialize)
+(use-package exec-path-from-shell
+  :ensure t
+  :config (exec-path-from-shell-initialize))
 #+END_SRC
 
 ** Insert new line without breaking
@@ -206,11 +207,12 @@ Emacs by default. To do it, a good option that I found is to use ~buffer-move~
 package, and use these key bindings.
 
 #+BEGIN_SRC emacs-lisp
-(require 'buffer-move)
-(global-set-key (kbd "C-x w <up>")     'buf-move-up)
-(global-set-key (kbd "C-x w <down>")   'buf-move-down)
-(global-set-key (kbd "C-x w <left>")   'buf-move-left)
-(global-set-key (kbd "C-x w <right>")  'buf-move-right)
+(use-package buffer-move
+  :ensure t
+  :bind (("C-x w <up>"    . buf-move-up)
+	 ("C-x w <down>"  . buf-move-down)
+	 ("C-x w <left>"  . buf-move-left)
+	 ("C-x w <right>" . buf-move-right)))
 #+END_SRC 
 
 ** Redefining sentences in Emacs
@@ -302,7 +304,6 @@ Miscellaneous keybindings that don't really fit anywhere else.
 #+END_SRC
 
 * Graphical Interface
-
 ** Disabling GUI defaults
 
 I always use Emacs in its GUI client, but because of the visual capabilities
@@ -334,8 +335,9 @@ since the file tangling probably makes the code be not in order for
 ~custom-set-variables~ to do its job.
 
 #+BEGIN_SRC emacs-lisp
-(require 'base16-theme)
-(load-theme 'base16-oceanicnext t)
+(use-package base16-theme
+  :ensure t
+  :config (load-theme 'base16-oceanicnext t))
 #+END_SRC
 
 ** Setting the fringe color
@@ -358,56 +360,73 @@ the function again (there is no hook for that).
 
 ~smart-mode-line~ allows us to do a greater configuration of the mode-line
 without being as flashy (and accessible tbh). This is the bare-bones
-configuration for the package, that makes it not even load a theme.
+configuration for the package, that makes it not even load a theme. Apart from
+the mere aesthetics, I also configure the column number display and different
+short names for my folders. The last part edits slightly the mode line by
+adding a single white-space below the fringe, which helps when rendering.
 
 #+BEGIN_SRC emacs-lisp
-(require 'smart-mode-line)
-(setq sml/theme nil)
-(sml/setup)
+(use-package smart-mode-line
+  :ensure t
+  :config 
+  (progn 
+    (setq sml/theme nil)
+    (sml/setup)
+    (setq-default mode-line-format
+      '(" %e"
+	mode-line-front-space
+	mode-line-mule-info
+	mode-line-client
+	mode-line-modified
+	mode-line-remote
+	mode-line-frame-identification
+	mode-line-buffer-identification
+	sml/pos-id-separator
+	mode-line-position
+	(vc-mode vc-mode)
+	sml/pre-modes-separator
+	mode-line-modes
+	mode-line-misc-info
+	mode-line-end-spaces))
+    (my-mode-line-colors)
+    (column-number-mode 1)
+    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
+    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
+    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/"
+					     ":BIB:" ))
+    ))
 #+END_SRC
 
 It doesn't load a theme because the colors are not really suitable for the rest
 of my color scheme, so I set a simple theme myself:
 
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
-(set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
-
-(base16-set-faces
-   'base16-oceanicnext
-   base16-oceanicnext-colors
-     '(
-       (mode-line-inactive   :background base01 
-                             :box (:line-width 4
-                                   :color base01
-                                   :style nil))
-       (sml/global           :foreground base07)
-       (sml/filename         :foreground base0A)
-       (sml/prefix           :foreground base09)
-       (sml/git              :foreground base0D)
-       (sml/modified         :foreground base08)
-       (sml/outside-modified :background base07
-                             :foreground base08)
-       (mode-line            :background base02 
-                             :box (:line-width 4
-                                   :color base02
-                                   :style nil))
-       ))
+(defun my-mode-line-colors ()
+  "Define all the faces associated with the smart-mode-line."
+  (set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
+  (set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
+  (base16-set-faces
+    'base16-oceanicnext
+    base16-oceanicnext-colors
+    '(
+      (mode-line-inactive   :background base01 
+			    :box (:line-width 4
+				  :color base01
+				  :style nil))
+      (sml/global           :foreground base07)
+      (sml/filename         :foreground base0A)
+      (sml/prefix           :foreground base09)
+      (sml/git              :foreground base0D)
+      (sml/modified         :foreground base08)
+      (sml/outside-modified :background base07
+			    :foreground base08)
+      (mode-line            :background base02 
+			    :box (:line-width 4
+			          :color base02
+		                  :style nil)))))
 #+END_SRC
 
-Apart from the mere aesthetics, I also configure the column number display and
-different short names for my folders. The last part edits slightly the mode
-line by adding a single white-space below the fringe, which helps when
-rendering.
-
-#+BEGIN_SRC emacs-lisp
-(column-number-mode 1)
-
-(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
-(add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
-(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
-(add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/" 
-					 ":BIB:" ))
 
 (setq-default mode-line-format
       '(" %e"
