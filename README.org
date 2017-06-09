@@ -1020,24 +1020,18 @@ typing.
 #+END_SRC
 
 ** Haskell
-*** Add ~ghci~ to path
-
-Just make sure that Emacs can find it.
-
-#+BEGIN_SRC emacs-lisp
-(setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
-#+END_SRC
-
 *** Enable ~intero~
 
 In my experience, trying to deal with ~haskell-mode~ head-on is a pain in the
 ass, and makes programming really slow. However, ~intero~ is a package with
 batteries-included that works wonders. The best idea is to install it and hook
-it to haskell
+it to Haskell.
 
 #+BEGIN_SRC emacs-lisp
-(require 'intero)
-(add-hook 'haskell-mode-hook 'intero-mode)
+(use-package intero
+  :ensure t
+  :init   (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
+  :config (add-hook 'haskell-mode-hook 'intero-mode))
 #+END_SRC
 
 ** LaTeX
