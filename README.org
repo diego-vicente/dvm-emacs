@@ -304,7 +304,11 @@ adding a single white-space below the fringe, which helps when rendering.
   :ensure t
   :config 
   (progn 
+    ;; Basic
+    (setq sml/theme nil)
     (sml/setup)
+    (setq sml/no-confirm-load-theme t)
+    ;; Format the line string
     (setq-default mode-line-format
       '(" %e"
 	mode-line-front-space
@@ -321,7 +325,29 @@ adding a single white-space below the fringe, which helps when rendering.
 	mode-line-modes
 	mode-line-misc-info
 	mode-line-end-spaces))
-    (my-mode-line-colors)
+    ;; Colors and aesthetics
+    (set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
+    (set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
+    (base16-set-faces
+     'base16-oceanicnext
+     base16-oceanicnext-colors
+     '(
+       (mode-line-inactive   :background base01 
+			     :box (:line-width 4
+					       :color base01
+					       :style nil))
+       (sml/global           :foreground base07)
+       (sml/filename         :foreground base0A)
+       (sml/prefix           :foreground base09)
+       (sml/git              :foreground base0D)
+       (sml/modified         :foreground base08)
+       (sml/outside-modified :background base07
+			     :foreground base08)
+       (mode-line            :background base02 
+			     :box (:line-width 4
+					       :color base02
+					       :style nil))))
+    ;; Shorthands and column number
     (column-number-mode 1)
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
     (add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
@@ -329,35 +355,6 @@ adding a single white-space below the fringe, which helps when rendering.
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/"
 					     ":BIB:" ))
     ))
-#+END_SRC
-
-It doesn't load a theme because the colors are not really suitable for the rest
-of my color scheme, so I set a simple theme myself:
-
-#+BEGIN_SRC emacs-lisp
-(defun my-mode-line-colors ()
-  "Define all the faces associated with the smart-mode-line."
-  (set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
-  (set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
-  (base16-set-faces
-    'base16-oceanicnext
-    base16-oceanicnext-colors
-    '(
-      (mode-line-inactive   :background base01 
-			    :box (:line-width 4
-				  :color base01
-				  :style nil))
-      (sml/global           :foreground base07)
-      (sml/filename         :foreground base0A)
-      (sml/prefix           :foreground base09)
-      (sml/git              :foreground base0D)
-      (sml/modified         :foreground base08)
-      (sml/outside-modified :background base07
-			    :foreground base08)
-      (mode-line            :background base02 
-			    :box (:line-width 4
-			          :color base02
-		                  :style nil)))))
 #+END_SRC
 
 ** Configure modes in mode line to be shorter
@@ -535,12 +532,12 @@ perspectives automatically integrating them with each project. To configure it:
 
 (use-package persp-projectile
   :ensure t
-  :config 
-  (set-face-attribute 'persp-selected-face nil
-		      :foreground (plist-get base16-oceanicnext-colors :base0D))
   :bind (("C-c p n" . persp-next)
 	 ("C-c p k" . kill-current-perspective)
 	 :map projectile-mode-map))
+
+(set-face-attribute 'persp-selected-face nil
+		    :foreground (plist-get base16-oceanicnext-colors :base0D))
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
