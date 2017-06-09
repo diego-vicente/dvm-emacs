@@ -510,15 +510,19 @@ snippet!
 
 ~ido~ enables some fuzzy finders in different commands like ~find-file~ or
 other buffer related commands. Probably ~helm~ is a better option but I still
-have to properly configure it. This enables fuzzy search and enables it everywhere.
+have to properly configure it. This enables fuzzy search and enables it
+everywhere.
 
 #+BEGIN_SRC emacs-lisp
-(require 'ido)
-(setq ido-enable-flex-matching t
+(use-package ido
+  :ensure t
+  :config 
+  (progn
+    (setq ido-enable-flex-matching t
       ido-enable-dot-prefix t
       ido-enable-tramp-completion t
       ido-everywhere t)
-(ido-mode 1)
+    (ido-mode 1)))
 #+END_SRC
 
 Also, I feel it's much easier to understand what's going on when the options
@@ -526,10 +530,13 @@ are displayed in a vertical list. The cleanest way to achieve this is using a
 package. 
 
 #+BEGIN_SRC emacs-lisp
-(require 'ido-vertical-mode)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-C-p-up-and-down
-      ido-vertical-show-count t)
+(use-package ido-vertical-mode
+  :ensure t
+  :config 
+  (progn
+    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down
+          ido-vertical-show-count t)
+    (ido-vertical-mode 1)))
 #+END_SRC
 
 I also like to enable ~ido~ in my ~M-x~ prompt, for which I use the package
@@ -537,12 +544,11 @@ I also like to enable ~ido~ in my ~M-x~ prompt, for which I use the package
 commands without keybindings on a certain mode.
 
 #+BEGIN_SRC emacs-lisp
-(require 'smex)
-(smex-initialize)
-
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+(use-package smex
+  :ensure t
+  :bind (("M-x" . smex)
+	 ("M-X" . smex-major-mode-commands)
+	 ("C-c C-c M-x" . execute-extended-command)))
 #+END_SRC
 
 ** ~helm~
@@ -551,8 +557,9 @@ As I said, probably redundant to be used alongside ~ido~, but still has much
 more places to be used.
 
 #+BEGIN_SRC emacs-lisp
-(require 'helm-config)
-(helm-mode 1)
+(use-package helm-config
+  :ensure helm
+  :config (helm-mode 1))
 #+END_SRC
 
 ** ~magit~
@@ -562,8 +569,9 @@ vi/vim. It is really wonderful to use and you should install right now. This
 also binds the status function to ~C-x g~.
 
 #+BEGIN_SRC emacs-lisp
-(require 'magit)
-(global-set-key (kbd "C-x g") 'magit-status)
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
 #+END_SRC
 
 ** ~projectile~
@@ -574,9 +582,11 @@ have it configured to ignore all files that has not been staged in the git
 project. 
 
 #+BEGIN_SRC emacs-lisp
-(require 'projectile)
-(projectile-global-mode +1)
-(setq projectile-use-git-grep t)
+(use-package projectile
+  :ensure t
+  :config
+  (progn (projectile-global-mode 1)
+	 (setq projectile-use-git-grep t)))
 #+END_SRC
 
 ** ~perspective~
@@ -586,13 +596,18 @@ between them. I like to use it with ~persp-projectile~, which creates
 perspectives automatically integrating them with each project. To configure it:
 
 #+BEGIN_SRC emacs-lisp
-(persp-mode)
-(require 'persp-projectile)
+(use-package perspective
+  :ensure t
+  :config (persp-mode))
 
-(set-face-attribute 'persp-selected-face nil
-		    :foreground (plist-get base16-oceanicnext-colors :base0D))
-
-(global-set-key (kbd "C-c p n") 'persp-next)
+(use-package persp-projectile
+  :ensure t
+  :config 
+  (set-face-attribute 'persp-selected-face nil
+		      :foreground (plist-get base16-oceanicnext-colors :base0D))
+  :bind (("C-c p n" . persp-next)
+	 ("C-c p k" . kill-current-perspective)
+	 :map projectile-mode-map))
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
@@ -610,8 +625,6 @@ associated perspective:
   "Kill the current project buffers and close its perspective."
   (interactive)
   (persp-kill (persp-name persp-curr)))
-
-(define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
 #+END_SRC
 
 It is important to use ~define-key~ to shadow ~projectile~'s own bindings.
