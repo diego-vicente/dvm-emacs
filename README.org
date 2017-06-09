@@ -427,58 +427,39 @@ of my color scheme, so I set a simple theme myself:
 		                  :style nil)))))
 #+END_SRC
 
-
-(setq-default mode-line-format
-      '(" %e"
-	mode-line-front-space
-	mode-line-mule-info
-	mode-line-client
-	mode-line-modified
-	mode-line-remote
-	mode-line-frame-identification
-	mode-line-buffer-identification
-	sml/pos-id-separator
-	mode-line-position
-	(vc-mode vc-mode)
-	sml/pre-modes-separator
-	mode-line-modes
-	mode-line-misc-info
-	mode-line-end-spaces))
-
-
-#+END_SRC
-
 ** Configure modes in mode line to be shorter
 
 ~cyphejor~ is a package that allows to make shorter names in the
 mode-line. And, as you can see, my way to use it is maybe a little bit
-aggresive.
+aggressive.
 
 #+BEGIN_SRC emacs-lisp
-(require 'cyphejor)
-(setq
- cyphejor-rules
- '(:upcase
-   ("bookmark"    "→")
-   ("buffer"      "β")
-   ("diff"        "Δ")
-   ("dired"       "δ")
-   ("emacs"       "ε")
-   ("fundamental" "Ⓕ")
-   ("inferior"    "i" :prefix)
-   ("interaction" "i" :prefix)
-   ("interactive" "i" :prefix)
-   ("lisp"        "λ" :postfix)
-   ("menu"        "▤" :postfix)
-   ("haskell"     "λ=")
-   ("mode"        "")
-   ("package"     "↓")
-   ("python"      "π")
-   ("org"         "Ω")
-   ("shell"       "sh" :postfix)
-   ("text"        "ξ")))
-
-(cyphejor-mode 1)
+(use-package cyphejor
+  :ensure t
+  :config 
+  (progn
+    (setq
+     cyphejor-rules
+     '(:upcase
+       ("bookmark"    "→")
+       ("buffer"      "β")
+       ("diff"        "Δ")
+       ("dired"       "δ")
+       ("emacs"       "ε")
+       ("fundamental" "Ⓕ")
+       ("inferior"    "i" :prefix)
+       ("interaction" "i" :prefix)
+       ("interactive" "i" :prefix)
+       ("lisp"        "λ" :postfix)
+       ("menu"        "▤" :postfix)
+       ("haskell"     "λ=")
+       ("mode"        "")
+       ("package"     "↓")
+       ("python"      "π")
+       ("org"         "Ω")
+       ("shell"       "sh" :postfix)
+       ("text"        "ξ")))
+    (cyphejor-mode 1)))
 #+END_SRC
 
 On the other hand, I use ~rich-minority~ to select which are the minor modes
@@ -489,12 +470,11 @@ important, notice that all modes include a whitespace as the first
 character. This is actually needed for ~rich-minority~ to find the mode
 
 #+BEGIN_SRC emacs-lisp
-(let (minor-mode-regexps )
-  (setq rm-blacklist (mapconcat 'identity 
-				'(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
-				  " ARev" " Helm" " SP" " AC" " Fly"
-				  " Projectile.+" " Intero" " yas")
-				"\\|")))
+(setq rm-blacklist (mapconcat 'identity 
+			      '(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
+				" ARev" " Helm" " SP" " AC" " Fly"
+				" Projectile.+" " Intero" " yas")
+			      "\\|"))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -503,12 +483,13 @@ Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
 have it in programming modes and in ~org-mode~.
 
 #+BEGIN_SRC emacs-lisp
-(require 'git-gutter)
-(require 'git-gutter-fringe)
-
-(setq-default left-fringe-width  20)
-(add-hook 'prog-mode-hook 'git-gutter-mode)
-(add-hook 'org-mode-hook 'git-gutter-mode)
+(use-package git-gutter
+  :ensure git-gutter-fringe
+  :config
+  (progn
+    (setq-default left-fringe-width  20)
+    (add-hook 'prog-mode-hook 'git-gutter-mode)
+    (add-hook 'org-mode-hook 'git-gutter-mode)))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
@@ -522,19 +503,6 @@ snippet!
    'base16-oceanicnext
    base16-oceanicnext-colors
      '((cursor :background base09)))
-#+END_SRC
-
-** Set the relative line numbers
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-To have relative line numbers I use a package called ~relative-line-numbers~
-(unexpected, right?). I like to have it enabled in all the programming
-buffers, so I set it with hooks instead of enabling the global mode.
-
-#+BEGIN_SRC emacs-lisp
-(require 'relative-line-numbers)
-(add-hook 'prog-mode-hook 'relative-line-numbers-mode)
 #+END_SRC
 
 * Packages & Tools  
