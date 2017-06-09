@@ -370,7 +370,6 @@ adding a single white-space below the fringe, which helps when rendering.
   :ensure t
   :config 
   (progn 
-    (setq sml/theme nil)
     (sml/setup)
     (setq-default mode-line-format
       '(" %e"
@@ -635,9 +634,9 @@ Checks syntax for different languages. Works wonders, even though sometimes has
 to be configured because it really makes things slow.
 
 #+BEGIN_SRC emacs-lisp
-(require 'flycheck)
-;; (global-flycheck-mode)
-(add-hook 'prog-mode-hook #'flycheck-mode)
+(use-package flycheck
+  :ensure t
+  :config (add-hook 'prog-mode-hook #'flycheck-mode))
 #+END_SRC
 
 ** ~flyspell~
@@ -648,9 +647,18 @@ everything like I do. ~flyspell~ is installed in new Emacs versions, but there
 are no completion tools by default in macOS, so we need to install the ~aspell~
 engine by running ~brew install aspell --with-lang-en~
 
+To make ~flyspell~ not clash with different syntax in the same file (like for
+example, LaTeX or ~org-mode~ one) we need the last hook message.
+
+
 #+BEGIN_SRC emacs-lisp
-(setq ispell-program-name "aspell")
-(setq ispell-dictionary "english")
+(use-package flyspell
+  :ensure t
+  :config 
+  (progn
+    (setq ispell-program-name "aspell"
+	  ispell-dictionary "english")
+    (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))))
 #+END_SRC
 
 In case I am writing a text in a different language, I can just use ~M-x
@@ -658,19 +666,10 @@ ispell-change-dictionary~. Emacs seems to have a wide enough range of
 dictionaries preinstalled to suit my needs. Later in the configurations, hooks
 are added to each of the major-modes where I want ~flyspell~ to work.
 
-To make ~flyspell~ not clash with different syntax in the same file (like for
-example, LaTeX or ~org-mode~ one) we need the next snippet, that changes turns
-on the LaTeX parser.
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))
-#+END_SRC
-
 And this function prevents the spell checker to get inside source blocks in
 ~org~. 
 
 #+BEGIN_SRC emacs-lisp
-;; NO spell check for embedded snippets
 (defadvice org-mode-flyspell-verify (after org-mode-flyspell-verify-hack activate)
   (let* ((rlt ad-return-value)
          (begin-regexp "^[ \t]*#\\+begin_\\(src\\|html\\|latex\\|example\\|quote\\)")
@@ -689,22 +688,21 @@ And this function prevents the spell checker to get inside source blocks in
 
 It is probably redundant with ~company~, but works like a charm for the Python
 environment. This bare-bones config just enables auto completion for language
-specific words and other words in the buffer, so it's not really super
-useful. For language specific settings, check each of the langauge configs.
+specific words and other words in the buffer, so it's not really super useful.
+For language specific settings, check each of the langauge configs. Also, I
+like to customize a bit the looks of the pop-up menu
 
 #+BEGIN_SRC emacs-lisp
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-show-menu-immediately-on-auto-complete t)
-#+END_SRC
-
-Also, I like to customize a bit the looks of the pop-up menu
-
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
-(set-face-attribute 'popup-tip-face nil 
-    :foreground "#c0c5ce"
-    :background "#4f5b66")
+(use-package auto-complete-config
+  :ensure auto-complete
+  :config
+  (progn 
+    (ac-config-default)
+    (setq ac-show-menu-immediately-on-auto-complete t)
+    (set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
+    (set-face-attribute 'popup-tip-face nil 
+			:foreground "#c0c5ce"
+			:background "#4f5b66")))
 #+END_SRC
 
 ** ~smartparens~
@@ -712,9 +710,9 @@ Also, I like to customize a bit the looks of the pop-up menu
 Auto-close parenthesis and other characters. Useful as it seems.
 
 #+BEGIN_SRC emacs-lisp
-(require 'smartparens)
-(require 'smartparens-config)
-(add-hook 'prog-mode-hook #'smartparens-mode)
+(use-package smartparens
+  :ensure t
+  :config (add-hook 'prog-mode-hook #'smartparens-mode))
 #+END_SRC
 
 ** ~expand-region~
@@ -723,8 +721,9 @@ Expand region allows to select hierarchically different text regions. It is, in
 a way, a replacement for vim text objects.
 
 #+BEGIN_SRC emacs-lisp
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
 ** Bind ~shell~
@@ -773,8 +772,9 @@ This tool allows us to edit all variable names at once just by entering a
 single keystroke.
 
 #+BEGIN_SRC emacs-lisp
-(require 'iedit)
-(global-set-key (kbd "C-c i") 'iedit-mode)
+(use-package iedit
+  :ensure t
+  :bind (("C-c i" . iedit-mode)))
 #+END_SRC
 
 ** ~easy-escape~
@@ -782,13 +782,16 @@ single keystroke.
 Makes Lisp regular expressions more readable.
 
 #+BEGIN_SRC emacs-lisp
-(require 'easy-escape)
-(add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
-(add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
-(base16-set-faces
-   'base16-oceanicnext
-   base16-oceanicnext-colors
-     '((easy-escape-face :foreground base08)))
+(use-package easy-escape
+  :ensure t
+  :config 
+  (progn
+    (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
+    (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
+    (base16-set-faces
+     'base16-oceanicnext
+     base16-oceanicnext-colors
+     '((easy-escape-face :foreground base08)))))
 #+END_SRC
 
 ** ~undo-tree~
@@ -797,8 +800,9 @@ This awesome package enables a gret undo-redo system that includes creating new
 undo-redo branches. It's really amazing.
 
 #+BEGIN_SRC emacs-lisp
-(require 'undo-tree)
-(global-undo-tree-mode)
+(use-package undo-tree
+  :ensure t
+  :config (global-undo-tree-mode))
 #+END_SRC
 
 ** ~yasnippets~
@@ -807,9 +811,13 @@ This package is a template and snippet system for Emacs, inspired by the syntax
 of TextMate.
 
 #+BEGIN_SRC emacs-lisp
-(require 'yasnippet)
-(add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
-(yas-global-mode 1)
+(use-package yasnippet
+  :ensure t
+  :config 
+  (progn 
+    (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
+    (yas-global-mode 1)
+    (advice-add 'yas--auto-fill-wrapper :override #'ignore)))
 #+END_SRC
 
 In the ~/snippets~ folder in this repository you can see my snippets
