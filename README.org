@@ -1135,9 +1135,9 @@ While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A
 this package that allows a better behavior of ~RET~ in ~org-mode~. 
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-autolist)
-
-(add-hook 'org-mode-hook (lambda () (org-autolist-mode)))
+(use-package org-autolist
+  :ensure t
+  :config (add-hook 'org-mode-hook (lambda () (org-autolist-mode))))
 #+END_SRC
 
 *** Formatting functions
@@ -1194,10 +1194,13 @@ Enable ~org-bullets~ to make it clearer. Also, the defaults are maybe
 a bit too much for me, so edit them.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq org-bullets-bullet-list
-        '("◉" "◎" "○" "○" "○" "○"))
+(use-package org-bullets
+  :ensure t
+  :config
+  (progn
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+    (setq org-bullets-bullet-list
+	  '("◉" "◎" "○" "○" "○" "○"))))
 #+END_SRC
 
 *** Custom ellipsis
@@ -1231,12 +1234,24 @@ We require the packages and set the default for the bibliography notes, the
 main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-ref)
-(require 'org-ref-pdf)
-(require 'org-ref-url-utils)
-(setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
-      org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
-      org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs")
+(use-package org-ref-pdf
+  :ensure t)
+
+(use-package org-ref-url-utils
+  :ensure t)
+
+(use-package org-ref
+  :ensure t
+  :config 
+  (progn
+    (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
+	  org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
+	  org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
+	  org-latex-pdf-process
+	  '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	    "bibtex %b"
+	    "pdflatex -interaction nonstopmode -output-directory %o %f"
+	    "pdflatex -interaction nonstopmode -output-directory %o %f"))))
 #+END_SRC 
 
 We also make sure to create the directory if it does not exist
@@ -1246,18 +1261,6 @@ We also make sure to create the directory if it does not exist
   (make-directory org-ref-pdf-directory t))
 #+END_SRC
 
-*** Update the export process
-
-We have to take into account the Bibtex process for the references to
-work.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-latex-pdf-process
-      '("pdflatex -interaction nonstopmode -output-directory %o %f"
-	"bibtex %b"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"))
-#+END_SRC
 
 *** Set default key in Bibtex entries
 
@@ -1286,40 +1289,12 @@ it, we have to explicitly load it to ~babel~:
  '((ditaa . t)))
 #+END_SRC
 
-** ~org-wiki~
-  :PROPERTIES:
-  :tangle:   no
-  :END:      
-
-This packages allows us to control a wiki-like repository form ~org~. I use
-this package to store all the code templates, stencils, tricks that I use or
-come up with, so I can access them easily.
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/packages/org-wiki")
-(require 'org-wiki)
-(setq org-wiki-location "~/secret-sauce")
-(global-set-key (kbd "C-c w") 'org-wiki-index)
-#+END_SRC
-
-** ~org-recipes~
-  :PROPERTIES:
-  :tangle:   no
-  :END:      
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/packages/org-recipes")
-(require 'org-recipes)
-;; (org-recipes--build-source)
-(global-set-key (kbd "C-c s") 'org-recipes)
-#+END_SRC
-
 ** Beamer export
 
 We need to manually enable the export to Beamer option.
 
 #+BEGIN_SRC emacs-lisp
-(require 'ox-beamer)
+(use-package ox-beamer)
 #+END_SRC
 
 * Other Major Modes
