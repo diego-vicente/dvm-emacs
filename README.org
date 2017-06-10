@@ -461,6 +461,22 @@ less clutter normally. I also set the theme for the icons using
   :bind (("C-x d" . neotree)))
 #+END_SRC
 
+Below, you can see all the faces customizations I apply to ~neotree~ for better
+blending into the rest of my color scheme:
+
+#+BEGIN_SRC emacs-lisp
+(base16-set-faces
+     'base16-oceanicnext
+     base16-oceanicnext-colors
+     '(
+       (neo-dir-link-face    :foreground base0D)
+       (neo-banner-face      :foreground base09)
+       (neo-header-face      :foreground base04)
+       (neo-file-link-face   :foreground base06)
+       (neo-root-dir-face    :foreground base0E)
+))
+#+END_SRC
+
 ** ~ido~
 
 ~ido~ enables some fuzzy finders in different commands like ~find-file~ or
