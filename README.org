@@ -570,7 +570,8 @@ perspectives automatically integrating them with each project. To configure it:
 (use-package perspective
   :ensure t
   :config 
-  (require 'persp-projectile)
+  (use-package persp-projectile
+    :ensure t)
   (set-face-attribute 'persp-selected-face nil
 		      :foreground (plist-get base16-oceanicnext-colors :base0D))
   :bind (("C-c p n" . persp-next)
@@ -1034,11 +1035,11 @@ We require the packages and set the default for the bibliography notes, the
 main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-ref-pdf
-  :ensure t)
+;; (use-package org-ref-pdf
+;;   :ensure t)
 
-(use-package org-ref-url-utils
-  :ensure t)
+;; (use-package org-ref-url-utils
+;;   :ensure t)
 
 (use-package org-ref
   :ensure t
@@ -1060,7 +1061,6 @@ We also make sure to create the directory if it does not exist
 (unless (file-exists-p org-ref-pdf-directory)
   (make-directory org-ref-pdf-directory t))
 #+END_SRC
-
 
 *** Set default key in Bibtex entries
 
