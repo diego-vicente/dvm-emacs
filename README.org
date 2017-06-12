@@ -257,7 +257,9 @@ weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen. However, lately I have really been into Liberation Mono.
 
 #+BEGIN_SRC emacs-lisp
-(set-default-font "Liberation Mono 13" t t)
+(if (string= system-name "chip")
+    (set-default-font "Liberation Mono 8" t t)
+(set-default-font "Liberation Mono 13" t t))
 #+END_SRC
 
 ** Setting my favorite theme
