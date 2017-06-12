@@ -569,16 +569,15 @@ perspectives automatically integrating them with each project. To configure it:
 #+BEGIN_SRC emacs-lisp
 (use-package perspective
   :ensure t
-  :config (persp-mode))
-
-(use-package persp-projectile
-  :ensure t
+  :config 
+  (require 'persp-projectile)
+  (set-face-attribute 'persp-selected-face nil
+		      :foreground (plist-get base16-oceanicnext-colors :base0D))
   :bind (("C-c p n" . persp-next)
 	 ("C-c p k" . kill-current-perspective)
 	 :map projectile-mode-map))
 
-(set-face-attribute 'persp-selected-face nil
-		    :foreground (plist-get base16-oceanicnext-colors :base0D))
+(persp-mode)
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
@@ -800,195 +799,15 @@ of the folder in the collection) and their keys can be expanded using ~TAB~.
 * Programming Modes
 ** Python
 
-This Python config is inspired from [[https://www.youtube.com/watch?v=6BlTGPsjGJk][the talk given by Drew Werner]]. With this
-setup, we want to have these features:
-- Easy navigation through function definitions.
-- Contextual documentation.
-- Inline help for function calls.
-
-*** Basic ~jedi~ setup
-
-This snippet sets some variable that we are going to need to use ~jedi~
-properly, specially variables that will 
+This configuration basically uses ~jedi~, which has to be not customized a lot.
 
 #+BEGIN_SRC emacs-lisp
-(defvar jedi-config:use-system-python nil
-  "Will use system python and active environment for Jedi server.
-May be necessary for some GUI environments (e.g., Mac OS X)")
-
-(defvar jedi-config:with-virtualenv nil
-  "Set to non-nil to point to a particular virtualenv.")
-
-(defvar jedi-config:vcs-root-sentinel ".git")
-
-(defvar jedi-config:python-module-sentinel "__init__.py")
-#+END_SRC
-
-*** Create a setup in the Python hook
-
-All this setup from here is bounded to a hook, so keep that in mind if you
-scrap parts of it.
-
-#+BEGIN_SRC emacs-lisp
-(add-hook
- 'after-init-hook
- '(lambda ()
-
-    ;; Jedi
-    (require 'jedi)
-#+END_SRC
-
-*** Define the functions to get the root of a project
-
-For setting up the auto-completion and context-sensitive suggestions, we need a
-way to get the root of a project. The functions defined below to exactly
-this, using the variables set before.
-
-#+BEGIN_SRC emacs-lisp
-    (defun get-project-root-with-file (buf repo-file &optional init-file)
-      "Guesses that the python root is the less 'deep' of either:
-         -- the root directory of the repository, or
-         -- the directory before the first directory after the root
-            having the init-file file (e.g., '__init__.py'."
-
-      ;; make list of directories from root, removing empty
-      (defun make-dir-list (path)
-        (delq nil (mapcar (lambda (x) (and (not (string= x "")) x))
-                          (split-string path "/"))))
-      ;; convert a list of directories to a path starting at "/"
-      (defun dir-list-to-path (dirs)
-        (mapconcat 'identity (cons "" dirs) "/"))
-      ;; a little something to try to find the "best" root directory
-      (defun try-find-best-root (base-dir buffer-dir current)
-        (cond
-         (base-dir ;; traverse until we reach the base
-          (try-find-best-root (cdr base-dir) (cdr buffer-dir)
-                              (append current (list (car buffer-dir)))))
-
-         (buffer-dir ;; try until we hit the current directory
-          (let* ((next-dir (append current (list (car buffer-dir))))
-                 (file-file (concat (dir-list-to-path next-dir) "/" init-file)))
-            (if (file-exists-p file-file)
-                (dir-list-to-path current)
-              (try-find-best-root nil (cdr buffer-dir) next-dir))))
-
-         (t nil)))
-
-      (let* ((buffer-dir (expand-file-name (file-name-directory (buffer-file-name buf))))
-             (vc-root-dir (vc-find-root buffer-dir repo-file)))
-        (if (and init-file vc-root-dir)
-            (try-find-best-root
-             (make-dir-list (expand-file-name vc-root-dir))
-             (make-dir-list buffer-dir)
-             '())
-          vc-root-dir))) ;; default to vc root if init file not given
-
-    ;; Set this variable to find project root
-    (defvar jedi-config:find-root-function 'get-project-root-with-file)
-
-    (defun current-buffer-project-root ()
-      (funcall jedi-config:find-root-function
-               (current-buffer)
-               jedi-config:vcs-root-sentinel
-               jedi-config:python-module-sentinel))
-#+END_SRC
-
-*** Setting up the server args
-
-To launch the server, we set some variables for it. In this snippet, we can
-find how to set the root of the project (we will use the functions we just
-defined) and which ~virtualenv~ to use.
-
-#+BEGIN_SRC emacs-lisp
-    (defun jedi-config:setup-server-args ()
-      ;; little helper macro for building the arglist
-      (defmacro add-args (arg-list arg-name arg-value)
-        `(setq ,arg-list (append ,arg-list (list ,arg-name ,arg-value))))
-      ;; and now define the args
-      (let ((project-root (current-buffer-project-root)))
-
-        (make-local-variable 'jedi:server-args)
-
-        (when project-root
-          (message (format "Adding system path: %s" project-root))
-          (add-args jedi:server-args "--sys-path" project-root))
-
-        (when jedi-config:with-virtualenv
-          (message (format "Adding virtualenv: %s" jedi-config:with-virtualenv))
-          (add-args jedi:server-args "--virtual-env" jedi-config:with-virtualenv))))
-#+END_SRC
-
-*** Set the Python executable
-
-I particularly have it set to Python 3.
-
-#+BEGIN_SRC emacs-lisp
-    ;; Use system python
-    (defun jedi-config:set-python-executable ()
-      (set-exec-path-from-shell-PATH)
-      (make-local-variable 'jedi:server-command)
-      (set 'jedi:server-command
-           (list (executable-find "python3") ;; may need help if running from GUI
-                 (cadr default-jedi-server-command))))
-#+END_SRC
-
-*** Set the hooks for the mode
-
-We need to set the ~auto-complete~ hook to fing the ~jedi~ backend, hook the
-~jedi~ setup to Python and define the buffer specific variables in each of
-them. 
-
-#+BEGIN_SRC emacs-lisp
-    ;; Now hook everything up
-    ;; Hook up to autocomplete
-    (add-to-list 'ac-sources 'ac-source-jedi-direct)
-
-    ;; Enable Jedi setup on mode start
-    (add-hook 'python-mode-hook 'jedi:setup)
-
-    ;; Buffer-specific server options
-    (add-hook 'python-mode-hook
-              'jedi-config:setup-server-args)
-    (when jedi-config:use-system-python
-      (add-hook 'python-mode-hook
-                'jedi-config:set-python-executable))
-#+END_SRC
-
-*** Personal setup of the mode
-
-Last, define a couple of keybindings and make ~jedi~ suggest completion after
-typing.
-
-#+BEGIN_SRC emacs-lisp
-    ;; And custom keybindings
-    (defun jedi-config:setup-keys ()
-      (local-set-key (kbd "M-.") 'jedi:goto-definition)
-      (local-set-key (kbd "M-,") 'jedi:goto-definition-pop-marker)
-      (local-set-key (kbd "M-?") 'jedi:show-doc)
-      (local-set-key (kbd "M-/") 'jedi:get-in-function-call))
-
-    ;; Don't let tooltip show up automatically
-    ;; (setq jedi:get-in-function-call-delay 10000000)
-    ;; Start completion at method dot
-    (setq jedi:complete-on-dot t
-	  python-shell-interpreter "python3")
-    ;; Use custom keybinds
-    (add-hook 'python-mode-hook 'jedi-config:setup-keys)
-
-    (setq python-shell-interpreter "ipython"
-	  python-shell-interpreter-args (if (system-is-mac)
-					    "--matplotlib=osx --colors=Linux"
-					  (if (system-is-linux)
-					      "--gui=wx --matplotlib=wx --colors=Linux"))
-	  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-	  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-	  python-shell-completion-setup-code
-	    "from IPython.core.completerlib import module_completion"
-	  python-shell-completion-module-string-code
-	    "';'.join(module_completion('''%s'''))\n"
-	  python-shell-completion-string-code
-	    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-))
+(use-package jedi
+  :ensure t
+  :init
+  (setq py-python-command "/usr/bin/python3")
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:ac-setup))
 #+END_SRC
 
 ** Haskell
@@ -1182,6 +1001,15 @@ prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-ellipsis " ⤵")
+#+END_SRC
+
+*** Pretty symbols
+
+This setting will make subscripts (~x_{subscript}~) and superscripts
+(~x^{superscript}~) appear in ~org~ in a WYSIWYG fashion.
+
+#+BEGIN_SRC emacs-lisp
+(setq-default org-pretty-entities t)
 #+END_SRC
 
 ** Spell checking
