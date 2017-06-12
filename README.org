@@ -195,6 +195,10 @@ To know in which system we are running, I use these functions:
 (defun system-is-linux ()
   (interactive)
   (string-equal system-type "gnu/linux"))
+
+(defun system-is-chip ()
+  (interactive)
+  (string-equal system-name "chip"))
 #+END_SRC
 
 ** Define keybindings to ~eval-buffer~ on init and open ~README.org~
@@ -250,6 +254,17 @@ clutter.
 (scroll-bar-mode -1)
 #+END_SRC
 
+** Start in full-screen
+
+If we are running on Mac, this snippet launches the native fullscreen; if not
+it just maximizes the first frame we create.
+
+#+BEGIN_SRC emacs-lisp
+(if (system-is-mac)
+    (set-frame-parameter nil 'fullscreen 'fullboth)
+  (setq initial-frame-alist '((fullscreen . maximized))))
+#+END_SRC
+
 ** Setting default font
 
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
@@ -257,7 +272,7 @@ weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen. However, lately I have really been into Liberation Mono.
 
 #+BEGIN_SRC emacs-lisp
-(if (string= system-name "chip")
+(if (system-is-chip)
     (set-default-font "Liberation Mono 8" t t)
 (set-default-font "Liberation Mono 13" t t))
 #+END_SRC
