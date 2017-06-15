@@ -817,15 +817,14 @@ of the folder in the collection) and their keys can be expanded using ~TAB~.
 * Programming Modes
 ** Python
 
-This configuration basically uses ~jedi~, which has to be not customized a lot.
-
 #+BEGIN_SRC emacs-lisp
-(use-package jedi
+(use-package elpy
   :ensure t
-  :init
-  (setq py-python-command "/usr/bin/python3")
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (add-hook 'python-mode-hook 'jedi:ac-setup))
+  :config 
+  (elpy-enable)
+  (elpy-use-ipython)
+  (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
+  (setq python-shell-interpreter-args "--simple-prompt -i"))
 #+END_SRC
 
 ** Haskell
