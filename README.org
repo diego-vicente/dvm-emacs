@@ -597,6 +597,8 @@ perspectives automatically integrating them with each project. To configure it:
 	 :map projectile-mode-map))
 
 (persp-mode)
+;; Not working with use-package :bind configuration
+(define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
