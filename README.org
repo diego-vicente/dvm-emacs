@@ -144,9 +144,9 @@ package, and use these key bindings.
 (use-package buffer-move
   :ensure t
   :bind (("C-x w <up>"    . buf-move-up)
-	 ("C-x w <down>"  . buf-move-down)
-	 ("C-x w <left>"  . buf-move-left)
-	 ("C-x w <right>" . buf-move-right)))
+         ("C-x w <down>"  . buf-move-down)
+         ("C-x w <left>"  . buf-move-left)
+         ("C-x w <right>" . buf-move-right)))
 #+END_SRC
 
 ** Redefining sentences in Emacs
@@ -328,20 +328,20 @@ adding a single white-space below the fringe, which helps when rendering.
     ;; Format the line string
     (setq-default mode-line-format
       '(" %e"
-	mode-line-front-space
-	mode-line-mule-info
-	mode-line-client
-	mode-line-modified
-	mode-line-remote
-	mode-line-frame-identification
-	mode-line-buffer-identification
-	sml/pos-id-separator
-	mode-line-position
-	(vc-mode vc-mode)
-	sml/pre-modes-separator
-	mode-line-modes
-	mode-line-misc-info
-	mode-line-end-spaces))
+        mode-line-front-space
+        mode-line-mule-info
+        mode-line-client
+        mode-line-modified
+        mode-line-remote
+        mode-line-frame-identification
+        mode-line-buffer-identification
+        sml/pos-id-separator
+        mode-line-position
+        (vc-mode vc-mode)
+        sml/pre-modes-separator
+        mode-line-modes
+        mode-line-misc-info
+        mode-line-end-spaces))
     ;; Colors and aesthetics
     (set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
     (set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
@@ -350,27 +350,27 @@ adding a single white-space below the fringe, which helps when rendering.
      base16-oceanicnext-colors
      '(
        (mode-line-inactive   :background base01
-			     :box (:line-width 4
-					       :color base01
-					       :style nil))
+                             :box (:line-width 4
+                                               :color base01
+                                               :style nil))
        (sml/global           :foreground base07)
        (sml/filename         :foreground base0A)
        (sml/prefix           :foreground base09)
        (sml/git              :foreground base0D)
        (sml/modified         :foreground base08)
        (sml/outside-modified :background base07
-			     :foreground base08)
+                             :foreground base08)
        (mode-line            :background base02
-			     :box (:line-width 4
-					       :color base02
-					       :style nil))))
+                             :box (:line-width 4
+                                               :color base02
+                                               :style nil))))
     ;; Shorthands and column number
     (column-number-mode 1)
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
     (add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/"
-					     ":BIB:" ))
+                                             ":BIB:" ))
     ))
 #+END_SRC
 
@@ -418,11 +418,11 @@ character. This is actually needed for ~rich-minority~ to find the mode
 
 #+BEGIN_SRC emacs-lisp
 (setq rm-blacklist (mapconcat 'identity
-			      '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
-				" ARev" " Helm" " SP" " AC" " Fly"
-				" Projectile.+" " Intero" " yas" " ||"
-				" Elpy")
-			      "\\|"))
+                              '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
+                                " ARev" " Helm" " SP" " AC" " Fly"
+                                " Projectile.+" " Intero" " yas" " ||"
+                                " Elpy")
+                              "\\|"))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -536,8 +536,8 @@ commands without keybindings on a certain mode.
 (use-package smex
   :ensure t
   :bind (("M-x" . smex)
-	 ("M-X" . smex-major-mode-commands)
-	 ("C-c C-c M-x" . execute-extended-command)))
+         ("M-X" . smex-major-mode-commands)
+         ("C-c C-c M-x" . execute-extended-command)))
 #+END_SRC
 
 ** ~helm~
@@ -575,7 +575,7 @@ project.
   :ensure t
   :config
   (progn (projectile-global-mode 1)
-	 (setq projectile-use-git-grep t)))
+         (setq projectile-use-git-grep t)))
 #+END_SRC
 
 ** ~perspective~
@@ -591,10 +591,10 @@ perspectives automatically integrating them with each project. To configure it:
   (use-package persp-projectile
     :ensure t)
   (set-face-attribute 'persp-selected-face nil
-		      :foreground (plist-get base16-oceanicnext-colors :base0D))
+                      :foreground (plist-get base16-oceanicnext-colors :base0D))
   :bind (("C-c p n" . persp-next)
-	 ("C-c p k" . kill-current-perspective)
-	 :map projectile-mode-map))
+         ("C-c p k" . kill-current-perspective)
+         :map projectile-mode-map))
 
 (persp-mode)
 ;; Not working with use-package :bind configuration
@@ -649,7 +649,7 @@ example, LaTeX or ~org-mode~ one) we need the last hook message.
   :config
   (progn
     (setq ispell-program-name "aspell"
-	  ispell-dictionary "english")
+          ispell-dictionary "english")
     (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))))
 #+END_SRC
 
@@ -693,8 +693,8 @@ like to customize a bit the looks of the pop-up menu
     (setq ac-show-menu-immediately-on-auto-complete t)
     (set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
     (set-face-attribute 'popup-tip-face nil
-			:foreground "#c0c5ce"
-			:background "#4f5b66")))
+                        :foreground "#c0c5ce"
+                        :background "#4f5b66")))
 #+END_SRC
 
 ** ~smartparens~
@@ -735,27 +735,27 @@ posted in Reddit.
 #+BEGIN_SRC emacs-lisp
 (setq eshell-prompt-function
       (lambda ()
-	(let ((blue (plist-get base16-oceanicnext-colors :base0D))
-	      (purple (plist-get base16-oceanicnext-colors :base0E))
-	      (cyan (plist-get base16-oceanicnext-colors :base0C))
-	      (yellow (plist-get base16-oceanicnext-colors :base0D))
-	      (orange (plist-get base16-oceanicnext-colors :base09))
-	      (grey (plist-get base16-oceanicnext-colors :base05)))
-	  (concat
-	   (propertize "┌─[" 'face '(:foreground blue))
-	   (propertize (user-login-name) 'face '(:foreground purple))
-	   (propertize "@" 'face '(:foreground blue))
-	   (propertize (system-name) 'face '(:foreground cyan))
-	   (propertize "]──[" 'face '(:foreground blue))
-	   (propertize (format-time-string "%H:%M" (current-time))
-		       'face '(:foreground grey))
-	   (propertize "]──[" 'face '(:foreground blue))
-	   (propertize (concat (eshell/pwd)) 'face '(:foreground orange))
-	   (propertize "]\n" 'face '(:foreground blue))
-	   (propertize "└─>" 'face '(:foreground blue))
-	   (propertize (if (= (user-uid) 0) " # " " $ ")
-		       'face '(:foreground blue))
-	   ))))
+        (let ((blue (plist-get base16-oceanicnext-colors :base0D))
+              (purple (plist-get base16-oceanicnext-colors :base0E))
+              (cyan (plist-get base16-oceanicnext-colors :base0C))
+              (yellow (plist-get base16-oceanicnext-colors :base0D))
+              (orange (plist-get base16-oceanicnext-colors :base09))
+              (grey (plist-get base16-oceanicnext-colors :base05)))
+          (concat
+           (propertize "┌─[" 'face '(:foreground blue))
+           (propertize (user-login-name) 'face '(:foreground purple))
+           (propertize "@" 'face '(:foreground blue))
+           (propertize (system-name) 'face '(:foreground cyan))
+           (propertize "]──[" 'face '(:foreground blue))
+           (propertize (format-time-string "%H:%M" (current-time))
+                       'face '(:foreground grey))
+           (propertize "]──[" 'face '(:foreground blue))
+           (propertize (concat (eshell/pwd)) 'face '(:foreground orange))
+           (propertize "]\n" 'face '(:foreground blue))
+           (propertize "└─>" 'face '(:foreground blue))
+           (propertize (if (= (user-uid) 0) " # " " $ ")
+                       'face '(:foreground blue))
+           ))))
 #+END_SRC
 
 ** ~iedit~
@@ -918,11 +918,11 @@ LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
 (add-to-list 'org-latex-default-packages-alist '("" "natbib" "") t)
 (add-to-list 'org-latex-default-packages-alist
-	     '("linktocpage,pdfstartview=FitH,colorlinks,
+             '("linktocpage,pdfstartview=FitH,colorlinks,
 linkcolor=blue,anchorcolor=blue,
 citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
-	       "hyperref" nil)
-	     t)
+               "hyperref" nil)
+             t)
 #+END_SRC
 
 *** Native ~TAB~ in source blocks
@@ -993,10 +993,10 @@ the text with the different signs.
 
 
 (add-hook 'org-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c f b") 'org-mode-format-bold)
-	    (local-set-key (kbd "C-c f i") 'org-mode-format-italics)
-	    (local-set-key (kbd "C-c f m") 'org-mode-format-tt)))
+          (lambda ()
+            (local-set-key (kbd "C-c f b") 'org-mode-format-bold)
+            (local-set-key (kbd "C-c f i") 'org-mode-format-italics)
+            (local-set-key (kbd "C-c f m") 'org-mode-format-tt)))
 #+END_SRC
 
 *** Keybinding for ~org-agenda~
@@ -1029,7 +1029,7 @@ a bit too much for me, so edit them.
   (progn
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
     (setq org-bullets-bullet-list
-	  '("◉" "◎" "○" "○" "○" "○"))))
+          '("◉" "◎" "○" "○" "○" "○"))))
 #+END_SRC
 
 *** Custom ellipsis
@@ -1083,13 +1083,13 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
   :config
   (progn
     (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
-	  org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
-	  org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
-	  org-latex-pdf-process
-	  '("pdflatex -interaction nonstopmode -output-directory %o %f"
-	    "bibtex %b"
-	    "pdflatex -interaction nonstopmode -output-directory %o %f"
-	    "pdflatex -interaction nonstopmode -output-directory %o %f"))))
+          org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
+          org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
+          org-latex-pdf-process
+          '("pdflatex -interaction nonstopmode -output-directory %o %f"
+            "bibtex %b"
+            "pdflatex -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -interaction nonstopmode -output-directory %o %f"))))
 #+END_SRC
 
 We also make sure to create the directory if it does not exist
