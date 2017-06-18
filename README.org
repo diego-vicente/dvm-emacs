@@ -132,7 +132,7 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
     (newline-and-indent)))
 
 (global-set-key (kbd "C-o") 'insert-new-line-below)
-#+END_SRC 
+#+END_SRC
 
 ** Move buffers around
 
@@ -147,7 +147,7 @@ package, and use these key bindings.
 	 ("C-x w <down>"  . buf-move-down)
 	 ("C-x w <left>"  . buf-move-left)
 	 ("C-x w <right>" . buf-move-right)))
-#+END_SRC 
+#+END_SRC
 
 ** Redefining sentences in Emacs
 
@@ -157,7 +157,7 @@ text, but Emacs assumes that you always end sentences using a period and /two/
 whitespaces, which... I actually don't. We can override this behavior with:
 
 #+BEGIN_SRC emacs-lisp
-(setq-default sentence-end-double-space nil)  
+(setq-default sentence-end-double-space nil)
 #+END_SRC
 
 ** Auto-fill comments
@@ -227,7 +227,7 @@ better idea to define a new keybinding that automatically reloads that buffer.
 
 It is really annoying to not have the last part of the output in the screen
 when compiling. This automatically scrolls the buffer for you as the output is
-printed. 
+printed.
 
 #+BEGIN_SRC emacs-lisp
 (setq compilation-scroll-output t)
@@ -319,8 +319,8 @@ adding a single white-space below the fringe, which helps when rendering.
 #+BEGIN_SRC emacs-lisp
 (use-package smart-mode-line
   :ensure t
-  :config 
-  (progn 
+  :config
+  (progn
     ;; Basic
     (setq sml/theme nil)
     (sml/setup)
@@ -349,7 +349,7 @@ adding a single white-space below the fringe, which helps when rendering.
      'base16-oceanicnext
      base16-oceanicnext-colors
      '(
-       (mode-line-inactive   :background base01 
+       (mode-line-inactive   :background base01
 			     :box (:line-width 4
 					       :color base01
 					       :style nil))
@@ -360,7 +360,7 @@ adding a single white-space below the fringe, which helps when rendering.
        (sml/modified         :foreground base08)
        (sml/outside-modified :background base07
 			     :foreground base08)
-       (mode-line            :background base02 
+       (mode-line            :background base02
 			     :box (:line-width 4
 					       :color base02
 					       :style nil))))
@@ -383,7 +383,7 @@ aggressive.
 #+BEGIN_SRC emacs-lisp
 (use-package cyphejor
   :ensure t
-  :config 
+  :config
   (progn
     (setq
      cyphejor-rules
@@ -417,10 +417,10 @@ important, notice that all modes include a whitespace as the first
 character. This is actually needed for ~rich-minority~ to find the mode
 
 #+BEGIN_SRC emacs-lisp
-(setq rm-blacklist (mapconcat 'identity 
-			      '(" GitGutter" " Fill" " Autolist" " Undo-Tree" 
+(setq rm-blacklist (mapconcat 'identity
+			      '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
 				" ARev" " Helm" " SP" " AC" " Fly"
-				" Projectile.+" " Intero" " yas" " ||" 
+				" Projectile.+" " Intero" " yas" " ||"
 				" Elpy")
 			      "\\|"))
 #+END_SRC
@@ -505,7 +505,7 @@ everywhere.
 #+BEGIN_SRC emacs-lisp
 (use-package ido
   :ensure t
-  :config 
+  :config
   (progn
     (setq ido-enable-flex-matching t
       ido-enable-dot-prefix t
@@ -516,12 +516,12 @@ everywhere.
 
 Also, I feel it's much easier to understand what's going on when the options
 are displayed in a vertical list. The cleanest way to achieve this is using a
-package. 
+package.
 
 #+BEGIN_SRC emacs-lisp
 (use-package ido-vertical-mode
   :ensure t
-  :config 
+  :config
   (progn
     (setq ido-vertical-define-keys 'C-n-C-p-up-and-down
           ido-vertical-show-count t)
@@ -568,7 +568,7 @@ also binds the status function to ~C-x g~.
 Enables different tools and functions to deal with files related to a
 project. To work, it searches for a VCS and sets it as the root of a project. I
 have it configured to ignore all files that has not been staged in the git
-project. 
+project.
 
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
@@ -587,7 +587,7 @@ perspectives automatically integrating them with each project. To configure it:
 #+BEGIN_SRC emacs-lisp
 (use-package perspective
   :ensure t
-  :config 
+  :config
   (use-package persp-projectile
     :ensure t)
   (set-face-attribute 'persp-selected-face nil
@@ -646,7 +646,7 @@ example, LaTeX or ~org-mode~ one) we need the last hook message.
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
   :ensure t
-  :config 
+  :config
   (progn
     (setq ispell-program-name "aspell"
 	  ispell-dictionary "english")
@@ -659,7 +659,7 @@ dictionaries preinstalled to suit my needs. Later in the configurations, hooks
 are added to each of the major-modes where I want ~flyspell~ to work.
 
 And this function prevents the spell checker to get inside source blocks in
-~org~. 
+~org~.
 
 #+BEGIN_SRC emacs-lisp
 (defadvice org-mode-flyspell-verify (after org-mode-flyspell-verify-hack activate)
@@ -688,11 +688,11 @@ like to customize a bit the looks of the pop-up menu
 (use-package auto-complete-config
   :ensure auto-complete
   :config
-  (progn 
+  (progn
     (ac-config-default)
     (setq ac-show-menu-immediately-on-auto-complete t)
     (set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
-    (set-face-attribute 'popup-tip-face nil 
+    (set-face-attribute 'popup-tip-face nil
 			:foreground "#c0c5ce"
 			:background "#4f5b66")))
 #+END_SRC
@@ -776,7 +776,7 @@ Makes Lisp regular expressions more readable.
 #+BEGIN_SRC emacs-lisp
 (use-package easy-escape
   :ensure t
-  :config 
+  :config
   (progn
     (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
     (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
@@ -805,8 +805,8 @@ of TextMate.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :ensure t
-  :config 
-  (progn 
+  :config
+  (progn
     (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
     (yas-global-mode 1)
     (advice-add 'yas--auto-fill-wrapper :override #'ignore)))
@@ -817,13 +817,31 @@ collection. A good guide to understand the syntax used is in [[https://joaotavor
 YASnippet]]. All the snippets are local to a certain mode (delimited by the name
 of the folder in the collection) and their keys can be expanded using ~TAB~.
 
+* My own Emacs-Lisp functions
+** Clean the buffer
+
+This function cleans the buffer from trailing whitespaces, more than two
+consecutive new lines and tabs.
+
+#+BEGIN_SRC emacs-lisp
+(defun my-clean-buffer ()
+  "Cleans the buffer by re-indenting, removing tabs and trailing whitespace."
+  (interactive)
+  (delete-trailing-whitespace)
+  (save-excursion
+    (replace-regexp "^\n\\{3,\\}" "\n\n" nil (point-min) (point-max)))
+  (untabify (point-min) (point-max)))
+
+(global-set-key (kbd "C-c x") 'my-clean-buffer)
+#+END_SRC
+
 * Programming Modes
 ** Python
 
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
-  :config 
+  :config
   (elpy-enable)
   (elpy-use-ipython)
   (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
@@ -860,7 +878,7 @@ requires them.
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
 ;(setq TeX-PDF-mode t)
-#+END_SRC 
+#+END_SRC
 
 *** Enable ~flyspell~ in Tex edition
 
@@ -910,7 +928,7 @@ citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
 *** Native ~TAB~ in source blocks
 
 This option makes ~TAB~ work as if the keystroke was issued in the code's major
-mode. 
+mode.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-src-tab-acts-natively t)
@@ -943,7 +961,7 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
 *** Better RET
 
 While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][the Kitchin Research Group website]], I stumbled into
-this package that allows a better behavior of ~RET~ in ~org-mode~. 
+this package that allows a better behavior of ~RET~ in ~org-mode~.
 
 #+BEGIN_SRC emacs-lisp
 (use-package org-autolist
@@ -975,7 +993,7 @@ the text with the different signs.
 
 
 (add-hook 'org-mode-hook
-	  (lambda () 
+	  (lambda ()
 	    (local-set-key (kbd "C-c f b") 'org-mode-format-bold)
 	    (local-set-key (kbd "C-c f i") 'org-mode-format-italics)
 	    (local-set-key (kbd "C-c f m") 'org-mode-format-tt)))
@@ -1062,7 +1080,7 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
 (use-package org-ref
   :ensure t
-  :config 
+  :config
   (progn
     (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
 	  org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
@@ -1072,7 +1090,7 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 	    "bibtex %b"
 	    "pdflatex -interaction nonstopmode -output-directory %o %f"
 	    "pdflatex -interaction nonstopmode -output-directory %o %f"))))
-#+END_SRC 
+#+END_SRC
 
 We also make sure to create the directory if it does not exist
 
@@ -1159,7 +1177,7 @@ setting an Android agent to prevent clutter.
 ;; (setq browse-url-browser-function 'w3m-goto-url-new-session)
 (setq w3m-set-cookies t)
 (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid
- Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile 
+ Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile
  Safari/533.")
 #+END_SRC
 
@@ -1179,7 +1197,7 @@ r/emacs the default one.
 #+BEGIN_SRC emacs-lisp
 (defun reddit (subreddit)
   "Opens the `subreddit' in w3m-new-session"
-  (interactive 
+  (interactive
    (list
     (read-string "Enter subreddit (default: r/emacs): " nil nil "emacs" nil)))
   (browse-url (format "http://m.reddit.com/r/%s" subreddit))
@@ -1188,4 +1206,3 @@ r/emacs the default one.
 
 
 TODO: In my current setup, the colors are incredibly aggressive.
-
