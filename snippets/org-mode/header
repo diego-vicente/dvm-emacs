@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Header
+# group: templates
+# key: <h
+# contributor: Diego Vicente
+# --
+#+TITLE:  ${1:title}
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  ${2:diegovicente@protonmail.com}
