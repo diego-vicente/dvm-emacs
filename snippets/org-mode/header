@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: Header
 # group: templates
-# key: <h
+# key: ?H
 # contributor: Diego Vicente
 # --
 #+TITLE:  ${1:title}
