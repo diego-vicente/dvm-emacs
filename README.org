@@ -241,6 +241,35 @@ Miscellaneous keybindings that don't really fit anywhere else.
 (global-set-key (kbd "C-c b") 'bookmark-jump)
 #+END_SRC
 
+* My own Emacs-Lisp functions
+** Clean the buffer
+
+This function cleans the buffer from trailing whitespaces, more than two
+consecutive new lines and tabs.
+
+#+BEGIN_SRC emacs-lisp
+(defun my-clean-buffer ()
+  "Cleans the buffer by re-indenting, removing tabs and trailing whitespace."
+  (interactive)
+  (delete-trailing-whitespace)
+  (save-excursion
+    (replace-regexp "^\n\\{3,\\}" "\n\n" nil (point-min) (point-max)))
+  (untabify (point-min) (point-max)))
+
+(global-set-key (kbd "C-c x") 'my-clean-buffer)
+#+END_SRC
+
+** Get colors from the theme
+
+This function access the theme variable to get the colors easily in case I have
+to use them in other customizations.
+
+#+BEGIN_SRC emacs-lisp
+(defun get-base16-color (base16-property)
+  "Get the color from OceanicNext theme list"
+  (plist-get base16-oceanicnext-colors base16-property))
+#+END_SRC
+
 * Graphical Interface
 ** Disabling GUI defaults
 
@@ -735,27 +764,30 @@ posted in Reddit.
 #+BEGIN_SRC emacs-lisp
 (setq eshell-prompt-function
       (lambda ()
-        (let ((blue (plist-get base16-oceanicnext-colors :base0D))
-              (purple (plist-get base16-oceanicnext-colors :base0E))
-              (cyan (plist-get base16-oceanicnext-colors :base0C))
-              (yellow (plist-get base16-oceanicnext-colors :base0D))
-              (orange (plist-get base16-oceanicnext-colors :base09))
-              (grey (plist-get base16-oceanicnext-colors :base05)))
           (concat
-           (propertize "┌─[" 'face '(:foreground blue))
-           (propertize (user-login-name) 'face '(:foreground purple))
-           (propertize "@" 'face '(:foreground blue))
-           (propertize (system-name) 'face '(:foreground cyan))
-           (propertize "]──[" 'face '(:foreground blue))
+           (propertize "┌─[" 
+		       'face '(:foreground (get-base16-color :base0D)))
+           (propertize (user-login-name) 
+		       'face '(:foreground (get-base16-color :base0E)))
+           (propertize "@" 
+		       'face '(:foreground (get-base16-color :base0D)))
+           (propertize (system-name) 
+		       'face '(:foreground (get-base16-color :base0C)))
+           (propertize "]──[" 
+		       'face '(:foreground (get-base16-color :base0D)))
            (propertize (format-time-string "%H:%M" (current-time))
-                       'face '(:foreground grey))
-           (propertize "]──[" 'face '(:foreground blue))
-           (propertize (concat (eshell/pwd)) 'face '(:foreground orange))
-           (propertize "]\n" 'face '(:foreground blue))
-           (propertize "└─>" 'face '(:foreground blue))
+                       'face '(:foreground (get-base16-color :base05)))
+           (propertize "]──[" 
+		       'face '(:foreground (get-base16-color :base0D)))
+           (propertize (concat (eshell/pwd)) 
+		       'face '(:foreground (get-base16-color :base09)))
+           (propertize "]\n" 
+		       'face '(:foreground (get-base16-color :base0D)))
+           (propertize "└─>" 
+		       'face '(:foreground (get-base16-color :base0D)))
            (propertize (if (= (user-uid) 0) " # " " $ ")
-                       'face '(:foreground blue))
-           ))))
+                       'face '(:foreground (get-base16-color :base0D)))
+           )))
 #+END_SRC
 
 ** ~iedit~
@@ -816,24 +848,6 @@ In the ~/snippets~ folder in this repository you can see my snippets
 collection. A good guide to understand the syntax used is in [[https://joaotavora.github.io/yasnippet/snippet-development.html][the manual for
 YASnippet]]. All the snippets are local to a certain mode (delimited by the name
 of the folder in the collection) and their keys can be expanded using ~TAB~.
-
-* My own Emacs-Lisp functions
-** Clean the buffer
-
-This function cleans the buffer from trailing whitespaces, more than two
-consecutive new lines and tabs.
-
-#+BEGIN_SRC emacs-lisp
-(defun my-clean-buffer ()
-  "Cleans the buffer by re-indenting, removing tabs and trailing whitespace."
-  (interactive)
-  (delete-trailing-whitespace)
-  (save-excursion
-    (replace-regexp "^\n\\{3,\\}" "\n\n" nil (point-min) (point-max)))
-  (untabify (point-min) (point-max)))
-
-(global-set-key (kbd "C-c x") 'my-clean-buffer)
-#+END_SRC
 
 * Programming Modes
 ** Python
