@@ -877,6 +877,21 @@ it to Haskell.
   :config (add-hook 'haskell-mode-hook 'intero-mode))
 #+END_SRC
 
+*** Disable soft wrapping in profiling files
+
+GHC generates ~.prof~ files, which sometimes tend to have really long lines. To
+make it easier to read them, I like to disable line truncation for that file
+extension. The problem is that, well, is not as straightforward as you may
+think...
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'find-file-hook
+		  (lambda ()
+			(when (and (stringp buffer-file-name)
+					   (string-match "\\.prof\\'" buffer-file-name))
+			  (toggle-truncate-lines))))
+#+END_SRC
+
 ** Go
 
 I am a complete noob in Go, and I have been trying to hack a bit with it
@@ -900,7 +915,7 @@ tabs in our code (sigh). So, at least, let's set its size to something that can
 be read (4 instead 8 characters long)
 
 #+BEGIN_SRC emacs-lisp
-(setq tab-width 4)
+(setq-default tab-width 4)
 #+END_SRC
 
 *** Calling ~go-fmt~ on save
