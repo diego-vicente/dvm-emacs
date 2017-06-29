@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: New use-package declaration for org
+# key: ?up
+# contributor: Diego Vicente
+# --
+#+BEGIN_SRC emacs-lisp
+(use-package ${1:package-name}
+  :ensure t
+  :config ${2:configuration})
+#+END_SRC
