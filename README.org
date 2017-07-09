@@ -308,16 +308,18 @@ in the screen. However, lately I have really been into Liberation Mono.
 
 ** Setting my favorite theme
 
-I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially
-Eighties. However, lately I am really enjoying Oceanic. They are
-available in MELPA. We also use the ~NO-CONFIRM~ flag when loading,
-since the file tangling probably makes the code be not in order for
-~custom-set-variables~ to do its job.
+I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially Eighties.
+However, lately I am really enjoying Gruvbox themes lately. They are available
+in MELPA. We also use the ~NO-CONFIRM~ flag when loading, since the file
+tangling probably makes the code be not in order for ~custom-set-variables~ to
+do its job.
 
 #+BEGIN_SRC emacs-lisp
 (use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'gruvbox-dark-medium t))
+  :config 
+  (load-theme 'gruvbox-dark-medium t)
+  (set-face-foreground 'shadow "#a89984"))
 #+END_SRC
 
 ** Setting the fringe color
