@@ -373,11 +373,9 @@ adding a single white-space below the fringe, which helps when rendering.
         mode-line-end-spaces))
     ;; Colors and aesthetics
     (set-face-attribute 'mode-line nil 
-						:box '(:line-width 5
-										   :color "#504945"))
+						:box '(:line-width 5 :color "#504945"))
     (set-face-attribute 'mode-line-inactive nil 
-						:box '(:line-width 5
-										   :color "#3c3836"))
+						:box '(:line-width 5 :color "#3c3836"))
     ;; Shorthands and column number
     (column-number-mode 1)
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
@@ -1105,6 +1103,7 @@ prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-ellipsis " ⤵")
+(set-face-attribute 'org-ellipsis nil :underline nil)
 #+END_SRC
 
 *** Pretty symbols
