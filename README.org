@@ -315,9 +315,9 @@ since the file tangling probably makes the code be not in order for
 ~custom-set-variables~ to do its job.
 
 #+BEGIN_SRC emacs-lisp
-(use-package base16-theme
+(use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'base16-oceanicnext t))
+  :config (load-theme 'gruvbox-dark-medium t))
 #+END_SRC
 
 ** Setting the fringe color
@@ -372,27 +372,12 @@ adding a single white-space below the fringe, which helps when rendering.
         mode-line-misc-info
         mode-line-end-spaces))
     ;; Colors and aesthetics
-    (set-face-attribute 'mode-line nil :box '(:line-width 5 :style nil))
-    (set-face-attribute 'mode-line-inactive nil :box '(:line-width 5 :style nil))
-    (base16-set-faces
-     'base16-oceanicnext
-     base16-oceanicnext-colors
-     '(
-       (mode-line-inactive   :background base01
-                             :box (:line-width 4
-                                               :color base01
-                                               :style nil))
-       (sml/global           :foreground base07)
-       (sml/filename         :foreground base0A)
-       (sml/prefix           :foreground base09)
-       (sml/git              :foreground base0D)
-       (sml/modified         :foreground base08)
-       (sml/outside-modified :background base07
-                             :foreground base08)
-       (mode-line            :background base02
-                             :box (:line-width 4
-                                               :color base02
-                                               :style nil))))
+    (set-face-attribute 'mode-line nil 
+						:box '(:line-width 5
+										   :color "#504945"))
+    (set-face-attribute 'mode-line-inactive nil 
+						:box '(:line-width 5
+										   :color "#3c3836"))
     ;; Shorthands and column number
     (column-number-mode 1)
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
@@ -476,10 +461,6 @@ snippet!
 
 #+BEGIN_SRC emacs-lisp
 (setq-default cursor-type 'bar)
-(base16-set-faces
-   'base16-oceanicnext
-   base16-oceanicnext-colors
-     '((cursor :background base09)))
 #+END_SRC
 
 ** Adding icons with ~all-the-icons~
@@ -506,22 +487,6 @@ less clutter normally. I also set the theme for the icons using
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   :bind (("C-x d" . neotree)))
-#+END_SRC
-
-Below, you can see all the faces customizations I apply to ~neotree~ for better
-blending into the rest of my color scheme:
-
-#+BEGIN_SRC emacs-lisp
-(base16-set-faces
-     'base16-oceanicnext
-     base16-oceanicnext-colors
-     '(
-       (neo-dir-link-face    :foreground base0D)
-       (neo-banner-face      :foreground base09)
-       (neo-header-face      :foreground base04)
-       (neo-file-link-face   :foreground base06)
-       (neo-root-dir-face    :foreground base0E)
-))
 #+END_SRC
 
 ** ~ido~
@@ -617,10 +582,7 @@ perspectives automatically integrating them with each project. To configure it:
 (use-package perspective
   :ensure t
   :config
-  (use-package persp-projectile
-    :ensure t)
-  (set-face-attribute 'persp-selected-face nil
-                      :foreground (plist-get base16-oceanicnext-colors :base0D))
+  (use-package persp-projectile :ensure t)
   :bind (("C-c p n" . persp-next)
          ("C-c p k" . kill-current-perspective)
          :map projectile-mode-map))
@@ -773,32 +735,32 @@ To use the native Emacs shell with a sexier prompt, we can use this design
 posted in Reddit.
 
 #+BEGIN_SRC emacs-lisp
-(setq eshell-prompt-function
-      (lambda ()
-          (concat
-           (propertize "┌─[" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize (user-login-name) 
-		       'face '(:foreground (get-base16-color :base0E)))
-           (propertize "@" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize (system-name) 
-		       'face '(:foreground (get-base16-color :base0C)))
-           (propertize "]──[" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize (format-time-string "%H:%M" (current-time))
-                       'face '(:foreground (get-base16-color :base05)))
-           (propertize "]──[" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize (concat (eshell/pwd)) 
-		       'face '(:foreground (get-base16-color :base09)))
-           (propertize "]\n" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize "└─>" 
-		       'face '(:foreground (get-base16-color :base0D)))
-           (propertize (if (= (user-uid) 0) " # " " $ ")
-                       'face '(:foreground (get-base16-color :base0D)))
-           )))
+;; (setq eshell-prompt-function
+;;       (lambda ()
+;;           (concat
+;;            (propertize "┌─[" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize (user-login-name) 
+;; 		       'face '(:foreground (get-base16-color :base0E)))
+;;            (propertize "@" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize (system-name) 
+;; 		       'face '(:foreground (get-base16-color :base0C)))
+;;            (propertize "]──[" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize (format-time-string "%H:%M" (current-time))
+;;                        'face '(:foreground (get-base16-color :base05)))
+;;            (propertize "]──[" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize (concat (eshell/pwd)) 
+;; 		       'face '(:foreground (get-base16-color :base09)))
+;;            (propertize "]\n" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize "└─>" 
+;; 		       'face '(:foreground (get-base16-color :base0D)))
+;;            (propertize (if (= (user-uid) 0) " # " " $ ")
+;;                        'face '(:foreground (get-base16-color :base0D)))
+;;            )))
 #+END_SRC
 
 ** ~iedit~
@@ -823,10 +785,7 @@ Makes Lisp regular expressions more readable.
   (progn
     (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
     (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
-    (base16-set-faces
-     'base16-oceanicnext
-     base16-oceanicnext-colors
-     '((easy-escape-face :foreground base08)))))
+	))
 #+END_SRC
 
 ** ~undo-tree~
