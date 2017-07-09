@@ -819,6 +819,17 @@ collection. A good guide to understand the syntax used is in [[https://joaotavor
 YASnippet]]. All the snippets are local to a certain mode (delimited by the name
 of the folder in the collection) and their keys can be expanded using ~TAB~.
 
+** Rainbow delimiters
+
+This package turns the parenthesis into color pairs, which makes everything
+easier (specially in Lisp)
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :ensure t
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
+
 * Programming Modes
 ** Python
 
