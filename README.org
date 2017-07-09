@@ -448,7 +448,7 @@ character. This is actually needed for ~rich-minority~ to find the mode
 #+BEGIN_SRC emacs-lisp
 (setq rm-blacklist (mapconcat 'identity
                               '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
-                                " ARev" " Helm" " SP" " AC" " Fly"
+                                " ARev" " Helm" " SP" " Fly"
                                 " Projectile.+" " Intero" " yas" " ||"
                                 " Elpy" " ez-esc")
                               "\\|"))
@@ -705,6 +705,16 @@ And this function prevents the spell checker to get inside source blocks in
     (setq ad-return-value rlt)))
 #+END_SRC
 
+** ~company~
+
+It is a light-weight completion system, supposed to be faster and simpler than
+good 'ol ~auto-complete~.
+
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :ensure t)
+#+END_SRC
+
 ** ~auto-complete~
 
 It is probably redundant with ~company~, but works like a charm for the Python
@@ -715,6 +725,7 @@ like to customize a bit the looks of the pop-up menu
 
 #+BEGIN_SRC emacs-lisp
 (use-package auto-complete-config
+  :disabled
   :ensure auto-complete
   :config
   (progn
@@ -925,6 +936,18 @@ We can use hooks to automatically format our code according to the guidelines:
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'exec-path "/Users/diego/go")
 (add-hook 'before-save-hook 'gofmt-before-save)
+#+END_SRC
+
+*** Adding the ~company~ backend
+
+Making auto-completion work in Go requires:
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-go
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook 'company-mode)
+  (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
 ** LaTeX
