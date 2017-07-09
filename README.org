@@ -449,9 +449,18 @@ have it in programming modes and in ~org-mode~.
   :ensure git-gutter-fringe
   :config
   (progn
-    (setq-default left-fringe-width  20)
+    ;; (setq-default left-fringe-width  20)
     (add-hook 'prog-mode-hook 'git-gutter-mode)
     (add-hook 'org-mode-hook 'git-gutter-mode)))
+#+END_SRC
+
+Since we are using Gruvbox theme all along, I prefer to tweak the colors to
+make them softer, using some red, green and yellow from the color palette.
+
+#+BEGIN_SRC emacs-lisp
+(set-face-foreground 'git-gutter:modified "#fabd2f")
+(set-face-foreground 'git-gutter:added    "#b8bb26")
+(set-face-foreground 'git-gutter:deleted  "#fb4933")
 #+END_SRC
 
 ** Set the cursor as a vertical bar
