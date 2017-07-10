@@ -342,13 +342,30 @@ it just maximizes the first frame we create.
 
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
 weird in the beginning, then it's a joy to have all your code properly fitting
-in the screen. However, lately I have really been into Liberation Mono.
+in the screen. However, lately I have really been into Liberation Mono, Fira
+Mono and Fantasque Sans Mono.
 
 #+BEGIN_SRC emacs-lisp
 (if (system-is-chip)
     (set-default-font "Liberation Mono 8" t t)
-(set-default-font "Liberation Mono 13" t t))
+(set-default-font "Fira Mono 13" t t))
 #+END_SRC
+
+** Highlight changed and uncommited lines
+
+Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
+have it in programming modes and in ~org-mode~.
+
+#+BEGIN_SRC emacs-lisp
+(use-package git-gutter
+  :ensure git-gutter-fringe
+  :config
+  (add-hook 'prog-mode-hook 'git-gutter-mode)
+  (add-hook 'org-mode-hook 'git-gutter-mode))
+#+END_SRC
+
+Since we are using Gruvbox theme all along, I prefer to tweak the colors to
+make them softer, using some red, green and yellow from the color palette.
 
 ** Setting my favorite theme
 
