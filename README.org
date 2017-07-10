@@ -378,25 +378,7 @@ do its job.
 #+BEGIN_SRC emacs-lisp
 (use-package gruvbox-theme
   :ensure t
-  :config 
-  (load-theme 'gruvbox-dark-medium t)
-  (set-face-foreground 'shadow "#a89984"))
-#+END_SRC
-
-** Setting the fringe color
-
-I dont'like the fringe to have a different color than the background,
-so I run this function at start to set the same color in it. However,
-take into account that if you change themes on the fly you need to run
-the function again (there is no hook for that).
-
-#+BEGIN_SRC emacs-lisp
-(defun set-fringe-as-background ()
-  (set-face-attribute 'fringe nil
-                      :foreground (face-foreground 'default)
-                      :background (face-background 'default)))
-
-(set-fringe-as-background)
+  :config (load-dark-theme))
 #+END_SRC
 
 ** ~smart-mode-line~ configuration
