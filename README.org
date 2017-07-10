@@ -416,11 +416,6 @@ adding a single white-space below the fringe, which helps when rendering.
         mode-line-modes
         mode-line-misc-info
         mode-line-end-spaces))
-    ;; Colors and aesthetics
-    (set-face-attribute 'mode-line nil 
-						:box '(:line-width 5 :color "#504945"))
-    (set-face-attribute 'mode-line-inactive nil 
-						:box '(:line-width 5 :color "#3c3836"))
     ;; Shorthands and column number
     (column-number-mode 1)
     (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
@@ -480,30 +475,6 @@ character. This is actually needed for ~rich-minority~ to find the mode
                                 " Projectile.+" " Intero" " yas" " ||"
                                 " Elpy" " ez-esc")
                               "\\|"))
-#+END_SRC
-
-** Highlight changed and uncommited lines
-
-Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
-have it in programming modes and in ~org-mode~.
-
-#+BEGIN_SRC emacs-lisp
-(use-package git-gutter
-  :ensure git-gutter-fringe
-  :config
-  (progn
-    ;; (setq-default left-fringe-width  20)
-    (add-hook 'prog-mode-hook 'git-gutter-mode)
-    (add-hook 'org-mode-hook 'git-gutter-mode)))
-#+END_SRC
-
-Since we are using Gruvbox theme all along, I prefer to tweak the colors to
-make them softer, using some red, green and yellow from the color palette.
-
-#+BEGIN_SRC emacs-lisp
-(set-face-foreground 'git-gutter:modified "#fabd2f")
-(set-face-foreground 'git-gutter:added    "#b8bb26")
-(set-face-foreground 'git-gutter:deleted  "#fb4933")
 #+END_SRC
 
 ** Set the cursor as a vertical bar
@@ -1148,7 +1119,6 @@ prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-ellipsis " ⤵")
-(set-face-attribute 'org-ellipsis nil :underline nil)
 #+END_SRC
 
 *** Pretty symbols
