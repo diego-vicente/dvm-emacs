@@ -512,7 +512,8 @@ less clutter normally. I also set the theme for the icons using
   :bind (("C-x d" . neotree)))
 #+END_SRC
 
-** ~ivy~
+** ~ivy
+~
 
 After trying ~ido~ and ~helm~, the only step left to try was ~ivy~. The way it
 works is more similar to ~ido~: it is a completion engine but more minimalist
@@ -521,7 +522,12 @@ than ~helm~, simpler and faster.
 #+BEGIN_SRC emacs-lisp
 (use-package ivy
   :ensure t
-  :config (ivy-mode 1))
+  :config 
+  (ivy-mode 1)
+  :bind (("RET" . ivy-alt-done)
+         :map ivy-minibuffer-map
+         ("C-j" . ivy-done)
+		 :map ivy-minibuffer-map))
 #+END_SRC
 
 ** ~magit~
@@ -548,8 +554,8 @@ project.
 (use-package projectile
   :ensure t
   :config
-  (progn (projectile-global-mode 1)
-         (setq projectile-use-git-grep t)))
+  (projectile-global-mode 1)
+  (setq projectile-use-git-grep t))
 #+END_SRC
 
 ** ~perspective~
