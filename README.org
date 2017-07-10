@@ -471,7 +471,7 @@ character. This is actually needed for ~rich-minority~ to find the mode
 #+BEGIN_SRC emacs-lisp
 (setq rm-blacklist (mapconcat 'identity
                               '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
-                                " ARev" " Helm" " SP" " Fly"
+                                " ARev" " SP" " Fly" " ivy"
                                 " Projectile.+" " Intero" " yas" " ||"
                                 " Elpy" " ez-esc")
                               "\\|"))
@@ -512,63 +512,20 @@ less clutter normally. I also set the theme for the icons using
   :bind (("C-x d" . neotree)))
 #+END_SRC
 
-** ~ido~
+** ~ivy~
 
-~ido~ enables some fuzzy finders in different commands like ~find-file~ or
-other buffer related commands. Probably ~helm~ is a better option but I still
-have to properly configure it. This enables fuzzy search and enables it
-everywhere.
+After trying ~ido~ and ~helm~, the only step left to try was ~ivy~. The way it
+works is more similar to ~ido~: it is a completion engine but more minimalist
+than ~helm~, simpler and faster.
 
 #+BEGIN_SRC emacs-lisp
-(use-package ido
+(use-package ivy
   :ensure t
-  :config
-  (progn
-    (setq ido-enable-flex-matching t
-      ido-enable-dot-prefix t
-      ido-enable-tramp-completion t
-      ido-everywhere t)
-    (ido-mode 1)))
-#+END_SRC
-
-Also, I feel it's much easier to understand what's going on when the options
-are displayed in a vertical list. The cleanest way to achieve this is using a
-package.
-
-#+BEGIN_SRC emacs-lisp
-(use-package ido-vertical-mode
-  :ensure t
-  :config
-  (progn
-    (setq ido-vertical-define-keys 'C-n-C-p-up-and-down
-          ido-vertical-show-count t)
-    (ido-vertical-mode 1)))
-#+END_SRC
-
-I also like to enable ~ido~ in my ~M-x~ prompt, for which I use the package
-~smex~, that builds on top of an ~ido~ buffer and shows the most relevant
-commands without keybindings on a certain mode.
-
-#+BEGIN_SRC emacs-lisp
-(use-package smex
-  :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)
-         ("C-c C-c M-x" . execute-extended-command)))
-#+END_SRC
-
-** ~helm~
-
-As I said, probably redundant to be used alongside ~ido~, but still has much
-more places to be used.
-
-#+BEGIN_SRC emacs-lisp
-(use-package helm-config
-  :ensure helm
-  :config (helm-mode 1))
+  :config (ivy-mode 1))
 #+END_SRC
 
 ** ~magit~
+
 
 A porcelain client for git. ~magit~ alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
