@@ -906,6 +906,16 @@ Making auto-completion work in Go requires:
   (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
+*** Enabling playgrounds in Emacs
+
+Go playgrounds enable a kind of REPL, which is super useful when trying to
+learn the language and fast iterate over some code snippets.
+
+#+BEGIN_SRC emacs-lisp
+(use-package go-playground
+  :ensure t)
+#+END_SRC
+
 ** LaTeX
 
 With this configuration, we try to aim for a WYSIWYG editor in Emacs. It
