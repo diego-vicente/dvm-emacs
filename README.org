@@ -565,15 +565,17 @@ perspectives automatically integrating them with each project. To configure it:
 #+BEGIN_SRC emacs-lisp
 (use-package perspective
   :ensure t
+  :demand t
   :config
   (use-package persp-projectile :ensure t)
-  :bind (("C-c p n" . persp-next)
-         ("C-c p k" . kill-current-perspective)
-         :map projectile-mode-map))
+  (persp-mode)
+  :bind (:map projectile-mode-map
+			  ("C-c p n" . persp-next)
+			  ("C-c p k" . kill-current-perspective)))
 
-(persp-mode)
+;; (persp-mode)
 ;; Not working with use-package :bind configuration
-(define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
+;; (define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
