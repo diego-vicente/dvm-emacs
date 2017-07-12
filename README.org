@@ -25,9 +25,9 @@ use it, needless to say to use your own information.
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Diego Vicente"
       user-mail-address "diegovicente@protonmail.com"
-      calendar-latitude 63.4
-      calendar-longitude 10.4
-      calendar-location-name "Trondheim, Norway")
+      calendar-latitude 40.33
+      calendar-longitude -3.76
+      calendar-location-name "Madrid, Spain")
 #+END_SRC
 
 ** Add MELPA
