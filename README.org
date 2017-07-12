@@ -580,10 +580,6 @@ perspectives automatically integrating them with each project. To configure it:
   :bind (:map projectile-mode-map
 			  ("C-c p n" . persp-next)
 			  ("C-c p k" . kill-current-perspective)))
-
-;; (persp-mode)
-;; Not working with use-package :bind configuration
-;; (define-key projectile-mode-map (kbd "C-c p k") 'kill-current-perspective)
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
@@ -721,40 +717,6 @@ command line is the best option sometimes. Bound it to ~C-c t~
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c t") 'shell)
-#+END_SRC
-
-** ~eshell~
-
-To use the native Emacs shell with a sexier prompt, we can use this design
-posted in Reddit.
-
-#+BEGIN_SRC emacs-lisp
-;; (setq eshell-prompt-function
-;;       (lambda ()
-;;           (concat
-;;            (propertize "┌─[" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize (user-login-name) 
-;; 		       'face '(:foreground (get-base16-color :base0E)))
-;;            (propertize "@" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize (system-name) 
-;; 		       'face '(:foreground (get-base16-color :base0C)))
-;;            (propertize "]──[" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize (format-time-string "%H:%M" (current-time))
-;;                        'face '(:foreground (get-base16-color :base05)))
-;;            (propertize "]──[" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize (concat (eshell/pwd)) 
-;; 		       'face '(:foreground (get-base16-color :base09)))
-;;            (propertize "]\n" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize "└─>" 
-;; 		       'face '(:foreground (get-base16-color :base0D)))
-;;            (propertize (if (= (user-uid) 0) " # " " $ ")
-;;                        'face '(:foreground (get-base16-color :base0D)))
-;;            )))
 #+END_SRC
 
 ** ~iedit~
