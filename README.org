@@ -950,6 +950,15 @@ Add the hook to enable it by default.
 (add-hook 'LaTeX-mode-hook 'flyspell-buffer)
 #+END_SRC
 
+*** Enable auto-fill for Tex edition
+
+We already enabled auto-fill for comments in programming modes, but in LaTeX is
+more useful to directly have everything auto-filled.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+#+END_SRC
+
 * ~org-mode~
 ** Basic setup and other habits
 *** Enable ~auto-fill-mode~ in Emacs
