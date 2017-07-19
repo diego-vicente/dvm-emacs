@@ -297,7 +297,9 @@ switch from one to the other, I prevent the hand-tuned things to crash.
   (set-face-attribute 'mode-line nil
 					  :box '(:line-width 5 :color "#504945"))
   (set-face-attribute 'mode-line-inactive nil
-					  :box '(:line-width 5 :color "#3c3836")))
+					  :box '(:line-width 5 :color "#3c3836"))
+  (org-bullets-mode)
+  (org-bullets-mode))
 
 (defun load-light-theme ()
   "Load the theme gruvbox-light-medium and other custom faces."
@@ -308,7 +310,9 @@ switch from one to the other, I prevent the hand-tuned things to crash.
   (set-face-attribute 'mode-line nil
 					  :box '(:line-width 5 :color "#d5c4a1"))
   (set-face-attribute 'mode-line-inactive nil
-					  :box '(:line-width 5 :color "#ebdbb2")))
+					  :box '(:line-width 5 :color "#ebdbb2"))
+  (org-bullets-mode)
+  (org-bullets-mode))
 
 (global-set-key (kbd "C-c c d") 'load-dark-theme)
 (global-set-key (kbd "C-c c l") 'load-light-theme)
