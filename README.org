@@ -904,6 +904,7 @@ requires them.
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
+(setq-default TeX-master nil)
 ;(setq TeX-PDF-mode t)
 #+END_SRC
 
@@ -923,6 +924,18 @@ more useful to directly have everything auto-filled.
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+#+END_SRC
+
+*** Adding ~company~ support for Tex
+
+Add the backend enable auto-completion for LaTeX files.
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-auctex
+  :ensure t
+  :config 
+  (add-hook 'LaTeX-mode-hook 'company-mode)
+  (company-auctex-init))
 #+END_SRC
 
 * ~org-mode~
