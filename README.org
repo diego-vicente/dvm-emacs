@@ -33,7 +33,8 @@ use it, needless to say to use your own information.
 ** Add MELPA
 
 The main package repository for Emacs. Must have, probably all the packages
-that you need are already in MELPA.
+that you need are already in MELPA. Also, check that it is HTTPS! We'll
+elaborate on it in a bit.
 
 #+BEGIN_SRC emacs-lisp
 ;; Add MELPA
@@ -41,9 +42,69 @@ that you need are already in MELPA.
   (require 'package)
   (add-to-list
    'package-archives
-   '("MELPA" . "http://melpa.org/packages/") t)
+   '("MELPA" . "https://melpa.org/packages/") t)
   (package-initialize))
 #+END_SRC
+
+** Making Emacs secure
+
+Some safety tips regarding your editor are covered in the excellent article
+[[https://glyph.twistedmatrix.com/2015/11/editor-malware.html][Your Text Editor is Malware]]. So, before going on with the configuration, let's
+get some things straight. First of all, enable checking trust on TLS
+connections.
+
+#+BEGIN_SRC emacs-lisp
+(setq tls-checktrust t)
+#+END_SRC
+
+Now that we have enabled this feature, Emacs can't fetch HTTPS anymore: Emacs
+does not distribute trust root certificates. So let's try to put a remedy for
+it. First, there are some things you need to install outside of Emacs: the
+~certifi~ package for ~PyPI~ using ~python3 -m pip install --user certifi~ and
+~gnutls~ by running ~brew install gnutls~ or ~apt-get install gnutls-bin~. Once
+we have everything set, we just need to tell Emacs where to search for the
+tools: setting the ~tls-program~ variable.
+
+#+BEGIN_SRC emacs-lisp
+;; This snippet is ready to work in both UNIX-like and Windows OS
+(let ((trustfile
+       (replace-regexp-in-string
+        "\\\\" "/"
+        (replace-regexp-in-string
+         "\n" ""
+         (shell-command-to-string (concat "python3 -m certifi"))))))
+  (setq tls-program
+        (list
+         (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
+                 (if (eq window-system 'w32) ".exe" "") trustfile)))
+  (setq gnutls-verify-error t)
+  (setq gnutls-trustfiles (list trustfile)))
+#+END_SRC
+
+And, just in case (specially since the blog post provided it), we can create a
+function to check if this setup is properly done:
+
+#+BEGIN_SRC emacs-lisp
+(defun check-tls-config ()
+  "Check for correctness in the TLS configuration for Emacs."
+  (interactive)
+  (let ((bad-hosts
+		 (cl-loop for bad
+			   in `("https://wrong.host.badssl.com/"
+					"https://self-signed.badssl.com/")
+			   if (condition-case e
+					  (url-retrieve
+					   bad (lambda (retrieved) t))
+					(error nil))
+			   collect bad)))
+	(if bad-hosts
+		(error (format "TLS misconfigured; retrieved %s ok" bad-hosts))
+	  (url-retrieve "https://badssl.com"
+					(lambda (retrieved) t)))))
+#+END_SRC
+
+
+
 
 ** Disable ~yes-or-no~ messages
 
