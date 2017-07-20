@@ -175,6 +175,7 @@ package to MELPA, so to install it:
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
   :ensure t
+  :demand t
   :config (exec-path-from-shell-initialize))
 #+END_SRC
 
