@@ -103,8 +103,8 @@ function to check if this setup is properly done:
 					(lambda (retrieved) t)))))
 #+END_SRC
 
-
-
+Please note that it is *crucial* to have added MELPA as an HTTPS for this
+secure configuration to work.
 
 ** Disable ~yes-or-no~ messages
 
@@ -641,11 +641,14 @@ perspectives automatically integrating them with each project. To configure it:
   :ensure t
   :demand t
   :config
-  (use-package persp-projectile :ensure t)
   (persp-mode)
   :bind (:map projectile-mode-map
 			  ("C-c p n" . persp-next)
 			  ("C-c p k" . kill-current-perspective)))
+
+(use-package persp-projectile
+  :ensure t
+  :demand t)
 #+END_SRC
 
 This snippet also changes the color of the mode-line widget to a smoother one
