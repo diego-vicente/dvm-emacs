@@ -949,6 +949,17 @@ Making auto-completion work in Go requires:
   (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
+*** Viewing documentation in the minibuffer
+
+Using ~go-eldoc~ we can see the declaration, arguments, return types, etc of
+the functions we are using in our code.
+
+#+BEGIN_SRC emacs-lisp
+(use-package go-eldoc
+  :ensure t
+  :config (add-hook 'go-mode-hook 'go-eldoc-setup))
+#+END_SRC
+
 *** Enabling playgrounds in Emacs
 
 Go playgrounds enable a kind of REPL, which is super useful when trying to
