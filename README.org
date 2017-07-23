@@ -760,12 +760,16 @@ like to customize a bit the looks of the pop-up menu
 
 ** ~smartparens~
 
-Auto-close parenthesis and other characters. Useful as it seems.
+Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
+new custom pair that makes it indent and pass the closing pair when a newline
+is inserted right after a curly bracket. This is specially useful in C and Go.
 
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
   :ensure t
-  :config (add-hook 'prog-mode-hook #'smartparens-mode))
+  :config
+  (add-hook 'prog-mode-hook #'smartparens-mode)
+  (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 #+END_SRC
 
 ** ~expand-region~
