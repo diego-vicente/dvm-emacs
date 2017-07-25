@@ -564,6 +564,18 @@ necessary fonts that come bundled in the package!
 #+END_SRC
 
 * Packages & Tools
+** ~which-key~
+
+A beautiful package that helps a lot specially when you are new to Emacs. Every
+time a key chord is started, it displays all possible outcomes in the
+minibuffer.
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+#+END_SRC
+
 ** ~neotree~
 
 I used the default ~dired~ for a long time, but I found that ~neotree~ adds
