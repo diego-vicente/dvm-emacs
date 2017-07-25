@@ -537,7 +537,7 @@ character. This is actually needed for ~rich-minority~ to find the mode
 #+BEGIN_SRC emacs-lisp
 (setq rm-blacklist (mapconcat 'identity
                               '(" GitGutter" " Fill" " Autolist" " Undo-Tree"
-                                " ARev" " SP" " Fly" " ivy"
+                                " ARev" " SP" " Fly" " ivy" " WK"
                                 " Projectile.+" " Intero" " yas" " ||"
                                 " Elpy" " ez-esc")
                               "\\|"))
