@@ -531,8 +531,8 @@ On the other hand, I use ~rich-minority~ to select which are the minor modes
 that I am interested in. All the modes below are black listed, that is, they
 don't appear in the mode line even if they are active. *Important*: I don't
 install it or activate it because ~smart-mode-line~ does that already. Also
-important, notice that all modes include a whitespace as the first
-character. This is actually needed for ~rich-minority~ to find the mode
+important, notice that all modes include a whitespace as the first character.
+This is actually needed for ~rich-minority~ to find the mode
 
 #+BEGIN_SRC emacs-lisp
 (setq rm-blacklist (mapconcat 'identity
