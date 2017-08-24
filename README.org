@@ -918,6 +918,26 @@ think...
 			  (toggle-truncate-lines))))
 #+END_SRC
 
+** Idris
+
+Idris is a relatively new language: purely functional, general purpose, and
+oriented to type development and with a type and totality checker integrated. I
+think that it is a super interesting experiment but a good Emacs configuration
+makes it look like absolute magic.
+
+#+BEGIN_SRC emacs-lisp
+(use-package idris-mode
+  :ensure t
+  :bind (:map idris-mode-map
+			  ("C-c C-a" . idris-add-clause)
+			  ("C-c C-s" . idris-case-split)
+			  ("C-c C-f" . idris-proof-search)))
+#+END_SRC
+
+With this config, we can use a type-define-refine cycle by using the keys =C-c
+C-a= to add a clause associated with a type definition, =C-c C-s= to split
+cases and =C-c C-f= to search for a proof; which is easier for me to remember.
+
 ** Go
 
 I am a complete noob in Go, and I have been trying to hack a bit with it
@@ -1100,7 +1120,8 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
   "Return the absolute address of an org file, given its relative name."
   (concat (file-name-as-directory org-directory) filename))
 
-(setq org-agenda-files (list (org-file-path "agenda.org")))
+(setq org-agenda-files (list (org-file-path "master.org")
+							 (org-file-path "agenda.org")))
 #+END_SRC
 
 *** Better RET
