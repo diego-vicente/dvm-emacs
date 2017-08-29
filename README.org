@@ -409,12 +409,12 @@ it just maximizes the first frame we create.
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
 weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen. However, lately I have really been into Liberation Mono, Fira
-Mono and Fantasque Sans Mono.
+Mono and Office Code Pro.
 
 #+BEGIN_SRC emacs-lisp
 (if (system-is-chip)
     (set-default-font "Liberation Mono 8" t t)
-(set-default-font "Fira Mono 13" t t))
+(set-default-font "Office Code Pro 13" t t))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
