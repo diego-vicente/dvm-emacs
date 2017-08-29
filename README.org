@@ -935,7 +935,8 @@ makes it look like absolute magic.
 
 With this config, we can use a type-define-refine cycle by using the keys =C-c
 C-a= to add a clause associated with a type definition, =C-c C-s= to split
-cases and =C-c C-f= to search for a proof; which is easier for me to remember.
+cases and =C-c C-f= to fill a hole if possible; which is easier for me to
+remember.
 
 ** Go
 
