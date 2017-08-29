@@ -586,8 +586,7 @@ less clutter normally. I also set the theme for the icons using
 #+BEGIN_SRC emacs-lisp
 (use-package neotree
   :ensure t
-  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  :bind (("C-x d" . neotree)))
+  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+END_SRC
 
 ** ~ivy~
