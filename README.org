@@ -798,13 +798,14 @@ a way, a replacement for vim text objects.
   :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
-** Bind ~shell~
+** Bind ~eshell~
 
 I don't use shell as much as I did before customizing Emacs, but still a good
-command line is the best option sometimes. Bound it to ~C-c t~
+command line is the best option sometimes. Bound it to ~C-c t~ and use all the
+shortcuts of Emacs inside of it!
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c t") 'shell)
+(global-set-key (kbd "C-c t") 'eshell)
 #+END_SRC
 
 ** ~iedit~
