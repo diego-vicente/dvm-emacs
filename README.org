@@ -709,7 +709,9 @@ to be configured because it really makes things slow.
 (use-package flycheck
   :ensure t
   :delight
-  :config (add-hook 'prog-mode-hook #'flycheck-mode))
+  :config 
+  (add-hook 'prog-mode-hook #'flycheck-mode)
+  (set-face-underline 'flycheck-error '(:color "Red1" :style line)))
 #+END_SRC
 
 ** ~flyspell~
