@@ -906,11 +906,13 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
+  :delight
   :config
   (elpy-enable)
   (elpy-use-ipython)
   (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
-  (setq python-shell-interpreter-args "--simple-prompt -i"))
+  (setq python-shell-interpreter-args "--simple-prompt -i")
+  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+END_SRC
 
 ** Haskell
@@ -952,6 +954,7 @@ makes it look like absolute magic.
 
 #+BEGIN_SRC emacs-lisp
 (use-package idris-mode
+  :delight
   :ensure t
   :bind (:map idris-mode-map
 			  ("C-c C-a" . idris-add-clause)
