@@ -1426,3 +1426,16 @@ r/emacs the default one.
 
 
 TODO: In my current setup, the colors are incredibly aggressive.
+** ~mu4e~
+
+This package allows to fetch and write emails from Emacs. Is it pushing a text
+editor too far? Maybe. Also, take into account that it is part of ~mu~ and the
+Emacs package is indeed included in it (not installed through a package
+repository).
+
+#+BEGIN_SRC emacs-lisp
+(use-package mu4e
+  :config
+  ;; (setq mu4e-sent-messages-behavior 'delete)
+  )
+#+END_SRC
