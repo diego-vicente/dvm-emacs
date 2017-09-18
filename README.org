@@ -321,6 +321,26 @@ consecutive new lines and tabs.
 (global-set-key (kbd "C-c x") 'my-clean-buffer)
 #+END_SRC
 
+** Move to indentation or beginning of the line
+
+By default, ~C-c a~ moves the cursor to the beginning of the line. If there is
+indentation, usually you want to move to the beginning of the line after the
+indentation, which is indeed bound by default to ~M-m~. However, my muscle
+memory seems to be unable to learn that those are two different actions, so
+it's time to use some Emacs magic. ~beginning-of-line-dwim~ takes you to the
+beginning of indentation, as ~M-m~ would do. If you are already there, it takes
+you to the absolute beginning of the line.
+
+#+BEGIN_SRC emacs-lisp
+(defun beginning-of-line-dwim ()
+  (interactive)
+  "Move to beginning of indentation, if there move to beginning of line."
+  (if (= (point) (progn (back-to-indentation) (point)))
+	  (beginning-of-line)))
+
+(global-set-key (kbd "C-a") 'beginning-of-line-dwim)
+#+END_SRC
+
 ** Set the fringe as the background
 
 This function allows to set the fringe color the same as the background, which
