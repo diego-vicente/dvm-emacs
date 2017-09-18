@@ -639,6 +639,20 @@ than ~helm~, simpler and faster.
 		 ("C-j" . ivy-done)))
 #+END_SRC
 
+** ~iy-go-to-char~
+
+Mimic vim's ~f~ with this function. I bind it to ~M-m~ to because the default
+function in there (~beginning-of-indentation~) is not necessary after adding
+~beginning-of-line-dwim~.
+
+#+BEGIN_SRC emacs-lisp
+(use-package iy-go-to-char
+  :ensure t
+  :demand t
+  :bind (("M-m" . iy-go-up-to-char)
+		 ("M-M" . iy-go-to-char)))
+#+END_SRC
+
 ** ~magit~
 
 
