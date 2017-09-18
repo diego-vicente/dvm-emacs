@@ -653,6 +653,19 @@ function in there (~beginning-of-indentation~) is not necessary after adding
 		 ("M-M" . iy-go-to-char)))
 #+END_SRC
 
+** ~ws-butler~
+
+Remove the trailing whitespaces from the lines that have been edited. The point
+of removing only the ones from the lines edited is to preserve useful blames
+and diffs in VCS.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ws-butler
+  :ensure t
+  :delight
+  :config (ws-butler-global-mode 1))
+#+END_SRC
+
 ** ~magit~
 
 
