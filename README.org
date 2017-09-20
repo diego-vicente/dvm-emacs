@@ -1179,6 +1179,19 @@ mode.
 (setq org-src-tab-acts-natively t)
 #+END_SRC
 
+*** Display inline images
+
+A small piece of elisp extracted from [[https://joy.pm/post/2017-09-17-a_graphviz_primer/][The Joy of Programming]] to properly
+display inline images in org.
+
+#+BEGIN_SRC emacs-lisp
+(defun my/fix-inline-images ()
+  (when org-inline-image-overlays
+    (org-redisplay-inline-images)))
+
+(add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+#+END_SRC
+
 *** Open source blocks in the same window
 
 When editing source code in an ~org~ source block, we can open a new buffer to
