@@ -176,7 +176,9 @@ package to MELPA, so to install it:
 (use-package exec-path-from-shell
   :ensure t
   :demand t
-  :config (exec-path-from-shell-initialize))
+  :config (when (memq window-system '(mac ns x))
+			(exec-path-from-shell-initialize)
+			(add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
 #+END_SRC
 
 ** Insert new line without breaking
