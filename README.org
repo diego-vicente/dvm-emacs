@@ -1190,6 +1190,7 @@ display inline images in org.
     (org-redisplay-inline-images)))
 
 (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
+(setq org-image-actual-width nil)
 #+END_SRC
 
 *** Open source blocks in the same window
