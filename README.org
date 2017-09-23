@@ -607,6 +607,23 @@ minibuffer.
   :config (which-key-mode))
 #+END_SRC
 
+** ~dired~
+
+Emacs' default directory system. It may feel weird first, but it is super
+powerful. Its main feature is that it is a buffer. Yes, ok, everything is a
+buffer in Emacs, but if you press ~C-c C-q~ in a dired buffer it turns into a
+writeable buffer, so you can edit the directory files just as a regular Emacs
+piece of text! I also like to have the details hidden. Also, I feel like it can
+be useful to comment a bit on ~dired-dwim-target~. This enables the dired's Do
+What I Mean behavior, which means that if you try to rename a file with a
+second buffer open, it will assume that you want to move it there. Same with
+copy and other operations.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(setq dired-dwim-target t)
+#+END_SRC
+
 ** ~neotree~
 
 I used the default ~dired~ for a long time, but I found that ~neotree~ adds
