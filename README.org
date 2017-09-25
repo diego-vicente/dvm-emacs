@@ -303,6 +303,7 @@ Miscellaneous keybindings that don't really fit anywhere else.
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c b") 'bookmark-jump)
+(global-set-key (kbd "M-j") 'mark-word)
 #+END_SRC
 
 * My own Emacs-Lisp functions
@@ -653,6 +654,7 @@ than ~helm~, simpler and faster.
   :bind (("C-s" . swiper)
 		 ("C-c h f" . counsel-describe-function)
 		 ("C-c h v" . counsel-describe-variable)
+		 ("M-i" . counsel-imenu)
 		 :map ivy-minibuffer-map
 		 ("RET" . ivy-alt-done)
 		 ("C-j" . ivy-done)))
