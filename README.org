@@ -1182,9 +1182,7 @@ LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
 (add-to-list 'org-latex-default-packages-alist '("" "natbib" "") t)
 (add-to-list 'org-latex-default-packages-alist
-             '("linktocpage,pdfstartview=FitH,colorlinks,
-linkcolor=blue,anchorcolor=blue,
-citecolor=blue,filecolor=blue,menucolor=blue,urlcolor=blue"
+             '("linktocpage,pdfstartview=FitH,colorlinks"
                "hyperref" nil)
              t)
 #+END_SRC
