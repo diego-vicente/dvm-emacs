@@ -410,8 +410,12 @@ I always use Emacs in its GUI client, but because of the visual capabilities
 and not the tools and bars. That's why I like to disable all the graphical
 clutter.
 
+The first line disables the menu bar, but it is commented to allow the full
+screen behavior in macOS.
+
 #+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)
+; (menu-bar-mode -1)
+
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 #+END_SRC
