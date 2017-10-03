@@ -1333,6 +1333,15 @@ This setting will make subscripts (~x_{subscript}~) and superscripts
 (setq-default org-pretty-entities t)
 #+END_SRC
 
+*** LaTeX blocks
+
+To preview latex fragments, we need some quick set up to obtain proper quality
+to read it in a Retina display.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-create-formula-image-program 'dvisvgm)
+#+END_SRC
+
 ** Spell checking
 
 Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
