@@ -426,9 +426,9 @@ If we are running on Mac, this snippet launches the native fullscreen; if not
 it just maximizes the first frame we create.
 
 #+BEGIN_SRC emacs-lisp
-(if (system-is-mac)
-    (set-frame-parameter nil 'fullscreen 'fullboth)
-  (setq initial-frame-alist '((fullscreen . maximized))))
+;(if (system-is-mac) (toggle-frame-fullscreen))
+;    (set-frame-parameter nil 'fullscreen 'fullboth)
+;  (setq initial-frame-alist '((fullscreen . maximized))))
 #+END_SRC
 
 ** Setting default font
@@ -654,7 +654,11 @@ than ~helm~, simpler and faster.
   :ensure t
   :demand t
   :delight
-  :config (ivy-mode 1)
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+		ivy-count-format "%d/%d ")
+
   :bind (("C-s" . swiper)
 		 ("C-c h f" . counsel-describe-function)
 		 ("C-c h v" . counsel-describe-variable)
@@ -662,6 +666,19 @@ than ~helm~, simpler and faster.
 		 :map ivy-minibuffer-map
 		 ("RET" . ivy-alt-done)
 		 ("C-j" . ivy-done)))
+#+END_SRC
+
+Apart from ~ivy~, I also like to use other alternative packages that complement
+it.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-rich
+  :ensure t
+  :demand t
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+							   'ivy-rich-switch-buffer-transformer)
+  )
 #+END_SRC
 
 ** ~iy-go-to-char~
