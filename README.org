@@ -1126,6 +1126,28 @@ learn the language and fast iterate over some code snippets.
   :ensure t)
 #+END_SRC
 
+** Rust
+
+More or less like Go's one, this is just a minimal configuration for the
+language.
+
+*** Basic major mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+  :ensure t
+  :config (setq rust-format-on-save t))
+#+END_SRC
+
+** Enable ~flycheck~
+
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck-rust
+  :ensure t
+  :demand t
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+END_SRC
+
 ** LaTeX
 
 With this configuration, we try to aim for a WYSIWYG editor in Emacs. It
