@@ -857,7 +857,8 @@ good 'ol ~auto-complete~.
 #+BEGIN_SRC emacs-lisp
 (use-package company
   :delight
-  :ensure t)
+  :ensure t
+  :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
 ** ~auto-complete~
@@ -1139,13 +1140,27 @@ language.
   :config (setq rust-format-on-save t))
 #+END_SRC
 
-** Enable ~flycheck~
+*** Enable ~flycheck~
 
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck-rust
   :ensure t
   :demand t
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+END_SRC
+
+*** Enable the ~company~ backend
+
+#+BEGIN_SRC emacs-lisp
+(use-package racer
+  :ensure t
+  :demand t
+  :config
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
+  :bind (:map rust-mode-map
+			  ("TAB" . company-indent-or-complete-common)))
 #+END_SRC
 
 ** LaTeX
