@@ -1268,6 +1268,17 @@ display inline images in org.
 (setq org-image-actual-width nil)
 #+END_SRC
 
+*** Set source blocks to export as listings
+
+This little snippets ensures that org will export the source blocks in the
+=lstlisting= environment and highlight the syntax when necessary.
+
+#+BEGIN_SRC emacs-lisp
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+(add-to-list 'org-latex-packages-alist '("" "color"))
+#+END_SRC
+
 *** Open source blocks in the same window
 
 When editing source code in an ~org~ source block, we can open a new buffer to
