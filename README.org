@@ -1267,7 +1267,7 @@ display inline images in org.
     (org-redisplay-inline-images)))
 
 (add-hook 'org-babel-after-execute-hook 'my/fix-inline-images)
-(setq org-image-actual-width nil)
+(setq-default org-image-actual-width 620)
 #+END_SRC
 
 *** Set source blocks to export as listings
