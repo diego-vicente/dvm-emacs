@@ -304,6 +304,8 @@ Miscellaneous keybindings that don't really fit anywhere else.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "M-j") 'mark-word)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
 * My own Emacs-Lisp functions
