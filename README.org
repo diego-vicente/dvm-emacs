@@ -1288,6 +1288,18 @@ LaTeX, and also to add several options for ~org-ref~ exporting to work properly
              t)
 #+END_SRC
 
+*** Load languages for source blocks
+
+Some rough collection of languages that are loaded for use in my everyday
+org-mode workflow.
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t)
+   (python . t)))
+#+END_SRC
+
 *** Native ~TAB~ in source blocks
 
 This option makes ~TAB~ work as if the keystroke was issued in the code's major
