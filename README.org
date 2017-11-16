@@ -1300,6 +1300,16 @@ org-mode workflow.
    (python . t)))
 #+END_SRC
 
+In the same fashion, define the safe languages that require no explicit
+confirmation of being executed.
+
+#+BEGIN_SRC emacs-lisp
+(defun my-org-confirm-babel-evaluate (lang body)
+  (not (member lang '("emacs-lisp" "python" "sh"))))
+
+(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+#+END_SRC
+
 *** Native ~TAB~ in source blocks
 
 This option makes ~TAB~ work as if the keystroke was issued in the code's major
