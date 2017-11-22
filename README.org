@@ -1,6 +1,6 @@
 #+TITLE:  My Emacs Configuration
 #+AUTHOR: Diego Vicente Martín
-#+EMAIL:  diegovicente@protonmail.com
+#+EMAIL:  mail@diego.codes
 
 * Introduction
 
@@ -24,7 +24,7 @@ use it, needless to say to use your own information.
 
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Diego Vicente"
-      user-mail-address "diegovicente@protonmail.com"
+      user-mail-address "mail@diego.codes"
       calendar-latitude 40.33
       calendar-longitude -3.76
       calendar-location-name "Madrid, Spain")
