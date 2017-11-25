@@ -951,7 +951,7 @@ a way, a replacement for vim text objects.
   :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
-** Bind ~eshell~
+** ~eshell~
 
 I don't use shell as much as I did before customizing Emacs, but still a good
 command line is the best option sometimes. Bound it to ~C-c t~ and use all the
@@ -959,6 +959,21 @@ shortcuts of Emacs inside of it!
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c t") 'eshell)
+#+END_SRC
+
+I also configure a company back-end to get =fish=-like completion, that
+provides suggestions based on previous commands.
+
+#+BEGIN_SRC emacs-lisp
+(use-package company-eshell-autosuggest
+  :ensure t
+  :init (add-hook 'eshell-mode-hook 'company-mode)
+  :config
+  (defun setup-company-eshell-autosuggest ()
+	(with-eval-after-load 'company
+	  (setq-local company-backends '(company-eshell-autosuggest))
+	  (setq-local company-frontends '(company-preview-frontend))))
+  (add-hook 'eshell-mode-hook 'setup-company-eshell-autosuggest))
 #+END_SRC
 
 ** ~iedit~
