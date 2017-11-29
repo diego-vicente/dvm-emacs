@@ -482,7 +482,10 @@ Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 #+BEGIN_SRC emacs-lisp
 (if (system-is-chip)
     (set-default-font "Liberation Mono 8" t t)
-(set-default-font "Roboto Mono 13" t t))
+  (if (system-is-mac)
+	  (set-default-font "Roboto Mono 13" t t)
+	(set-default-font "Roboto Mono 11" t t)))
+
 ;; (set-default-font "Office Code Pro 13" t t))
 #+END_SRC
 
@@ -1069,7 +1072,7 @@ easier (specially in Lisp)
 
 #+BEGIN_SRC emacs-lisp
 (use-package ein
-  :ensure tq
+  :ensure t
   :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode)
 #+END_SRC
 
