@@ -1051,6 +1051,8 @@ easier (specially in Lisp)
 * Programming Modes
 ** Python
 
+*** Regular Python configuration
+
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
@@ -1061,6 +1063,14 @@ easier (specially in Lisp)
   (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
   (setq python-shell-interpreter-args "--simple-prompt -i")
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
+#+END_SRC
+
+*** Notebook configuration
+
+#+BEGIN_SRC emacs-lisp
+(use-package ein
+  :ensure tq
+  :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode)
 #+END_SRC
 
 ** Haskell
