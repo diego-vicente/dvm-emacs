@@ -89,18 +89,18 @@ function to check if this setup is properly done:
   "Check for correctness in the TLS configuration for Emacs."
   (interactive)
   (let ((bad-hosts
-		 (cl-loop for bad
-			   in `("https://wrong.host.badssl.com/"
-					"https://self-signed.badssl.com/")
-			   if (condition-case e
-					  (url-retrieve
-					   bad (lambda (retrieved) t))
-					(error nil))
-			   collect bad)))
-	(if bad-hosts
-		(error (format "TLS misconfigured; retrieved %s ok" bad-hosts))
-	  (url-retrieve "https://badssl.com"
-					(lambda (retrieved) t)))))
+         (cl-loop for bad
+               in `("https://wrong.host.badssl.com/"
+                    "https://self-signed.badssl.com/")
+               if (condition-case e
+                      (url-retrieve
+                       bad (lambda (retrieved) t))
+                    (error nil))
+               collect bad)))
+    (if bad-hosts
+        (error (format "TLS misconfigured; retrieved %s ok" bad-hosts))
+      (url-retrieve "https://badssl.com"
+                    (lambda (retrieved) t)))))
 #+END_SRC
 
 Please note that it is *crucial* to have added MELPA as an HTTPS for this
@@ -177,8 +177,8 @@ package to MELPA, so to install it:
   :ensure t
   :demand t
   :config (when (memq window-system '(mac ns x))
-			(exec-path-from-shell-initialize)
-			(add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
+            (exec-path-from-shell-initialize)
+            (add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
 #+END_SRC
 
 ** Insert new line without breaking
@@ -380,7 +380,7 @@ you to the absolute beginning of the line.
   (interactive)
   "Move to beginning of indentation, if there move to beginning of line."
   (if (= (point) (progn (back-to-indentation) (point)))
-	  (beginning-of-line)))
+      (beginning-of-line)))
 
 (global-set-key (kbd "C-a") 'beginning-of-line-dwim)
 #+END_SRC
@@ -421,9 +421,9 @@ switch from one to the other, I prevent the hand-tuned things to crash.
   (load-common-setup)
   (set-face-foreground 'shadow "#a89984")
   (set-face-attribute 'mode-line nil
-					  :box '(:line-width 5 :color "#665c54"))
+                      :box '(:line-width 5 :color "#665c54"))
   (set-face-attribute 'mode-line-inactive nil
-					  :box '(:line-width 5 :color "#3c3836"))
+                      :box '(:line-width 5 :color "#3c3836"))
   (org-bullets-mode)
   (org-bullets-mode))
 
@@ -434,9 +434,9 @@ switch from one to the other, I prevent the hand-tuned things to crash.
   (load-common-setup)
   (set-face-foreground 'shadow "#7c6f64")
   (set-face-attribute 'mode-line nil
-					  :box '(:line-width 5 :color "#bdae93"))
+                      :box '(:line-width 5 :color "#bdae93"))
   (set-face-attribute 'mode-line-inactive nil
-					  :box '(:line-width 5 :color "#ebdbb2"))
+                      :box '(:line-width 5 :color "#ebdbb2"))
   (org-bullets-mode)
   (org-bullets-mode))
 
@@ -483,8 +483,8 @@ Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 (if (system-is-chip)
     (set-default-font "Liberation Mono 8" t t)
   (if (system-is-mac)
-	  (set-default-font "Roboto Mono 13" t t)
-	(set-default-font "Roboto Mono 11" t t)))
+      (set-default-font "Roboto Mono 13" t t)
+    (set-default-font "Roboto Mono 11" t t)))
 
 ;; (set-default-font "Office Code Pro 13" t t))
 #+END_SRC
@@ -701,15 +701,15 @@ than ~helm~, simpler and faster.
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-		ivy-count-format "%d/%d ")
+        ivy-count-format "%d/%d ")
 
   :bind (("C-s" . swiper)
-		 ("C-c h f" . counsel-describe-function)
-		 ("C-c h v" . counsel-describe-variable)
-		 ("M-i" . counsel-imenu)
-		 :map ivy-minibuffer-map
-		 ("RET" . ivy-alt-done)
-		 ("C-j" . ivy-done)))
+         ("C-c h f" . counsel-describe-function)
+         ("C-c h v" . counsel-describe-variable)
+         ("M-i" . counsel-imenu)
+         :map ivy-minibuffer-map
+         ("RET" . ivy-alt-done)
+         ("C-j" . ivy-done)))
 #+END_SRC
 
 Apart from ~ivy~, I also like to use other alternative packages that complement
@@ -721,7 +721,7 @@ it.
   :demand t
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
-							   'ivy-rich-switch-buffer-transformer)
+                               'ivy-rich-switch-buffer-transformer)
   )
 #+END_SRC
 
@@ -736,7 +736,7 @@ function in there (~beginning-of-indentation~) is not necessary after adding
   :ensure t
   :demand t
   :bind (("M-m" . iy-go-up-to-char)
-		 ("M-M" . iy-go-to-char)))
+         ("M-M" . iy-go-to-char)))
 #+END_SRC
 
 ** ~ws-butler~
@@ -805,9 +805,9 @@ perspectives automatically integrating them with each project. To configure it:
   ;;   :config
   ;;   (persp-mode)
   ;;   :bind (:map projectile-mode-map
-  ;; 			  ("C-c p f" . counsel-git)
-  ;; 			  ("C-c p n" . persp-next)
-  ;; 			  ("C-c p k" . kill-current-perspective)))
+  ;;              ("C-c p f" . counsel-git)
+  ;;              ("C-c p n" . persp-next)
+  ;;              ("C-c p k" . kill-current-perspective)))
 
   ;; (use-package persp-projectile
   ;;   :ensure t
@@ -973,9 +973,9 @@ provides suggestions based on previous commands.
   :init (add-hook 'eshell-mode-hook 'company-mode)
   :config
   (defun setup-company-eshell-autosuggest ()
-	(with-eval-after-load 'company
-	  (setq-local company-backends '(company-eshell-autosuggest))
-	  (setq-local company-frontends '(company-preview-frontend))))
+    (with-eval-after-load 'company
+      (setq-local company-backends '(company-eshell-autosuggest))
+      (setq-local company-frontends '(company-preview-frontend))))
   (add-hook 'eshell-mode-hook 'setup-company-eshell-autosuggest))
 #+END_SRC
 
@@ -1003,7 +1003,7 @@ Makes Lisp regular expressions more readable.
   (progn
     (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
     (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
-	))
+    ))
 #+END_SRC
 
 ** ~undo-tree~
@@ -1099,10 +1099,10 @@ think...
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'find-file-hook
-		  (lambda ()
-			(when (and (stringp buffer-file-name)
-					   (string-match "\\.prof\\'" buffer-file-name))
-			  (toggle-truncate-lines))))
+          (lambda ()
+            (when (and (stringp buffer-file-name)
+                       (string-match "\\.prof\\'" buffer-file-name))
+              (toggle-truncate-lines))))
 #+END_SRC
 
 ** Idris
@@ -1117,9 +1117,9 @@ makes it look like absolute magic.
   :delight
   :ensure t
   :bind (:map idris-mode-map
-			  ("C-c C-a" . idris-add-clause)
-			  ("C-c C-s" . idris-case-split)
-			  ("C-c C-f" . idris-proof-search)))
+              ("C-c C-a" . idris-add-clause)
+              ("C-c C-s" . idris-case-split)
+              ("C-c C-f" . idris-proof-search)))
 #+END_SRC
 
 With this config, we can use a type-define-refine cycle by using the keys =C-c
@@ -1228,7 +1228,7 @@ language.
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
   :bind (:map rust-mode-map
-			  ("TAB" . company-indent-or-complete-common)))
+              ("TAB" . company-indent-or-complete-common)))
 #+END_SRC
 
 ** LaTeX
@@ -1393,7 +1393,7 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
   (concat (file-name-as-directory org-directory) filename))
 
 (setq org-agenda-files (list (org-file-path "master.org")
-							 (org-file-path "agenda.org")))
+                             (org-file-path "agenda.org")))
 #+END_SRC
 
 *** Better RET
@@ -1605,13 +1605,13 @@ out of the box.
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-latex-classes
-			 '("IEEEtran" "\\documentclass[11pt]{IEEEtran}"
-			   ("\\section{%s}" . "\\section*{%s}")
+             '("IEEEtran" "\\documentclass[11pt]{IEEEtran}"
+               ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
-			   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-			   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-			   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-			 t)
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+             t)
 #+END_SRC
 
 ** Beamer export
@@ -1637,8 +1637,8 @@ configuration is:
   (setq org-brain-path "~/brain/entries")
   :config
   (setq org-id-track-globally t
-	org-id-locations-file "~/.emacs.d/.org-id-locations"
-	org-brain-visualize-default-choices 'all)
+    org-id-locations-file "~/.emacs.d/.org-id-locations"
+    org-brain-visualize-default-choices 'all)
   :bind (("C-c b" . org-brain-visualize)))
 #+END_SRC
 
