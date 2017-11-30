@@ -1053,7 +1053,6 @@ easier (specially in Lisp)
 
 * Programming Modes
 ** Python
-
 *** Regular Python configuration
 
 #+BEGIN_SRC emacs-lisp
@@ -1073,7 +1072,7 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp
 (use-package ein
   :ensure t
-  :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode)
+  :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode))
 #+END_SRC
 
 ** Haskell
