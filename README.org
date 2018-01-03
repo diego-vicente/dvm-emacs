@@ -807,7 +807,7 @@ Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
 (use-package counsel-projectile
   :ensure t
   :delight
-  :config (counsel-projectile-on))
+  :config (counsel-projectile-mode t))
 #+END_SRC
 
 ** ~perspective~
@@ -987,15 +987,9 @@ I also configure a company back-end to get =fish=-like completion, that
 provides suggestions based on previous commands.
 
 #+BEGIN_SRC emacs-lisp
-(use-package company-eshell-autosuggest
-  :ensure t
-  :init (add-hook 'eshell-mode-hook 'company-mode)
-  :config
-  (defun setup-company-eshell-autosuggest ()
-    (with-eval-after-load 'company
-      (setq-local company-backends '(company-eshell-autosuggest))
-      (setq-local company-frontends '(company-preview-frontend))))
-  (add-hook 'eshell-mode-hook 'setup-company-eshell-autosuggest))
+(use-package esh-autosuggest
+  :hook (eshell-mode . esh-autosuggest-mode)
+  :ensure t)
 #+END_SRC
 
 ** ~iedit~
