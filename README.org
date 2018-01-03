@@ -788,7 +788,7 @@ Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
 (use-package counsel-projectile
   :ensure t
   :delight
-  :config (counsel-projectile-on))
+  :config (counsel-projectile-mode t))
 #+END_SRC
 
 ** ~perspective~
