@@ -444,6 +444,25 @@ switch from one to the other, I prevent the hand-tuned things to crash.
 (global-set-key (kbd "C-c c l") 'load-light-theme)
 #+END_SRC
 
+** A twist on killing lines
+
+I have the strange (and probably detrimental) muscle memory of using
+~kill-line~ as a fast method for copying and pasting. However, this implies
+that I find myself far too often using ~C-k C-y~. For that reason, I just
+wanted to merge these two options in a single keystroke. I bind it to ~M-k~
+because I usually don't move in sentences and I definitely don't kill
+sentences; your mileage may vary.
+
+#+BEGIN_SRC emacs-lisp
+(defun dont-kill-line()
+  "Copy fromm the point to the end of the line without deleting it."
+  (interactive)
+  (kill-line)
+  (yank))
+
+(global-set-key (kbd "M-k") 'dont-kill-line)
+#+END_SRC
+
 * Graphical Interface
 ** Disabling GUI defaults
 
