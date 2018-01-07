@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: Spanish settings
 # group: org-options
-# key: yesp
+# key: ?spanish
 # contributor: Diego Vicente
 # --
 #+LANGUAGE: es

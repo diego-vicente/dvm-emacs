@@ -1,16 +1,15 @@
 # -*- mode: snippet -*-
-# name: Essay
+# name: Report
 # group: templates
-# key: ?essay
+# key: ?report
 # contributor: Diego Vicente
 # --
 #+TITLE:  ${1:title}
 #+AUTHOR: Diego Vicente Martín
-#+EMAIL:  ${2:email}
+#+EMAIL:  ${2:mail@diego.codes}
 #+LaTeX_CLASS: article
-#+LaTeX_CLASS_OPTIONS: [twocolumn, 10pt]
-
-#+LATEX_HEADER: \setlength\columnsep{18pt}
+#+LaTeX_CLASS_OPTIONS: [10pt]
+#+LaTeX_HEADER: \usepackage[export]{adjustbox}[2011/08/13]
 #+LATEX_HEADER: \usepackage{amsmath}
 
 #+OPTIONS: toc:nil date:nil H:2
