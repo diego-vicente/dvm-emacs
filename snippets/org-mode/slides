@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Beamer slides
+# group: templates
+# key: ?slides
+# contributor: Diego Vicente
+# --
+#+TITLE:  ${1:title}
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  ${2:mail@diego.codes}
+#+DATE:   ${2:date}
+#+STARTUP: beamer
+#+OPTIONS: H:2 email:t
+#+LaTeX_CLASS: beamer
+#+BEAMER_FRAME_LEVEL: 2
