@@ -1448,7 +1448,10 @@ the text with the different signs.
           (lambda ()
             (local-set-key (kbd "C-c f b") 'org-mode-format-bold)
             (local-set-key (kbd "C-c f i") 'org-mode-format-italics)
-            (local-set-key (kbd "C-c f m") 'org-mode-format-tt)))
+            (local-set-key (kbd "C-c f m") 'org-mode-format-tt)
+            (local-set-key (kbd "C-c f *") 'org-mode-format-bold)
+            (local-set-key (kbd "C-c f /") 'org-mode-format-italics)
+            (local-set-key (kbd "C-c f =") 'org-mode-format-tt)))
 #+END_SRC
 
 *** Keybinding for ~org-agenda~
