@@ -1638,26 +1638,6 @@ We need to manually enable the export to Beamer option.
 (use-package ox-beamer)
 #+END_SRC
 
-** ~org-brain~
-
-This package lets us collect all notes in a fortune of mind map that connects
-each of the concepts. I'm trying to start taking notes on Computer Science
-using this tool to create a huge mind map of all I learn. The recommended
-configuration is:
-
-#+BEGIN_SRC emacs-lisp
-(use-package org-brain
-  :ensure t
-  :delight
-  :init
-  (setq org-brain-path "~/brain/entries")
-  :config
-  (setq org-id-track-globally t
-    org-id-locations-file "~/.emacs.d/.org-id-locations"
-    org-brain-visualize-default-choices 'all)
-  :bind (("C-c b" . org-brain-visualize)))
-#+END_SRC
-
 * Other Major Modes
 ** ~erc~
 
