@@ -148,6 +148,20 @@ It is incredibly annoying after 20 minutes.
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
+** Fix scroll
+
+Setting this values will force one-line scrolling everywhere (mouse and
+keyboard), resulting most of the times in a smoother scrolling than the actual
+smooth scrolling.
+
+#+BEGIN_SRC emacs-lisp
+(setq scroll-step            1
+      scroll-conservatively  10000
+	  mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-follow-mouse 't)
+#+END_SRC
+
 ** Set the backups folder
 
 This feature is super useful sometimes, but it kills me to swarm my projects
