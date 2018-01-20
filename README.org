@@ -1625,7 +1625,20 @@ one needs to take notes in class or other situations where a diagram is needed.
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-** IEEE export
+** Export settings
+*** Open PDFs using the appropriate viewer
+
+I am not super fond of the default Emacs PDF viewer, so I prefer to set it to
+GNOME's default one, Evince.
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook
+      '(lambda ()
+         (delete '("\\.pdf\\'" . default) org-file-apps)
+         (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s"))))
+#+END_SRC
+
+*** IEEE export
 
 For class assignments and who-knows-what in the future, I was able to integrate
 a IEEE Conference template in org-mode export via Latex. To use it, just
@@ -1644,7 +1657,7 @@ out of the box.
              t)
 #+END_SRC
 
-** Beamer export
+*** Beamer export
 
 We need to manually enable the export to Beamer option.
 
