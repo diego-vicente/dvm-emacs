@@ -1094,6 +1094,28 @@ easier (specially in Lisp)
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+END_SRC
 
+*** Package for Python docstrings
+
+This package adds some nice features like automatic creation of docstrings and
+highlighting in them. There is also another package for better highlight and
+indentation of the comments.
+
+#+BEGIN_SRC emacs-lisp
+(use-package sphinx-doc
+  :ensure t
+  :delight
+  :config (add-hook 'python-mode-hook 'sphinx-doc-mode))
+
+(use-package python-docstring
+  :ensure t
+  :delight
+  :config (add-hook 'python-mode-hook 'python-docstring-mode))
+#+END_SRC
+
+#+RESULTS:
+: t
+
+
 *** Notebook configuration
 
 #+BEGIN_SRC emacs-lisp
