@@ -555,6 +555,7 @@ a weird declaration to maintain the coherence:
 
 #+BEGIN_SRC emacs-lisp
 (use-package emacs
+  :demand t
   :delight
   (auto-revert-mode)
   (auto-fill-function)
