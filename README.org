@@ -571,9 +571,26 @@ tangling probably makes the code be not in order for ~custom-set-variables~ to
 do its job.
 
 #+BEGIN_SRC emacs-lisp
-(use-package gruvbox-theme
+(use-package doom-themes
   :ensure t
-  :config (load-dark-theme))
+  :config
+  (setq doom-spacegrey-padded-modeline 10
+		doom-spacegrey-brighter-modeline t)
+  (load-theme 'doom-spacegrey t)
+  (set-background-color "#2F343F")
+  ;; There has to be a better way
+  (set-face-background 'org-level-1 "#2F343F")
+  (set-face-background 'org-level-2 "#2F343F")
+  (set-face-background 'org-level-3 "#2F343F")
+  (set-face-background 'org-level-4 "#2F343F")
+  (set-face-background 'org-level-5 "#2F343F")
+  (set-face-background 'org-level-6 "#2F343F")
+  (set-face-background 'org-level-7 "#2F343F")
+  (set-face-background 'org-level-8 "#2F343F")
+  (set-face-background 'org-block-begin-line "#2F343F")
+  (set-face-background 'org-block-end-line "#2F343F")
+  (set-face-background 'org-ellipsis "#2F343F")
+)
 #+END_SRC
 
 ** ~smart-mode-line~ configuration
@@ -1112,10 +1129,6 @@ indentation of the comments.
   :delight
   :config (add-hook 'python-mode-hook 'python-docstring-mode))
 #+END_SRC
-
-#+RESULTS:
-: t
-
 
 *** Notebook configuration
 
