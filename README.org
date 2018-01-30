@@ -412,52 +412,6 @@ makes it look flatter and more minimalist.
                       :background (face-background 'default)))
 #+END_SRC
 
-** Change light and dark themes
-
-Since I don't simply load a theme, but a lot of customization along with it, I
-need to load the different themes in whole functions. That way, when I want to
-switch from one to the other, I prevent the hand-tuned things to crash.
-
-#+BEGIN_SRC emacs-lisp
-(defun load-common-setup ()
-  "Set all the faces that are prepared for both light and dark themes"
-  (set-face-foreground 'git-gutter:modified "#fabd2f")
-  (set-face-foreground 'git-gutter:added    "#b8bb26")
-  (set-face-foreground 'git-gutter:deleted  "#fb4933")
-  (set-face-attribute 'font-lock-doc-face nil :inherit 'shadow)
-  (set-face-attribute 'org-ellipsis nil :underline nil)
-  (set-fringe-as-background))
-
-(defun load-dark-theme ()
-  "Load the theme gruvbox-dark-medium and other custom faces."
-  (interactive)
-  (load-theme 'gruvbox-dark-medium t)
-  (load-common-setup)
-  (set-face-foreground 'shadow "#a89984")
-  (set-face-attribute 'mode-line nil
-                      :box '(:line-width 5 :color "#665c54"))
-  (set-face-attribute 'mode-line-inactive nil
-                      :box '(:line-width 5 :color "#3c3836"))
-  (org-bullets-mode)
-  (org-bullets-mode))
-
-(defun load-light-theme ()
-  "Load the theme gruvbox-light-medium and other custom faces."
-  (interactive)
-  (load-theme 'gruvbox-light-soft t)
-  (load-common-setup)
-  (set-face-foreground 'shadow "#7c6f64")
-  (set-face-attribute 'mode-line nil
-                      :box '(:line-width 5 :color "#bdae93"))
-  (set-face-attribute 'mode-line-inactive nil
-                      :box '(:line-width 5 :color "#ebdbb2"))
-  (org-bullets-mode)
-  (org-bullets-mode))
-
-(global-set-key (kbd "C-c c d") 'load-dark-theme)
-(global-set-key (kbd "C-c c l") 'load-light-theme)
-#+END_SRC
-
 ** A twist on killing lines
 
 I have the strange (and probably detrimental) muscle memory of using
