@@ -528,8 +528,6 @@ do its job.
 (use-package doom-themes
   :ensure t
   :config
-  (setq doom-spacegrey-padded-modeline 10
-		doom-spacegrey-brighter-modeline t)
   (load-theme 'doom-spacegrey t)
   (set-background-color "#2F343F")
   ;; There has to be a better way
@@ -547,49 +545,20 @@ do its job.
 )
 #+END_SRC
 
-** ~smart-mode-line~ configuration
+** ~spaceline~ configuration
 
-~smart-mode-line~ allows us to do a greater configuration of the mode-line
-without being as flashy (and accessible tbh). This is the bare-bones
-configuration for the package, that makes it not even load a theme. Apart from
-the mere aesthetics, I also configure the column number display and different
-short names for my folders. The last part edits slightly the mode line by
-adding a single white-space below the fringe, which helps when rendering.
+After a lot of time using ~smart-mode-line~, I finally decided to give a shot
+to ~spaceline~, which enables a more ~powerline~-like aesthetic. I also
+integrate the colors with the rest of the theme.
 
 #+BEGIN_SRC emacs-lisp
-(use-package smart-mode-line
-  :ensure t
+(use-package spaceline-config
+  :ensure spaceline
   :config
-  (progn
-    ;; Basic
-    (setq sml/theme nil)
-    (sml/setup)
-    (setq sml/no-confirm-load-theme t)
-    ;; Format the line string
-    (setq-default mode-line-format
-      '(" %e"
-        mode-line-front-space
-        mode-line-mule-info
-        mode-line-client
-        mode-line-modified
-        mode-line-remote
-        mode-line-frame-identification
-        mode-line-buffer-identification
-        sml/pos-id-separator
-        mode-line-position
-        (vc-mode vc-mode)
-        sml/pre-modes-separator
-        mode-line-modes
-        mode-line-misc-info
-        mode-line-end-spaces))
-    ;; Shorthands and column number
-    (column-number-mode 1)
-    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" ":DB:"))
-    (add-to-list 'sml/replacer-regexp-list '("^~/Projects/" ":PRJ:"))
-    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/" ":ORG:" ))
-    (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/org/bibliography/"
-                                             ":BIB:" ))
-    ))
+  (setq powerline-height 30
+		powerline-default-separator "bar")
+  (set-face-background 'spaceline-highlight-face "DodgerBlue2")
+  (spaceline-emacs-theme))
 #+END_SRC
 
 ** Configure modes in mode line to be shorter
