@@ -555,7 +555,7 @@ integrate the colors with the rest of the theme.
 (use-package spaceline-config
   :ensure spaceline
   :config
-  (setq powerline-height 30
+  (setq powerline-height 25
 		powerline-default-separator "bar")
   (set-face-background 'spaceline-highlight-face "DodgerBlue2")
   (spaceline-emacs-theme))
@@ -1432,6 +1432,7 @@ the text with the different signs.
 I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
 
 #+BEGIN_SRC emacs-lisp
+(setq org-agenda-span 14)
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
 
