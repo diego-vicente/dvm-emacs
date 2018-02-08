@@ -603,6 +603,7 @@ snippet!
 
 #+BEGIN_SRC emacs-lisp
 (setq-default cursor-type 'bar)
+(set-cursor-color "DeepPink1")
 #+END_SRC
 
 ** Adding icons with ~all-the-icons~
