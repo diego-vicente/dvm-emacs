@@ -1627,6 +1627,32 @@ We need to manually enable the export to Beamer option.
 #+END_SRC
 
 * Other Major Modes
+** ~csv-mode~
+
+Data science is hard, ok? You have to deal with huge and not super friendly
+files. However, being stubborn and geek as a I am, I try to get into Excel/Calc
+as few times as I can. The best approach (specially when using a second screen,
+bigger than a laptop) was simply to use a mode that allows for markup and
+alignment of ~.csv~ files. However, since it was sometimes dealing with files
+too big to be completely aligned, I added a function to only align the visible
+part of the file.
+
+#+BEGIN_SRC emacs-lisp
+(use-package csv-mode
+  :ensure t
+  :demand
+  :config
+
+  (defun csv-align-visible ()
+	"Align only visible entries in csv-mode."
+	(interactive)
+	(csv-align-fields nil (window-start) (window-end)))
+
+  ;; C-c C-a is already bound to align all fields, but can be too slow.
+  :bind (:map csv-mode-map
+			  ("C-c C-w" . 'csv-align-visible)))
+#+END_SRC
+
 ** ~bbdb~: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
