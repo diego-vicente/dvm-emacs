@@ -623,7 +623,6 @@ minibuffer.
 
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
-  :delight
   :ensure t
   :config (which-key-mode))
 #+END_SRC
@@ -654,7 +653,6 @@ less clutter normally. I also set the theme for the icons using
 
 #+BEGIN_SRC emacs-lisp
 (use-package neotree
-  :delight
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+END_SRC
@@ -669,7 +667,6 @@ than ~helm~, simpler and faster.
 (use-package ivy
   :ensure t
   :demand t
-  :delight
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
@@ -720,7 +717,6 @@ and diffs in VCS.
 #+BEGIN_SRC emacs-lisp
 (use-package ws-butler
   :ensure t
-  :delight
   :config (ws-butler-global-mode 1))
 #+END_SRC
 
@@ -733,7 +729,6 @@ also binds the status function to ~C-x g~.
 
 #+BEGIN_SRC emacs-lisp
 (use-package magit
-  :delight
   :ensure t
   :bind (("C-x g" . magit-status)))
 #+END_SRC
@@ -748,7 +743,6 @@ project.
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :ensure t
-  :delight
   :config
   (projectile-global-mode 1)
   (setq projectile-use-git-grep t))
@@ -759,7 +753,6 @@ Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
 #+BEGIN_SRC emacs-lisp
 (use-package counsel-projectile
   :ensure t
-  :delight
   :config (counsel-projectile-mode t))
 #+END_SRC
 
@@ -773,7 +766,6 @@ perspectives automatically integrating them with each project. To configure it:
   ;; (use-package perspective
   ;;   :ensure t
   ;;   :demand t
-  ;;   :delight
   ;;   :config
   ;;   (persp-mode)
   ;;   :bind (:map projectile-mode-map
@@ -813,7 +805,6 @@ to be configured because it really makes things slow.
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
   :ensure t
-  :delight
   :config 
   (add-hook 'prog-mode-hook #'flycheck-mode)
   (set-face-underline 'flycheck-error '(:color "Red1" :style line)))
@@ -834,7 +825,6 @@ example, LaTeX or ~org-mode~ one) we need the last hook message.
 #+BEGIN_SRC emacs-lisp
 (use-package flyspell
   :ensure t
-  :delight
   :config
   (progn
     (setq ispell-program-name "aspell"
@@ -872,7 +862,6 @@ good 'ol ~auto-complete~.
 
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :delight
   :ensure t
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
@@ -908,7 +897,6 @@ is inserted right after a curly bracket. This is specially useful in C and Go.
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
   :ensure t
-  :delight
   :config
   (add-hook 'prog-mode-hook #'smartparens-mode)
   (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
@@ -922,7 +910,6 @@ a way, a replacement for vim text objects.
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
   :ensure t
-  :delight
   :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
@@ -953,7 +940,6 @@ single keystroke.
 #+BEGIN_SRC emacs-lisp
 (use-package iedit
   :ensure t
-  :delight
   :bind (("C-c i" . iedit-mode)))
 #+END_SRC
 
@@ -964,7 +950,6 @@ Makes Lisp regular expressions more readable.
 #+BEGIN_SRC emacs-lisp
 (use-package easy-escape
   :ensure t
-  :delight
   :config
   (progn
     (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
@@ -980,7 +965,6 @@ undo-redo branches. It's really amazing.
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :ensure t
-  :delight
   :config (global-undo-tree-mode))
 #+END_SRC
 
@@ -992,7 +976,6 @@ of TextMate.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :ensure t
-  :delight
   :config
   (progn
     (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
@@ -1013,7 +996,6 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :ensure t
-  :delight
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 #+END_SRC
 
@@ -1024,7 +1006,6 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
   :ensure t
-  :delight
   :config
   (elpy-enable)
   (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
@@ -1042,12 +1023,10 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp
 (use-package sphinx-doc
   :ensure t
-  :delight
   :config (add-hook 'python-mode-hook 'sphinx-doc-mode))
 
 (use-package python-docstring
   :ensure t
-  :delight
   :config (add-hook 'python-mode-hook 'python-docstring-mode))
 #+END_SRC
 
@@ -1098,7 +1077,6 @@ makes it look like absolute magic.
 
 #+BEGIN_SRC emacs-lisp
 (use-package idris-mode
-  :delight
   :ensure t
   :bind (:map idris-mode-map
               ("C-c C-a" . idris-add-clause)
@@ -1388,7 +1366,6 @@ this package that allows a better behavior of ~RET~ in ~org-mode~.
 #+BEGIN_SRC emacs-lisp
 (use-package org-autolist
   :ensure t
-  :delight
   :config (add-hook 'org-mode-hook (lambda () (org-autolist-mode))))
 #+END_SRC
 
@@ -1452,7 +1429,6 @@ a bit too much for me, so edit them.
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
   :ensure t
-  :delight
   :config
   (progn
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -1518,7 +1494,6 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
 (use-package org-ref
   :ensure t
-  :delight
   :config
   (progn
     (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
