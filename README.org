@@ -539,25 +539,7 @@ do its job.
   (set-face-background 'org-level-7 bg-color)
   (set-face-background 'org-level-8 bg-color)
   (set-face-background 'org-block-begin-line bg-color)
-  (set-face-background 'org-block-end-line bg-color)
-)
-#+END_SRC
-
-** ~spaceline~ configuration
-
-After a lot of time using ~smart-mode-line~, I finally decided to give a shot
-to ~spaceline~, which enables a more ~powerline~-like aesthetic. I also
-integrate the colors with the rest of the theme.
-
-#+BEGIN_SRC emacs-lisp
-(use-package spaceline-config
-  :ensure spaceline
-  :config
-  (setq powerline-height 25
-		powerline-default-separator 'bar)
-  (set-face-background 'spaceline-highlight-face "DodgerBlue2")
-  (spaceline-emacs-theme))
-#+END_SRC
+  (set-face-background 'org-block-end-line bg-color))
 
 ;; (use-package solarized-theme
 ;;   :ensure t
@@ -570,9 +552,43 @@ integrate the colors with the rest of the theme.
 ;;     (set-face-attribute 'mode-line          nil :box        nil)
 ;;     (set-face-attribute 'mode-line-inactive nil :box        nil)
 ;;     (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+#+END_SRC
 
+** Mode-line configuration
+
+After trying most of the alternatives available to customizing the mode-line
+(~smart-mode-line~, ~powerline~, ~airline~, ~spaceline~...), I finally settled
+with this minimal configuration. These two packages, developed by the great
+[[https://github.com/tarsius][Jonas Bernoulli]], provide a beautiful and simple mode-line that shows all the
+information I need in a beautiful way, being less flashy and prone to errors
+than other packages. The general mode-line aesthetics and distribution is
+provided by ~moody~, while ~minions~ provide an on-click menu to show minor
+modes. While you might be thinking "on-click menu? Wasn't the point of all this
+editor thing not to use the mouse?", just notice that the previous setup used
+~delight~ to hide all minor modes. This does the same thing, saving me the
+effort of writing ~:delight~ in most package declarations and provides a nice
+menu if I need to check the minor modes at some points.
+
+#+BEGIN_SRC emacs-lisp
+(use-package minions
+  :ensure t
+  :config (minions-mode))
+
+(use-package moody
   :ensure t
   :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+	(set-face-attribute 'mode-line          nil :background "#494961")
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#3f3f54"))
+)
 #+END_SRC
 
 ** Set the cursor as a vertical bar
