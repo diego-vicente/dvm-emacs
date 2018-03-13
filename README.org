@@ -468,12 +468,10 @@ Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 
 #+BEGIN_SRC emacs-lisp
 (if (system-is-chip)
-    (set-default-font "Liberation Mono 8" t t)
+    (set-frame-font "Liberation Mono 8" t t)
   (if (system-is-mac)
-      (set-default-font "Roboto Mono 13" t t)
-    (set-default-font "Roboto Mono 11" t t)))
-
-;; (set-default-font "Office Code Pro 13" t t))
+      (set-frame-font "Roboto Mono 13" t t)
+    (set-frame-font "Roboto Mono 11" t t)))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
