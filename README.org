@@ -559,39 +559,9 @@ integrate the colors with the rest of the theme.
   (spaceline-emacs-theme))
 #+END_SRC
 
-** Configure modes in mode line to be shorter
 
-~cyphejor~ is a package that allows to make shorter names in the
-mode-line. And, as you can see, my way to use it is maybe a little bit
-aggressive.
-
-#+BEGIN_SRC emacs-lisp
-(use-package cyphejor
   :ensure t
   :config
-  (progn
-    (setq
-     cyphejor-rules
-     '(:upcase
-       ("bookmark"    "→")
-       ("buffer"      "β")
-       ("diff"        "Δ")
-       ("dired"       "δ")
-       ("emacs"       "ε")
-       ("fundamental" "Ⓕ")
-       ("inferior"    "i" :prefix)
-       ("interaction" "i" :prefix)
-       ("interactive" "i" :prefix)
-       ("lisp"        "λ" :postfix)
-       ("menu"        "▤" :postfix)
-       ("haskell"     "λ=")
-       ("mode"        "")
-       ("package"     "↓")
-       ("python"      "π")
-       ("org"         "Ω")
-       ("shell"       "sh" :postfix)
-       ("text"        "ξ")))
-    (cyphejor-mode 1)))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
