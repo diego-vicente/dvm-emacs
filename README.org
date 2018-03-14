@@ -726,6 +726,9 @@ also binds the status function to ~C-x g~.
 #+BEGIN_SRC emacs-lisp
 (use-package magit
   :ensure t
+  :config
+  (git-commit-turn-on-auto-fill)
+  (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
   :bind (("C-x g" . magit-status)))
 #+END_SRC
 
