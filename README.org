@@ -666,8 +666,7 @@ than ~helm~, simpler and faster.
   :demand t
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "%d/%d ")
+  (setq ivy-count-format "%d/%d ")
 
   :bind (("C-s" . swiper)
          ("C-c h f" . counsel-describe-function)
