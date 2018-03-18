@@ -523,35 +523,30 @@ tangling probably makes the code be not in order for ~custom-set-variables~ to
 do its job.
 
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-spacegrey t)
-  (setq bg-color "#2F343F")
-  (set-background-color bg-color)
-  ;; There has to be a better way
-  (set-face-background 'org-level-1 bg-color)
-  (set-face-background 'org-level-2 bg-color)
-  (set-face-background 'org-level-3 bg-color)
-  (set-face-background 'org-level-4 bg-color)
-  (set-face-background 'org-level-5 bg-color)
-  (set-face-background 'org-level-6 bg-color)
-  (set-face-background 'org-level-7 bg-color)
-  (set-face-background 'org-level-8 bg-color)
-  (set-face-background 'org-block-begin-line bg-color)
-  (set-face-background 'org-block-end-line bg-color))
-
-;; (use-package solarized-theme
+;; (use-package doom-themes
 ;;   :ensure t
 ;;   :config
-;;   (load-theme 'solarized-light t)
-;;   (let ((line (face-attribute 'mode-line :underline)))
-;;     (set-face-attribute 'mode-line          nil :overline   line)
-;;     (set-face-attribute 'mode-line-inactive nil :overline   line)
-;;     (set-face-attribute 'mode-line-inactive nil :underline  line)
-;;     (set-face-attribute 'mode-line          nil :box        nil)
-;;     (set-face-attribute 'mode-line-inactive nil :box        nil)
-;;     (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+;;   (load-theme 'doom-spacegrey t)
+;;   (setq bg-color "#2F343F")
+;;   (set-background-color bg-color)
+;;   ;; There has to be a better way
+;;   (set-face-background 'org-level-1 bg-color)
+;;   (set-face-background 'org-level-2 bg-color)
+;;   (set-face-background 'org-level-3 bg-color)
+;;   (set-face-background 'org-level-4 bg-color)
+;;   (set-face-background 'org-level-5 bg-color)
+;;   (set-face-background 'org-level-6 bg-color)
+;;   (set-face-background 'org-level-7 bg-color)
+;;   (set-face-background 'org-level-8 bg-color)
+;;   (set-face-background 'org-block-begin-line bg-color)
+;;   (set-face-background 'org-block-end-line bg-color))
+
+(use-package solarized-theme
+  :ensure t
+  :init
+  (setq solarized-use-variable-pitch nil)
+  :config
+  (load-theme 'solarized-light t))
 #+END_SRC
 
 ** Mode-line configuration
@@ -585,10 +580,8 @@ menu if I need to check the minor modes at some points.
     (set-face-attribute 'mode-line-inactive nil :overline   line)
     (set-face-attribute 'mode-line-inactive nil :underline  line)
     (set-face-attribute 'mode-line          nil :box        nil)
-	(set-face-attribute 'mode-line          nil :background "#494961")
     (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#3f3f54"))
-)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
@@ -1429,10 +1422,9 @@ a bit too much for me, so edit them.
 (use-package org-bullets
   :ensure t
   :config
-  (progn
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-    (setq org-bullets-bullet-list
-          '("◉" "◎" "○" "○" "○" "○"))))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
+  (setq org-bullets-bullet-list
+        '("◉" "◎" "○" "○" "○" "○")))
 #+END_SRC
 
 *** Custom ellipsis
@@ -1442,7 +1434,6 @@ prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp
 (setq org-ellipsis " ⤵")
-(add-hook 'org-mode-hook '(lambda () (set-face-background 'org-ellipsis bg-color)))
 #+END_SRC
 
 *** Pretty symbols
