@@ -567,7 +567,9 @@ menu if I need to check the minor modes at some points.
 #+BEGIN_SRC emacs-lisp
 (use-package minions
   :ensure t
-  :config (minions-mode))
+  :config
+  (setq minions-mode-line-lighter "[+]")
+  (minions-mode))
 
 (use-package moody
   :ensure t
