@@ -860,28 +860,6 @@ good 'ol ~auto-complete~.
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
-** ~auto-complete~
-
-It is probably redundant with ~company~, but works like a charm for the Python
-environment. This bare-bones config just enables auto completion for language
-specific words and other words in the buffer, so it's not really super useful.
-For language specific settings, check each of the langauge configs. Also, I
-like to customize a bit the looks of the pop-up menu
-
-#+BEGIN_SRC emacs-lisp
-;; (use-package auto-complete-config
-;;   :disabled
-;;   :ensure auto-complete
-;;   :config
-;;   (progn
-;;     (ac-config-default)
-;;     (setq ac-show-menu-immediately-on-auto-complete t)
-;;     (set-face-attribute 'popup-summary-face nil :inherit 'popup-face)
-;;     (set-face-attribute 'popup-tip-face nil
-;;                         :foreground "#c0c5ce"
-;;                         :background "#4f5b66")))
-#+END_SRC
-
 ** ~smartparens~
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
