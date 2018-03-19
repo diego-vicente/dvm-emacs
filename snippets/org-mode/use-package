@@ -3,7 +3,7 @@
 # key: ?up
 # contributor: Diego Vicente
 # --
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ${1:package-name}
   :ensure t
   :config ${2:configuration})
