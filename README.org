@@ -22,7 +22,7 @@ this file.
 All the relevant and personal information that Emacs needs. If you are going to
 use it, needless to say to use your own information.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq user-full-name "Diego Vicente"
       user-mail-address "mail@diego.codes"
       calendar-latitude 40.33
@@ -36,7 +36,7 @@ The main package repository for Emacs. Must have, probably all the packages
 that you need are already in MELPA. Also, check that it is HTTPS! We'll
 elaborate on it in a bit.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;; Add MELPA
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -53,7 +53,7 @@ Some safety tips regarding your editor are covered in the excellent article
 get some things straight. First of all, enable checking trust on TLS
 connections.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq tls-checktrust t)
 #+END_SRC
 
@@ -65,7 +65,7 @@ it. First, there are some things you need to install outside of Emacs: the
 we have everything set, we just need to tell Emacs where to search for the
 tools: setting the ~tls-program~ variable.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;; This snippet is ready to work in both UNIX-like and Windows OS
 (let ((trustfile
        (replace-regexp-in-string
@@ -84,7 +84,7 @@ tools: setting the ~tls-program~ variable.
 And, just in case (specially since the blog post provided it), we can create a
 function to check if this setup is properly done:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun check-tls-config ()
   "Check for correctness in the TLS configuration for Emacs."
   (interactive)
@@ -112,7 +112,7 @@ For some reason, there are different types of confirmation prompts in
 Emacs. One of them forces you to write "yes" and the other one only to press
 "y", so I disable the first type.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
@@ -121,7 +121,7 @@ Emacs. One of them forces you to write "yes" and the other one only to press
 I simply prefer to have a scratch buffer ready when I boot up, with ~org-mode~
 running. Not a great Lisp developer myself (yet).
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq inhibit-splash-screen t
       initial-scratch-message nil
       initial-major-mode 'org-mode)
@@ -134,7 +134,7 @@ When a buffer (i.e ~something.py~) has an associated process (in that case,
 for confirmation. I think it just interferes in my way, so I disable it as
 well.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq kill-buffer-query-functions
   (remq 'process-kill-buffer-query-function
          kill-buffer-query-functions))
@@ -144,7 +144,7 @@ well.
 
 It is incredibly annoying after 20 minutes.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
@@ -154,7 +154,7 @@ Setting this values will force one-line scrolling everywhere (mouse and
 keyboard), resulting most of the times in a smoother scrolling than the actual
 smooth scrolling.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq scroll-step            1
       scroll-conservatively  10000
 	  mouse-wheel-scroll-amount '(1 ((shift) . 1))
@@ -168,7 +168,7 @@ This feature is super useful sometimes, but it kills me to swarm my projects
 with ~foo~~ files. That's why I set them to a backup directory and stop them
 from polluting everywhere.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
   backup-by-copying t    ; Don't delink hardlinks
   version-control t      ; Use version numbers on backups
@@ -186,7 +186,7 @@ shell). That's why we need a function to loading the contents of ~$PATH~ to
 Emacs variable and call it at start. This function was improved and uploaded as
 package to MELPA, so to install it:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package exec-path-from-shell
   :ensure t
   :demand t
@@ -201,7 +201,7 @@ One of the things I really miss from vim is the shortcut ~o~, which was used to
 insert a new line below the line in which the cursor is. To have the same
 behavior in Emacs, I found this custom function that I bound to ~C-o~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun insert-new-line-below ()
   "Add a new line below the current line"
   (interactive)
@@ -218,7 +218,7 @@ If we want to swap buffers location in frames, there's no fast way to do it in
 Emacs by default. To do it, a good option that I found is to use ~buffer-move~
 package, and use these key bindings.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package buffer-move
   :ensure t
   :bind (("C-x w <up>"    . buf-move-up)
@@ -234,7 +234,7 @@ to the beginning or the end of the sentence). This is super useful for editing
 text, but Emacs assumes that you always end sentences using a period and /two/
 whitespaces, which... I actually don't. We can override this behavior with:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq-default sentence-end-double-space nil)
 #+END_SRC
 
@@ -243,7 +243,7 @@ whitespaces, which... I actually don't. We can override this behavior with:
 For our comments (only comments, not code) to be automatically filled
 in programming modes, we can use this function:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun comment-auto-fill ()
       (setq-local comment-auto-fill-only-comments t)
       (auto-fill-mode 1))
@@ -257,7 +257,7 @@ Extracted from a file in [[https://github.com/purcell/emacs.d][Steve Purcell's E
 use this functions to increase or decrease the text scale in all Emacs.
 Specially useful for presentations, demos and other shows alike.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun font-name-replace-size (font-name new-size)
   (let ((parts (split-string font-name "-")))
     (setcar (nthcdr 7 parts) (format "%d" new-size))
@@ -298,7 +298,7 @@ DELTA should be a multiple of 10, in the units used by the
 This makes the visual region behave more like the contemporary concept of
 highlighted text, that can be erased or overwritten as a whole.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (delete-selection-mode t)
 #+END_SRC
 
@@ -306,7 +306,7 @@ highlighted text, that can be erased or overwritten as a whole.
 
 To know in which system we are running, I use these functions:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun system-is-mac ()
   (interactive)
   (string-equal system-type "darwin"))
@@ -327,7 +327,7 @@ configuration on the fly: ~M-x eval-buffer RET~. However, now the buffer to
 evaluate is not this one, but ~.emacs.d/init.el~. That's why it's probably a
 better idea to define a new keybinding that automatically reloads that buffer.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun reload-emacs-configuration()
   "Reload the configuration"
   (interactive)
@@ -348,7 +348,7 @@ It is really annoying to not have the last part of the output in the screen
 when compiling. This automatically scrolls the buffer for you as the output is
 printed.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq compilation-scroll-output t)
 #+END_SRC
 
@@ -356,7 +356,7 @@ printed.
 
 Miscellaneous keybindings that don't really fit anywhere else.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "M-j") 'mark-word)
 #+END_SRC
@@ -367,7 +367,7 @@ Miscellaneous keybindings that don't really fit anywhere else.
 This function cleans the buffer from trailing whitespaces, more than two
 consecutive new lines and tabs.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun my-clean-buffer ()
   "Cleans the buffer by re-indenting, removing tabs and trailing whitespace."
   (interactive)
@@ -389,7 +389,7 @@ it's time to use some Emacs magic. ~beginning-of-line-dwim~ takes you to the
 beginning of indentation, as ~M-m~ would do. If you are already there, it takes
 you to the absolute beginning of the line.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun beginning-of-line-dwim ()
   (interactive)
   "Move to beginning of indentation, if there move to beginning of line."
@@ -404,7 +404,7 @@ you to the absolute beginning of the line.
 This function allows to set the fringe color the same as the background, which
 makes it look flatter and more minimalist.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun set-fringe-as-background ()
   "Force the fringe to have the same color as the background"
   (set-face-attribute 'fringe nil
@@ -421,7 +421,7 @@ wanted to merge these two options in a single keystroke. I bind it to ~M-k~
 because I usually don't move in sentences and I definitely don't kill
 sentences; your mileage may vary.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun dont-kill-line()
   "Copy fromm the point to the end of the line without deleting it."
   (interactive)
@@ -441,7 +441,7 @@ clutter.
 The first line disables the menu bar, but it is commented to allow the full
 screen behavior in macOS.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (if (not (system-is-mac)) (menu-bar-mode -1))
 
 (tool-bar-mode -1)
@@ -453,7 +453,7 @@ screen behavior in macOS.
 If we are running on Mac, this snippet launches the native fullscreen; if not
 it just maximizes the first frame we create.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;(if (system-is-mac) (toggle-frame-fullscreen))
 ;    (set-frame-parameter nil 'fullscreen 'fullboth)
 ;  (setq initial-frame-alist '((fullscreen . maximized))))
@@ -466,7 +466,7 @@ weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen. However, lately I have really been into Liberation Mono, Fira
 Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-frame-font "Liberation Mono 8" t t)
   (if (system-is-mac)
@@ -479,7 +479,7 @@ Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
 have it in programming modes and in ~org-mode~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package git-gutter
   :ensure git-gutter-fringe
   :delight
@@ -496,7 +496,7 @@ make them softer, using some red, green and yellow from the color palette.
 This package let us rename or hide mode names in the mode-line, with the great
 advantage of being fully compatible with ~use-package~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package delight
   :ensure t
   :demand t)
@@ -505,7 +505,7 @@ advantage of being fully compatible with ~use-package~.
 Since Emacs provides some minor modes that I want to hide as well, we will add
 a weird declaration to maintain the coherence:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package emacs
   :demand t
   :delight
@@ -522,7 +522,7 @@ in MELPA. We also use the ~NO-CONFIRM~ flag when loading, since the file
 tangling probably makes the code be not in order for ~custom-set-variables~ to
 do its job.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;; (use-package doom-themes
 ;;   :ensure t
 ;;   :config
@@ -564,7 +564,7 @@ editor thing not to use the mouse?", just notice that the previous setup used
 effort of writing ~:delight~ in most package declarations and provides a nice
 menu if I need to check the minor modes at some points.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package minions
   :ensure t
   :config
@@ -591,7 +591,7 @@ menu if I need to check the minor modes at some points.
 This is less agressive than the default brick, for sure. Thanks [[https://github.com/Alexrs95][Alex]] for this
 snippet!
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq-default cursor-type 'bar)
 #+END_SRC
 
@@ -601,7 +601,7 @@ This package comes with a set of icons gathered from different fonts, so they
 can be used basically everywhere. At least in macOS, remember to install the
 necessary fonts that come bundled in the package!
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package all-the-icons
   :ensure t)
 #+END_SRC
@@ -613,7 +613,7 @@ A beautiful package that helps a lot specially when you are new to Emacs. Every
 time a key chord is started, it displays all possible outcomes in the
 minibuffer.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package which-key
   :ensure t
   :config (which-key-mode))
@@ -631,7 +631,7 @@ What I Mean behavior, which means that if you try to rename a file with a
 second buffer open, it will assume that you want to move it there. Same with
 copy and other operations.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (setq dired-dwim-target t)
 #+END_SRC
@@ -643,7 +643,7 @@ less clutter normally. I also set the theme for the icons using
 ~all-the-icons~. Since I have already the muscle memory, I just override
 ~dired~'s regular binding to open ~neotree~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package neotree
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -655,7 +655,7 @@ After trying ~ido~ and ~helm~, the only step left to try was ~ivy~. The way it
 works is more similar to ~ido~: it is a completion engine but more minimalist
 than ~helm~, simpler and faster.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ivy
   :ensure t
   :demand t
@@ -675,7 +675,7 @@ than ~helm~, simpler and faster.
 Apart from ~ivy~, I also like to use other alternative packages that complement
 it.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ivy-rich
   :ensure t
   :demand t
@@ -691,7 +691,7 @@ Mimic vim's ~f~ with this function. I bind it to ~M-m~ to because the default
 function in there (~beginning-of-indentation~) is not necessary after adding
 ~beginning-of-line-dwim~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package iy-go-to-char
   :ensure t
   :demand t
@@ -705,7 +705,7 @@ Remove the trailing whitespaces from the lines that have been edited. The point
 of removing only the ones from the lines edited is to preserve useful blames
 and diffs in VCS.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ws-butler
   :ensure t
   :config (ws-butler-global-mode 1))
@@ -718,7 +718,7 @@ A porcelain client for git. ~magit~ alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
 also binds the status function to ~C-x g~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package magit
   :ensure t
   :config
@@ -734,7 +734,7 @@ project. To work, it searches for a VCS and sets it as the root of a project. I
 have it configured to ignore all files that has not been staged in the git
 project.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package projectile
   :ensure t
   :config
@@ -744,7 +744,7 @@ project.
 
 Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package counsel-projectile
   :ensure t
   :config (counsel-projectile-mode t))
@@ -756,7 +756,7 @@ This package lets us store the window distributions that we use and switch
 between them. I like to use it with ~persp-projectile~, which creates
 perspectives automatically integrating them with each project. To configure it:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
   ;; (use-package perspective
   ;;   :ensure t
   ;;   :demand t
@@ -782,7 +782,7 @@ behavior of ~C-c p k~: by default it is ~projectile-kill-buffers~, that will
 kill all buffers associated to a project. We can make it also delete the
 associated perspective:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun kill-current-perspective ()
   "Kill the current project buffers and close its perspective."
   (interactive)
@@ -796,7 +796,7 @@ It is important to use ~define-key~ to shadow ~projectile~'s own bindings.
 Checks syntax for different languages. Works wonders, even though sometimes has
 to be configured because it really makes things slow.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package flycheck
   :ensure t
   :config 
@@ -816,7 +816,7 @@ To make ~flyspell~ not clash with different syntax in the same file (like for
 example, LaTeX or ~org-mode~ one) we need the last hook message.
 
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package flyspell
   :ensure t
   :config
@@ -834,7 +834,7 @@ are added to each of the major-modes where I want ~flyspell~ to work.
 And this function prevents the spell checker to get inside source blocks in
 ~org~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defadvice org-mode-flyspell-verify (after org-mode-flyspell-verify-hack activate)
   (let* ((rlt ad-return-value)
          (begin-regexp "^[ \t]*#\\+begin_\\(src\\|html\\|latex\\|example\\|quote\\)")
@@ -854,7 +854,7 @@ And this function prevents the spell checker to get inside source blocks in
 It is a light-weight completion system, supposed to be faster and simpler than
 good 'ol ~auto-complete~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package company
   :ensure t
   :config (setq company-tooltip-align-annotations t))
@@ -866,7 +866,7 @@ Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
 new custom pair that makes it indent and pass the closing pair when a newline
 is inserted right after a curly bracket. This is specially useful in C and Go.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package smartparens
   :ensure t
   :config
@@ -879,7 +879,7 @@ is inserted right after a curly bracket. This is specially useful in C and Go.
 Expand region allows to select hierarchically different text regions. It is, in
 a way, a replacement for vim text objects.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package expand-region
   :ensure t
   :bind (("C-=" . er/expand-region)))
@@ -891,14 +891,14 @@ I don't use shell as much as I did before customizing Emacs, but still a good
 command line is the best option sometimes. Bound it to ~C-c t~ and use all the
 shortcuts of Emacs inside of it!
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (global-set-key (kbd "C-c t") 'eshell)
 #+END_SRC
 
 I also configure a company back-end to get =fish=-like completion, that
 provides suggestions based on previous commands.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package esh-autosuggest
   :hook (eshell-mode . esh-autosuggest-mode)
   :ensure t)
@@ -909,7 +909,7 @@ provides suggestions based on previous commands.
 This tool allows us to edit all variable names at once just by entering a
 single keystroke.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package iedit
   :ensure t
   :bind (("C-c i" . iedit-mode)))
@@ -919,7 +919,7 @@ single keystroke.
 
 Makes Lisp regular expressions more readable.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package easy-escape
   :ensure t
   :config
@@ -934,7 +934,7 @@ Makes Lisp regular expressions more readable.
 This awesome package enables a gret undo-redo system that includes creating new
 undo-redo branches. It's really amazing.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package undo-tree
   :ensure t
   :config (global-undo-tree-mode))
@@ -945,7 +945,7 @@ undo-redo branches. It's really amazing.
 This package is a template and snippet system for Emacs, inspired by the syntax
 of TextMate.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package yasnippet
   :ensure t
   :config
@@ -965,7 +965,7 @@ of the folder in the collection) and their keys can be expanded using ~TAB~.
 This package turns the parenthesis into color pairs, which makes everything
 easier (specially in Lisp)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package rainbow-delimiters
   :ensure t
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -975,7 +975,7 @@ easier (specially in Lisp)
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package elpy
   :ensure t
   :config
@@ -992,7 +992,7 @@ This package adds some nice features like automatic creation of docstrings and
 highlighting in them. There is also another package for better highlight and
 indentation of the comments.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package sphinx-doc
   :ensure t
   :config (add-hook 'python-mode-hook 'sphinx-doc-mode))
@@ -1004,7 +1004,7 @@ indentation of the comments.
 
 *** Notebook configuration
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ein
   :ensure t
   :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode))
@@ -1018,7 +1018,7 @@ ass, and makes programming really slow. However, ~intero~ is a package with
 batteries-included that works wonders. The best idea is to install it and hook
 it to Haskell.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package intero
   :ensure t
   :init   (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
@@ -1032,7 +1032,7 @@ make it easier to read them, I like to disable line truncation for that file
 extension. The problem is that, well, is not as straightforward as you may
 think...
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'find-file-hook
           (lambda ()
             (when (and (stringp buffer-file-name)
@@ -1047,7 +1047,7 @@ oriented to type development and with a type and totality checker integrated. I
 think that it is a super interesting experiment but a good Emacs configuration
 makes it look like absolute magic.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package idris-mode
   :ensure t
   :bind (:map idris-mode-map
@@ -1072,7 +1072,7 @@ you need a different configuration to face it.
 
 The first recommendation for a Go major mode seems to be this one:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package go-mode
   :ensure t)
 #+END_SRC
@@ -1083,7 +1083,7 @@ Since Go is not precisely characterized by its open-mindedness, we have to use
 tabs in our code (sigh). So, at least, let's set its size to something that can
 be read (4 instead 8 characters long)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq-default tab-width 4)
 #+END_SRC
 
@@ -1091,7 +1091,7 @@ be read (4 instead 8 characters long)
 
 We can use hooks to automatically format our code according to the guidelines:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-to-list 'exec-path "/Users/diego/go")
 (add-hook 'before-save-hook 'gofmt-before-save)
 #+END_SRC
@@ -1100,7 +1100,7 @@ We can use hooks to automatically format our code according to the guidelines:
 
 Making auto-completion work in Go requires:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package company-go
   :ensure t
   :config
@@ -1113,7 +1113,7 @@ Making auto-completion work in Go requires:
 Using ~go-eldoc~ we can see the declaration, arguments, return types, etc of
 the functions we are using in our code.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package go-eldoc
   :ensure t
   :config (add-hook 'go-mode-hook 'go-eldoc-setup))
@@ -1124,7 +1124,7 @@ the functions we are using in our code.
 Go playgrounds enable a kind of REPL, which is super useful when trying to
 learn the language and fast iterate over some code snippets.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package go-playground
   :ensure t)
 #+END_SRC
@@ -1136,7 +1136,7 @@ language.
 
 *** Basic major mode
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package rust-mode
   :ensure t
   :config (setq rust-format-on-save t))
@@ -1144,7 +1144,7 @@ language.
 
 *** Enable ~flycheck~
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package flycheck-rust
   :ensure t
   :demand t
@@ -1153,7 +1153,7 @@ language.
 
 *** Enable the ~company~ backend
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package racer
   :ensure t
   :demand t
@@ -1175,7 +1175,7 @@ requires to have ~AUCTeX~ installed.
 This snippet makes that the ~AUCTeX~ macros are loaded every time the editor
 requires them.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
@@ -1187,7 +1187,7 @@ requires them.
 
 Add the hook to enable it by default.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'flyspell-buffer)
 #+END_SRC
@@ -1197,7 +1197,7 @@ Add the hook to enable it by default.
 We already enabled auto-fill for comments in programming modes, but in LaTeX is
 more useful to directly have everything auto-filled.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
 #+END_SRC
 
@@ -1205,7 +1205,7 @@ more useful to directly have everything auto-filled.
 
 Add the backend enable auto-completion for LaTeX files.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package company-auctex
   :ensure t
   :config 
@@ -1222,7 +1222,7 @@ per line bound. No, 120 is not enough. Of course, for me ~org-mode~ should also
 be, so we enable this behaviour to be automatic. Also, keep in mind that Emacs
 auto fills to 70 characters, so we have to manually set the 79 limit.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'org-mode-hook 'auto-fill-mode)
 (setq-default fill-column 79)
 #+END_SRC
@@ -1232,7 +1232,7 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 We need to ensure that the indentation is left unaltered when exporting to
 LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-src-preserve-indentation t)
 
 (setq org-latex-default-packages-alist
@@ -1254,7 +1254,7 @@ LaTeX, and also to add several options for ~org-ref~ exporting to work properly
 Some rough collection of languages that are loaded for use in my everyday
 org-mode workflow.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((shell . t)
@@ -1264,7 +1264,7 @@ org-mode workflow.
 In the same fashion, define the safe languages that require no explicit
 confirmation of being executed.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun my-org-confirm-babel-evaluate (lang body)
   (not (member lang '("emacs-lisp" "python" "sh"))))
 
@@ -1276,7 +1276,7 @@ confirmation of being executed.
 This option makes ~TAB~ work as if the keystroke was issued in the code's major
 mode.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-src-tab-acts-natively t)
 #+END_SRC
 
@@ -1285,7 +1285,7 @@ mode.
 A small piece of elisp extracted from [[https://joy.pm/post/2017-09-17-a_graphviz_primer/][The Joy of Programming]] to properly
 display inline images in org.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun my/fix-inline-images ()
   (when org-inline-image-overlays
     (org-redisplay-inline-images)))
@@ -1299,7 +1299,7 @@ display inline images in org.
 This little snippets ensures that org will export the source blocks in the
 =lstlisting= environment and highlight the syntax when necessary.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (require 'ox-latex)
 (add-to-list 'org-latex-packages-alist '("" "listings"))
 (add-to-list 'org-latex-packages-alist '("" "color"))
@@ -1311,7 +1311,7 @@ When editing source code in an ~org~ source block, we can open a new buffer to
 edit the code in its major mode. This option makes it use the same window
 instead of popping a new one.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-src-window-setup 'current-window)
 #+END_SRC
 
@@ -1319,7 +1319,7 @@ instead of popping a new one.
 
 I set my org-directory in Dropbox. In there is the agenda files as well.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-directory "~/Dropbox/org")
 
 (defun org-file-path (filename)
@@ -1335,7 +1335,7 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
 While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][the Kitchin Research Group website]], I stumbled into
 this package that allows a better behavior of ~RET~ in ~org-mode~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package org-autolist
   :ensure t
   :config (add-hook 'org-mode-hook (lambda () (org-autolist-mode))))
@@ -1347,7 +1347,7 @@ I have defined several functions to help me format text using the org markup
 language. When I have selected text, I can use those keybindings to surround
 the text with the different signs.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun org-mode-format-bold (&optional arg)
   "Surround the selected text with asterisks (bold)"
   (interactive "P")
@@ -1378,7 +1378,7 @@ the text with the different signs.
 
 I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-agenda-span 14)
 (global-set-key (kbd "C-c a") 'org-agenda)
 #+END_SRC
@@ -1389,7 +1389,7 @@ I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
 When writing source code on a block, if this variable is enabled it will use
 the same syntax highlight as the mode supposed to deal with it.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-src-fontify-natively t)
 #+END_SRC
 
@@ -1398,7 +1398,7 @@ the same syntax highlight as the mode supposed to deal with it.
 Enable ~org-bullets~ to make it clearer. Also, the defaults are maybe
 a bit too much for me, so edit them.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package org-bullets
   :ensure t
   :config
@@ -1412,7 +1412,7 @@ a bit too much for me, so edit them.
 Also, I don't really like ~...~ to be the symbol for an ~org~ ellipsis. I
 prefer to set something much more visual:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-ellipsis " ⤵")
 #+END_SRC
 
@@ -1421,7 +1421,7 @@ prefer to set something much more visual:
 This setting will make subscripts (~x_{subscript}~) and superscripts
 (~x^{superscript}~) appear in ~org~ in a WYSIWYG fashion.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq-default org-pretty-entities t)
 #+END_SRC
 
@@ -1430,7 +1430,7 @@ This setting will make subscripts (~x_{subscript}~) and superscripts
 To preview latex fragments, we need some quick set up to obtain proper quality
 to read it in a Retina display.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-latex-create-formula-image-program 'dvisvgm)
 #+END_SRC
 
@@ -1439,7 +1439,7 @@ to read it in a Retina display.
 Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
 ~flyspell~ is above.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'org-mode-hook 'flyspell-mode)
 ;(add-hook 'org-mode-hook 'flyspell-buffer)
 #+END_SRC
@@ -1455,7 +1455,7 @@ LaTeX. The configuration can be a bit of a pain in the ass:
 We require the packages and set the default for the bibliography notes, the
 main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;; (use-package org-ref-pdf
 ;;   :ensure t)
 
@@ -1478,7 +1478,7 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 
 We also make sure to create the directory if it does not exist
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (unless (file-exists-p org-ref-pdf-directory)
   (make-directory org-ref-pdf-directory t))
 #+END_SRC
@@ -1488,7 +1488,7 @@ We also make sure to create the directory if it does not exist
 When using tools like ~crossref-add-bibtex-entry~, we want a meaningful key to
 be defined in the entries. I found this method in the ~org-ref~ config file.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq bibtex-autokey-year-length 4
       bibtex-autokey-name-year-separator "-"
       bibtex-autokey-year-title-separator "-"
@@ -1504,7 +1504,7 @@ be defined in the entries. I found this method in the ~org-ref~ config file.
 from ascii art to bitmap. This is basically sorcery for taking notes. To enable
 it, we have to explicitly load it to ~babel~:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ditaa . t)))
@@ -1515,7 +1515,7 @@ it, we have to explicitly load it to ~babel~:
 My personal setup for generating fast diagrams in org-mode. Super useful when
 one needs to take notes in class or other situations where a diagram is needed.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package graphviz-dot-mode
   :ensure t)
 
@@ -1535,7 +1535,7 @@ one needs to take notes in class or other situations where a diagram is needed.
 I am not super fond of the default Emacs PDF viewer, so I prefer to set it to
 GNOME's default one, Evince.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'org-mode-hook
       '(lambda ()
          (delete '("\\.pdf\\'" . default) org-file-apps)
@@ -1548,7 +1548,7 @@ Thanks to [[https://github.com/labellson][Dani]] for letting me know that it is 
 the intermediate files generated when exporting ~org-mode~ files. Just set the
 file extensions of all the undesired files and Emacs will take care of it.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-latex-logfiles-extensions
 	  '("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
 		"dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
@@ -1562,7 +1562,7 @@ include the =IEEEtran= class in your org file. It has not been thoroughly
 tested, but its headers, index, abstract and general aesthetic works perfectly
 out of the box.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (add-to-list 'org-latex-classes
              '("IEEEtran" "\\documentclass[11pt]{IEEEtran}"
                ("\\section{%s}" . "\\section*{%s}")
@@ -1577,7 +1577,7 @@ out of the box.
 
 We need to manually enable the export to Beamer option.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package ox-beamer)
 #+END_SRC
 
@@ -1592,7 +1592,7 @@ alignment of ~.csv~ files. However, since it was sometimes dealing with files
 too big to be completely aligned, I added a function to only align the visible
 part of the file.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package csv-mode
   :ensure t
   :demand
@@ -1612,7 +1612,7 @@ part of the file.
 
 One of the best known packages for contact management in Emacs.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package bbdb
   :ensure t)
 #+END_SRC
@@ -1627,7 +1627,7 @@ requires really little configuration to make to be great.
 This snippet hides all the IRC messages that notify someone has joined, parted
 or quitted if that user has been inactive for more than half an hour.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
 (setq erc-lurker-threshold-time 1800)
 #+END_SRC
@@ -1637,7 +1637,7 @@ or quitted if that user has been inactive for more than half an hour.
 ~erc~ suggests a default nickname when logging in. ~agis~ is my username, if
 you want to set another one just change that argument.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq erc-nick "agis")
 #+END_SRC
 ** ~w3m~
@@ -1646,7 +1646,7 @@ you want to set another one just change that argument.
 substitute of your regular browser, but it's handy to have a fast way to query
 things without going out of Emacs. It's super geeky, I know.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (global-set-key (kbd "C-c w") 'w3m)
 #+END_SRC
 
@@ -1655,7 +1655,7 @@ things without going out of Emacs. It's super geeky, I know.
 Basically, making it the default browser from Emacs, enable the cookies and
 setting an Android agent to prevent clutter.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 ;; (setq browse-url-browser-function 'w3m-goto-url-new-session)
 (setq w3m-set-cookies t)
 (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid
@@ -1667,7 +1667,7 @@ setting an Android agent to prevent clutter.
 
 I like to explicitly give permission to my frequent places to set cookies.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq w3m-cookie-accept-domains '("reddit.com"))
 #+END_SRC
 
@@ -1676,7 +1676,7 @@ I like to explicitly give permission to my frequent places to set cookies.
 This function enables a shortcut that prompts the user for a subreddit, being
 r/emacs the default one.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (defun reddit (subreddit)
   "Opens the `subreddit' in w3m-new-session"
   (interactive
@@ -1695,7 +1695,7 @@ This package allows to fetch and write emails from Emacs. Is it pushing a text
 editor too far? Maybe. Also, take into account that it is part of ~notmuch~ and
 it should be installed in your system.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package notmuch
   :ensure t)
 #+END_SRC
