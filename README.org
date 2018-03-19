@@ -1564,6 +1564,18 @@ GNOME's default one, Evince.
          (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s"))))
 #+END_SRC
 
+*** Clean intermediate files.
+
+Thanks to [[https://github.com/labellson][Dani]] for letting me know that it is possible to automatically delete
+the intermediate files generated when exporting ~org-mode~ files. Just set the
+file extensions of all the undesired files and Emacs will take care of it.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-logfiles-extensions
+	  '("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
+		"dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
+#+END_SRC
+
 *** IEEE export
 
 For class assignments and who-knows-what in the future, I was able to integrate
