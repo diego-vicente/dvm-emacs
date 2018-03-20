@@ -574,7 +574,8 @@ menu if I need to check the minor modes at some points.
 (use-package moody
   :ensure t
   :config
-  (setq x-underline-at-descent-line t)
+  (setq x-underline-at-descent-line t
+		column-number-mode t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
   (let ((line (face-attribute 'mode-line :underline)))
