@@ -1305,16 +1305,6 @@ This little snippets ensures that org will export the source blocks in the
 (add-to-list 'org-latex-packages-alist '("" "color"))
 #+END_SRC
 
-*** Open source blocks in the same window
-
-When editing source code in an ~org~ source block, we can open a new buffer to
-edit the code in its major mode. This option makes it use the same window
-instead of popping a new one.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(setq org-src-window-setup 'current-window)
-#+END_SRC
-
 *** Set the directory
 
 I set my org-directory in Dropbox. In there is the agenda files as well.
