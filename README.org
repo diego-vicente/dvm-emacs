@@ -697,6 +697,9 @@ also binds the status function to ~C-x g~.
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
   :bind (("C-x g" . magit-status)))
+
+(use-package magit-lfs
+  :ensure t)
 #+END_SRC
 
 ** ~projectile~
