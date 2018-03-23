@@ -448,17 +448,6 @@ screen behavior in macOS.
 (scroll-bar-mode -1)
 #+END_SRC
 
-** Start in full-screen
-
-If we are running on Mac, this snippet launches the native fullscreen; if not
-it just maximizes the first frame we create.
-
-#+BEGIN_SRC emacs-lisp :results silent
-;(if (system-is-mac) (toggle-frame-fullscreen))
-;    (set-frame-parameter nil 'fullscreen 'fullboth)
-;  (setq initial-frame-alist '((fullscreen . maximized))))
-#+END_SRC
-
 ** Setting default font
 
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
