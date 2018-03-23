@@ -477,9 +477,6 @@ have it in programming modes and in ~org-mode~.
   (add-hook 'org-mode-hook 'git-gutter-mode))
 #+END_SRC
 
-Since we are using Gruvbox theme all along, I prefer to tweak the colors to
-make them softer, using some red, green and yellow from the color palette.
-
 ** ~delight~ to manage mode names in the mode-line
 
 This package let us rename or hide mode names in the mode-line, with the great
@@ -505,31 +502,16 @@ a weird declaration to maintain the coherence:
 
 ** Setting my favorite theme
 
-I really like [[https://github.com/chriskempson/base16][base16 color themes]] by Chris Kempson, specially Eighties.
-However, lately I am really enjoying Gruvbox themes lately. They are available
-in MELPA. We also use the ~NO-CONFIRM~ flag when loading, since the file
-tangling probably makes the code be not in order for ~custom-set-variables~ to
-do its job.
+After a long journey through several of the [[https://github.com/chriskempson/base16][base16 color themes]], =gruvbox=,
+=doom= and other color schemes, I think I have finally found my endgame one of
+the all-time classics: =solarized-light=. It has a great contrast, that does
+not feel tiring on the eyes after a long time using it like some other light
+themes, and it is stupidly pretty overall. Furthermore, it is a great Emacs
+package that offers a lot of customization for different packages. The only
+thing that actually annoys me is the fact that it changes the font in
+=org-mode= headings by default (which is that variable I am setting to =t=).
 
 #+BEGIN_SRC emacs-lisp :results silent
-;; (use-package doom-themes
-;;   :ensure t
-;;   :config
-;;   (load-theme 'doom-spacegrey t)
-;;   (setq bg-color "#2F343F")
-;;   (set-background-color bg-color)
-;;   ;; There has to be a better way
-;;   (set-face-background 'org-level-1 bg-color)
-;;   (set-face-background 'org-level-2 bg-color)
-;;   (set-face-background 'org-level-3 bg-color)
-;;   (set-face-background 'org-level-4 bg-color)
-;;   (set-face-background 'org-level-5 bg-color)
-;;   (set-face-background 'org-level-6 bg-color)
-;;   (set-face-background 'org-level-7 bg-color)
-;;   (set-face-background 'org-level-8 bg-color)
-;;   (set-face-background 'org-block-begin-line bg-color)
-;;   (set-face-background 'org-block-end-line bg-color))
-
 (use-package solarized-theme
   :ensure t
   :init
