@@ -725,47 +725,6 @@ Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
   :config (counsel-projectile-mode t))
 #+END_SRC
 
-** ~perspective~
-
-This package lets us store the window distributions that we use and switch
-between them. I like to use it with ~persp-projectile~, which creates
-perspectives automatically integrating them with each project. To configure it:
-
-#+BEGIN_SRC emacs-lisp :results silent
-  ;; (use-package perspective
-  ;;   :ensure t
-  ;;   :demand t
-  ;;   :config
-  ;;   (persp-mode)
-  ;;   :bind (:map projectile-mode-map
-  ;;              ("C-c p f" . counsel-git)
-  ;;              ("C-c p n" . persp-next)
-  ;;              ("C-c p k" . kill-current-perspective)))
-
-  ;; (use-package persp-projectile
-  ;;   :ensure t
-  ;;   :demand t)
-#+END_SRC
-
-This snippet also changes the color of the mode-line widget to a smoother one
-and binds ~C-c p n~ to change next perspective to integrate better the
-perspective and project management.
-
-Now that we have defined this beautiful ~perspective~ + ~projectile~ combo, we
-can tweak a bit more its integration: For example, we can override the
-behavior of ~C-c p k~: by default it is ~projectile-kill-buffers~, that will
-kill all buffers associated to a project. We can make it also delete the
-associated perspective:
-
-#+BEGIN_SRC emacs-lisp :results silent
-(defun kill-current-perspective ()
-  "Kill the current project buffers and close its perspective."
-  (interactive)
-  (persp-kill (persp-name persp-curr)))
-#+END_SRC
-
-It is important to use ~define-key~ to shadow ~projectile~'s own bindings.
-
 ** ~flycheck~
 
 Checks syntax for different languages. Works wonders, even though sometimes has
