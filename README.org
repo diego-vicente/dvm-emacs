@@ -1235,8 +1235,9 @@ This little snippets ensures that org will export the source blocks in the
 
 #+BEGIN_SRC emacs-lisp :results silent
 (require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "listings"))
 (add-to-list 'org-latex-packages-alist '("" "color"))
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+(setq org-latex-listings 'listings)
 #+END_SRC
 
 *** Set the directory
@@ -1389,16 +1390,16 @@ main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
 (use-package org-ref
   :ensure t
   :config
-  (progn
-    (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
-          org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
-          org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
-          org-latex-pdf-process
-          '("pdflatex -interaction nonstopmode -output-directory %o %f"
-            "bibtex %b"
-            "pdflatex -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -interaction nonstopmode -output-directory %o %f"))))
+  (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
+        org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
+        org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
+        org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "bibtex %b"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
 #+END_SRC
+
 
 We also make sure to create the directory if it does not exist
 

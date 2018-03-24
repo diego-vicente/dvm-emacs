@@ -7,8 +7,11 @@
 #+TITLE:  ${1:title}
 #+AUTHOR: Diego Vicente Martín
 #+EMAIL:  ${2:mail@diego.codes}
-#+DATE:   ${2:date}
+#+DATE:   ${2:\today}
 #+STARTUP: beamer
 #+OPTIONS: H:2 email:t
-#+LaTeX_CLASS: beamer
+#+LATEX_CLASS: beamer
+#+LATEX_HEADER: \usecolortheme[light]{solarized}
+#+LATEX_HEADER: % \usetheme{metropolis}
+#+LATEX_HEADER: \usepackage{solarized-light}
 #+BEAMER_FRAME_LEVEL: 2
