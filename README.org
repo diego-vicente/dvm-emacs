@@ -494,7 +494,8 @@ thing that actually annoys me is the fact that it changes the font in
   :init
   (setq solarized-use-variable-pitch nil)
   :config
-  (load-theme 'solarized-light t))
+  (load-theme 'solarized-light t)
+  (set-face-attribute 'org-block nil :background "#f9f2d9"))
 #+END_SRC
 
 ** Mode-line configuration
