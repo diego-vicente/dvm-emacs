@@ -919,7 +919,8 @@ indentation of the comments.
 (use-package ein
   :ensure t
   :config
-  (add-hook 'ein:notebook-multilang-mode-hook (lambda () (ws-butler-mode -1))))
+  (add-hook 'ein:notebook-multilang-mode-hook (lambda () (ws-butler-mode -1)))
+  (set-face-attribute 'ein:cell-input-area nil :background "#f9f2d9"))
 #+END_SRC
 
 ** Haskell
