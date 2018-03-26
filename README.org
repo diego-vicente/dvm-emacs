@@ -477,29 +477,6 @@ have it in programming modes and in ~org-mode~.
   (add-hook 'org-mode-hook 'git-gutter-mode))
 #+END_SRC
 
-** ~delight~ to manage mode names in the mode-line
-
-This package let us rename or hide mode names in the mode-line, with the great
-advantage of being fully compatible with ~use-package~.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package delight
-  :ensure t
-  :demand t)
-#+END_SRC
-
-Since Emacs provides some minor modes that I want to hide as well, we will add
-a weird declaration to maintain the coherence:
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package emacs
-  :demand t
-  :delight
-  (auto-revert-mode)
-  (auto-fill-function)
-  (visual-line-mode))
-#+END_SRC
-
 ** Setting my favorite theme
 
 After a long journey through several of the [[https://github.com/chriskempson/base16][base16 color themes]], =gruvbox=,
