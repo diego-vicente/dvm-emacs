@@ -941,7 +941,8 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ein
   :ensure t
-  :config (add-hook 'ein:notebook-multilang-mode-hook 'visual-line-mode))
+  :config
+  (add-hook 'ein:notebook-multilang-mode-hook (lambda () (ws-butler-mode -1))))
 #+END_SRC
 
 ** Haskell
