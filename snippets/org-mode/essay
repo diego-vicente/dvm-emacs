@@ -6,12 +6,12 @@
 # --
 #+TITLE:  ${1:title}
 #+AUTHOR: Diego Vicente Martín
-#+EMAIL:  ${2:email}
+#+EMAIL:  ${2:mail@diego.codes}
 #+LaTeX_CLASS: article
-#+LaTeX_CLASS_OPTIONS: [twocolumn, 10pt]
+#+LaTeX_CLASS_OPTIONS: [10pt]
 
-#+LATEX_HEADER: \setlength\columnsep{18pt}
 #+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{solarized-light}
 
 #+OPTIONS: toc:nil date:nil H:2
 
