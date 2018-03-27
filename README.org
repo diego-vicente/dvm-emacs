@@ -42,8 +42,7 @@ elaborate on it in a bit.
   (require 'package)
   (add-to-list
    'package-archives
-   '("MELPA" . "https://melpa.org/packages/") t)
-  (package-initialize))
+   '("MELPA" . "https://melpa.org/packages/") t))
 #+END_SRC
 
 ** Making Emacs secure
