@@ -126,7 +126,7 @@ running. Not a great Lisp developer myself (yet).
       initial-major-mode 'org-mode)
 #+END_SRC
 
-** Disable the warning when killing a buffer w/ process
+** Disable the warning when killing a buffer with process
 
 When a buffer (i.e ~something.py~) has an associated process (in that case,
 ~Python~ for completion), Emacs will prompt you when trying to kill it, asking
@@ -175,23 +175,6 @@ from polluting everywhere.
   kept-new-versions 20   ; how many of the newest versions to keep
   kept-old-versions 5    ; and how many of the old
   )
-#+END_SRC
-
-** Fill the ~exec-path~ variable
-
-I spent too much time until I figured this out. Since I mostly use GUI Emacs,
-the ~exec-path~ variable is empty at start (it has not been started through
-shell). That's why we need a function to loading the contents of ~$PATH~ to
-Emacs variable and call it at start. This function was improved and uploaded as
-package to MELPA, so to install it:
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package exec-path-from-shell
-  :ensure t
-  :demand t
-  :config (when (memq window-system '(mac ns x))
-            (exec-path-from-shell-initialize)
-            (add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
 #+END_SRC
 
 ** Insert new line without breaking
