@@ -4,16 +4,16 @@
 
 * Introduction
 
-The idea generating a new configuration file using ~org-mode~ and literate
+The idea generating a new configuration file using =org-mode= and literate
 programming is taken from [[https://youtu.be/SzA2YODtgK4][Harry Schwartz's talk about org-mode]]. When Emacs is
 booted, all the source blocks from this file are used to generate the
 configuration file.
 
 To do this, the only thing needed is to have the configuration file parsed and
-evaluated on startup. This can be done by moving ~init.el~ to the ~emacs.d~
-directory. This can be done by executing =cp init.el ~/.emacs.d/init.el= on the
+evaluated on startup. This can be done by moving =init.el= to the =emacs.d=
+directory. This can be done by executing =cp init.el =/.emacs.d/init.el= on the
 terminal. Note: this file assumes that this repository has been cloned to your
-home, if you are going to install it elsewhere please edit ~init.el~ to find
+home, if you are going to install it elsewhere please edit =init.el= to find
 this file.
 
 * Basic Emacs Setup
@@ -59,10 +59,10 @@ connections.
 Now that we have enabled this feature, Emacs can't fetch HTTPS anymore: Emacs
 does not distribute trust root certificates. So let's try to put a remedy for
 it. First, there are some things you need to install outside of Emacs: the
-~certifi~ package for ~PyPI~ using ~python3 -m pip install --user certifi~ and
-~gnutls~ by running ~brew install gnutls~ or ~apt-get install gnutls-bin~. Once
+=certifi= package for =PyPI= using =python3 -m pip install --user certifi= and
+=gnutls= by running =brew install gnutls= or =apt-get install gnutls-bin=. Once
 we have everything set, we just need to tell Emacs where to search for the
-tools: setting the ~tls-program~ variable.
+tools: setting the =tls-program= variable.
 
 #+BEGIN_SRC emacs-lisp :results silent
 ;; This snippet is ready to work in both UNIX-like and Windows OS
@@ -105,7 +105,7 @@ function to check if this setup is properly done:
 Please note that it is *crucial* to have added MELPA as an HTTPS for this
 secure configuration to work.
 
-** Disable ~yes-or-no~ messages
+** Disable =yes-or-no= messages
 
 For some reason, there are different types of confirmation prompts in
 Emacs. One of them forces you to write "yes" and the other one only to press
@@ -117,7 +117,7 @@ Emacs. One of them forces you to write "yes" and the other one only to press
 
 ** Disable startup message
 
-I simply prefer to have a scratch buffer ready when I boot up, with ~org-mode~
+I simply prefer to have a scratch buffer ready when I boot up, with =org-mode=
 running. Not a great Lisp developer myself (yet).
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -128,8 +128,8 @@ running. Not a great Lisp developer myself (yet).
 
 ** Disable the warning when killing a buffer with process
 
-When a buffer (i.e ~something.py~) has an associated process (in that case,
-~Python~ for completion), Emacs will prompt you when trying to kill it, asking
+When a buffer (i.e =something.py=) has an associated process (in that case,
+=Python= for completion), Emacs will prompt you when trying to kill it, asking
 for confirmation. I think it just interferes in my way, so I disable it as
 well.
 
@@ -164,7 +164,7 @@ smooth scrolling.
 ** Set the backups folder
 
 This feature is super useful sometimes, but it kills me to swarm my projects
-with ~foo~~ files. That's why I set them to a backup directory and stop them
+with =foo== files. That's why I set them to a backup directory and stop them
 from polluting everywhere.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -179,9 +179,9 @@ from polluting everywhere.
 
 ** Insert new line without breaking
 
-One of the things I really miss from vim is the shortcut ~o~, which was used to
+One of the things I really miss from vim is the shortcut =o=, which was used to
 insert a new line below the line in which the cursor is. To have the same
-behavior in Emacs, I found this custom function that I bound to ~C-o~.
+behavior in Emacs, I found this custom function that I bound to =C-o=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (defun insert-new-line-below ()
@@ -197,7 +197,7 @@ behavior in Emacs, I found this custom function that I bound to ~C-o~.
 ** Move buffers around
 
 If we want to swap buffers location in frames, there's no fast way to do it in
-Emacs by default. To do it, a good option that I found is to use ~buffer-move~
+Emacs by default. To do it, a good option that I found is to use =buffer-move=
 package, and use these key bindings.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -211,7 +211,7 @@ package, and use these key bindings.
 
 ** Redefining sentences in Emacs
 
-Emacs allows you to move in sentences using the commands ~M-a~ and ~M-e~ (to go
+Emacs allows you to move in sentences using the commands =M-a= and =M-e= (to go
 to the beginning or the end of the sentence). This is super useful for editing
 text, but Emacs assumes that you always end sentences using a period and /two/
 whitespaces, which... I actually don't. We can override this behavior with:
@@ -302,11 +302,11 @@ To know in which system we are running, I use these functions:
   (string-equal system-name "chip"))
 #+END_SRC
 
-** Define keybindings to ~eval-buffer~ on init and open ~README.org~
+** Define keybindings to =eval-buffer= on init and open =README.org=
 
-Before this magical ~org~ configuration, it was easier to reload Emacs
-configuration on the fly: ~M-x eval-buffer RET~. However, now the buffer to
-evaluate is not this one, but ~.emacs.d/init.el~. That's why it's probably a
+Before this magical =org= configuration, it was easier to reload Emacs
+configuration on the fly: =M-x eval-buffer RET=. However, now the buffer to
+evaluate is not this one, but =.emacs.d/init.el=. That's why it's probably a
 better idea to define a new keybinding that automatically reloads that buffer.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -363,12 +363,12 @@ consecutive new lines and tabs.
 
 ** Move to indentation or beginning of the line
 
-By default, ~C-c a~ moves the cursor to the beginning of the line. If there is
+By default, =C-c a= moves the cursor to the beginning of the line. If there is
 indentation, usually you want to move to the beginning of the line after the
-indentation, which is indeed bound by default to ~M-m~. However, my muscle
+indentation, which is indeed bound by default to =M-m=. However, my muscle
 memory seems to be unable to learn that those are two different actions, so
-it's time to use some Emacs magic. ~beginning-of-line-dwim~ takes you to the
-beginning of indentation, as ~M-m~ would do. If you are already there, it takes
+it's time to use some Emacs magic. =beginning-of-line-dwim= takes you to the
+beginning of indentation, as =M-m= would do. If you are already there, it takes
 you to the absolute beginning of the line.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -397,9 +397,9 @@ makes it look flatter and more minimalist.
 ** A twist on killing lines
 
 I have the strange (and probably detrimental) muscle memory of using
-~kill-line~ as a fast method for copying and pasting. However, this implies
-that I find myself far too often using ~C-k C-y~. For that reason, I just
-wanted to merge these two options in a single keystroke. I bind it to ~M-k~
+=kill-line= as a fast method for copying and pasting. However, this implies
+that I find myself far too often using =C-k C-y=. For that reason, I just
+wanted to merge these two options in a single keystroke. I bind it to =M-k=
 because I usually don't move in sentences and I definitely don't kill
 sentences; your mileage may vary.
 
@@ -447,8 +447,8 @@ Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 
 ** Highlight changed and uncommited lines
 
-Use the ~git-gutter-fringe~ package for that. For me it's more than enough to
-have it in programming modes and in ~org-mode~.
+Use the =git-gutter-fringe= package for that. For me it's more than enough to
+have it in programming modes and in =org-mode=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package git-gutter
@@ -483,16 +483,16 @@ thing that actually annoys me is the fact that it changes the font in
 ** Mode-line configuration
 
 After trying most of the alternatives available to customizing the mode-line
-(~smart-mode-line~, ~powerline~, ~airline~, ~spaceline~...), I finally settled
+(=smart-mode-line=, =powerline=, =airline=, =spaceline=...), I finally settled
 with this minimal configuration. These two packages, developed by the great
 [[https://github.com/tarsius][Jonas Bernoulli]], provide a beautiful and simple mode-line that shows all the
 information I need in a beautiful way, being less flashy and prone to errors
 than other packages. The general mode-line aesthetics and distribution is
-provided by ~moody~, while ~minions~ provide an on-click menu to show minor
+provided by =moody=, while =minions= provide an on-click menu to show minor
 modes. While you might be thinking "on-click menu? Wasn't the point of all this
 editor thing not to use the mouse?", just notice that the previous setup used
-~delight~ to hide all minor modes. This does the same thing, saving me the
-effort of writing ~:delight~ in most package declarations and provides a nice
+=delight= to hide all minor modes. This does the same thing, saving me the
+effort of writing =:delight= in most package declarations and provides a nice
 menu if I need to check the minor modes at some points.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -527,7 +527,7 @@ snippet!
 (setq-default cursor-type 'bar)
 #+END_SRC
 
-** Adding icons with ~all-the-icons~
+** Adding icons with =all-the-icons=
 
 This package comes with a set of icons gathered from different fonts, so they
 can be used basically everywhere. At least in macOS, remember to install the
@@ -539,7 +539,7 @@ necessary fonts that come bundled in the package!
 #+END_SRC
 
 * Packages & Tools
-** ~which-key~
+** =which-key=
 
 A beautiful package that helps a lot specially when you are new to Emacs. Every
 time a key chord is started, it displays all possible outcomes in the
@@ -551,14 +551,14 @@ minibuffer.
   :config (which-key-mode))
 #+END_SRC
 
-** ~dired~
+** =dired=
 
 Emacs' default directory system. It may feel weird first, but it is super
 powerful. Its main feature is that it is a buffer. Yes, ok, everything is a
-buffer in Emacs, but if you press ~C-c C-q~ in a dired buffer it turns into a
+buffer in Emacs, but if you press =C-c C-q= in a dired buffer it turns into a
 writeable buffer, so you can edit the directory files just as a regular Emacs
 piece of text! I also like to have the details hidden. Also, I feel like it can
-be useful to comment a bit on ~dired-dwim-target~. This enables the dired's Do
+be useful to comment a bit on =dired-dwim-target=. This enables the dired's Do
 What I Mean behavior, which means that if you try to rename a file with a
 second buffer open, it will assume that you want to move it there. Same with
 copy and other operations.
@@ -568,12 +568,12 @@ copy and other operations.
 (setq dired-dwim-target t)
 #+END_SRC
 
-** ~neotree~
+** =neotree=
 
-I used the default ~dired~ for a long time, but I found that ~neotree~ adds
+I used the default =dired= for a long time, but I found that =neotree= adds
 less clutter normally. I also set the theme for the icons using
-~all-the-icons~. Since I have already the muscle memory, I just override
-~dired~'s regular binding to open ~neotree~.
+=all-the-icons=. Since I have already the muscle memory, I just override
+=dired='s regular binding to open =neotree=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package neotree
@@ -581,11 +581,11 @@ less clutter normally. I also set the theme for the icons using
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+END_SRC
 
-** ~ivy~
+** =ivy=
 
-After trying ~ido~ and ~helm~, the only step left to try was ~ivy~. The way it
-works is more similar to ~ido~: it is a completion engine but more minimalist
-than ~helm~, simpler and faster.
+After trying =ido= and =helm=, the only step left to try was =ivy=. The way it
+works is more similar to =ido=: it is a completion engine but more minimalist
+than =helm=, simpler and faster.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ivy
@@ -604,7 +604,7 @@ than ~helm~, simpler and faster.
          ("C-j" . ivy-done)))
 #+END_SRC
 
-Apart from ~ivy~, I also like to use other alternative packages that complement
+Apart from =ivy=, I also like to use other alternative packages that complement
 it.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -617,11 +617,11 @@ it.
   )
 #+END_SRC
 
-** ~iy-go-to-char~
+** =iy-go-to-char=
 
-Mimic vim's ~f~ with this function. I bind it to ~M-m~ to because the default
-function in there (~beginning-of-indentation~) is not necessary after adding
-~beginning-of-line-dwim~.
+Mimic vim's =f= with this function. I bind it to =M-m= to because the default
+function in there (=beginning-of-indentation=) is not necessary after adding
+=beginning-of-line-dwim=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package iy-go-to-char
@@ -631,7 +631,7 @@ function in there (~beginning-of-indentation~) is not necessary after adding
          ("M-M" . iy-go-to-char)))
 #+END_SRC
 
-** ~ws-butler~
+** =ws-butler=
 
 Remove the trailing whitespaces from the lines that have been edited. The point
 of removing only the ones from the lines edited is to preserve useful blames
@@ -643,12 +643,12 @@ and diffs in VCS.
   :config (ws-butler-global-mode 1))
 #+END_SRC
 
-** ~magit~
+** =magit=
 
 
-A porcelain client for git. ~magit~ alone is a reason to use Emacs over
+A porcelain client for git. =magit= alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
-also binds the status function to ~C-x g~.
+also binds the status function to =C-x g=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package magit
@@ -662,7 +662,7 @@ also binds the status function to ~C-x g~.
   :ensure t)
 #+END_SRC
 
-** ~projectile~
+** =projectile=
 
 Enables different tools and functions to deal with files related to a
 project. To work, it searches for a VCS and sets it as the root of a project. I
@@ -677,7 +677,7 @@ project.
   (setq projectile-use-git-grep t))
 #+END_SRC
 
-Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
+Also, the extension =counsel-projectile= adds integration with =ivy=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package counsel-projectile
@@ -685,7 +685,7 @@ Also, the extension ~counsel-projectile~ adds integration with ~ivy~.
   :config (counsel-projectile-mode t))
 #+END_SRC
 
-** ~flycheck~
+** =flycheck=
 
 Checks syntax for different languages. Works wonders, even though sometimes has
 to be configured because it really makes things slow.
@@ -698,16 +698,16 @@ to be configured because it really makes things slow.
   (set-face-underline 'flycheck-error '(:color "Red1" :style line)))
 #+END_SRC
 
-** ~flyspell~
+** =flyspell=
 
-Just like ~flycheck~, but it checks natural language in a text. Super useful
+Just like =flycheck=, but it checks natural language in a text. Super useful
 for note taking and other text edition, specially if you use Emacs for
-everything like I do. ~flyspell~ is installed in new Emacs versions, but there
-are no completion tools by default in macOS, so we need to install the ~aspell~
-engine by running ~brew install aspell --with-lang-en~
+everything like I do. =flyspell= is installed in new Emacs versions, but there
+are no completion tools by default in macOS, so we need to install the =aspell=
+engine by running =brew install aspell --with-lang-en=
 
-To make ~flyspell~ not clash with different syntax in the same file (like for
-example, LaTeX or ~org-mode~ one) we need the last hook message.
+To make =flyspell= not clash with different syntax in the same file (like for
+example, LaTeX or =org-mode= one) we need the last hook message.
 
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -720,13 +720,13 @@ example, LaTeX or ~org-mode~ one) we need the last hook message.
     (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))))
 #+END_SRC
 
-In case I am writing a text in a different language, I can just use ~M-x
-ispell-change-dictionary~. Emacs seems to have a wide enough range of
+In case I am writing a text in a different language, I can just use =M-x
+ispell-change-dictionary=. Emacs seems to have a wide enough range of
 dictionaries preinstalled to suit my needs. Later in the configurations, hooks
-are added to each of the major-modes where I want ~flyspell~ to work.
+are added to each of the major-modes where I want =flyspell= to work.
 
 And this function prevents the spell checker to get inside source blocks in
-~org~.
+=org=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (defadvice org-mode-flyspell-verify (after org-mode-flyspell-verify-hack activate)
@@ -743,10 +743,10 @@ And this function prevents the spell checker to get inside source blocks in
     (setq ad-return-value rlt)))
 #+END_SRC
 
-** ~company~
+** =company=
 
 It is a light-weight completion system, supposed to be faster and simpler than
-good 'ol ~auto-complete~.
+good 'ol =auto-complete=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package company
@@ -754,7 +754,7 @@ good 'ol ~auto-complete~.
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
-** ~smartparens~
+** =smartparens=
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
 new custom pair that makes it indent and pass the closing pair when a newline
@@ -768,7 +768,7 @@ is inserted right after a curly bracket. This is specially useful in C and Go.
   (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 #+END_SRC
 
-** ~expand-region~
+** =expand-region=
 
 Expand region allows to select hierarchically different text regions. It is, in
 a way, a replacement for vim text objects.
@@ -779,10 +779,10 @@ a way, a replacement for vim text objects.
   :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
-** ~eshell~
+** =eshell=
 
 I don't use shell as much as I did before customizing Emacs, but still a good
-command line is the best option sometimes. Bound it to ~C-c t~ and use all the
+command line is the best option sometimes. Bound it to =C-c t= and use all the
 shortcuts of Emacs inside of it!
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -798,7 +798,7 @@ provides suggestions based on previous commands.
   :ensure t)
 #+END_SRC
 
-** ~iedit~
+** =iedit=
 
 This tool allows us to edit all variable names at once just by entering a
 single keystroke.
@@ -809,7 +809,7 @@ single keystroke.
   :bind (("C-c i" . iedit-mode)))
 #+END_SRC
 
-** ~easy-escape~
+** =easy-escape=
 
 Makes Lisp regular expressions more readable.
 
@@ -823,7 +823,7 @@ Makes Lisp regular expressions more readable.
     ))
 #+END_SRC
 
-** ~undo-tree~
+** =undo-tree=
 
 This awesome package enables a gret undo-redo system that includes creating new
 undo-redo branches. It's really amazing.
@@ -834,7 +834,7 @@ undo-redo branches. It's really amazing.
   :config (global-undo-tree-mode))
 #+END_SRC
 
-** ~yasnippets~
+** =yasnippets=
 
 This package is a template and snippet system for Emacs, inspired by the syntax
 of TextMate.
@@ -849,10 +849,10 @@ of TextMate.
     (advice-add 'yas--auto-fill-wrapper :override #'ignore)))
 #+END_SRC
 
-In the ~/snippets~ folder in this repository you can see my snippets
+In the =/snippets= folder in this repository you can see my snippets
 collection. A good guide to understand the syntax used is in [[https://joaotavora.github.io/yasnippet/snippet-development.html][the manual for
 YASnippet]]. All the snippets are local to a certain mode (delimited by the name
-of the folder in the collection) and their keys can be expanded using ~TAB~.
+of the folder in the collection) and their keys can be expanded using =TAB=.
 
 ** Rainbow delimiters
 
@@ -911,10 +911,10 @@ indentation of the comments.
 #+END_SRC
 
 ** Haskell
-*** Enable ~intero~
+*** Enable =intero=
 
-In my experience, trying to deal with ~haskell-mode~ head-on is a pain in the
-ass, and makes programming really slow. However, ~intero~ is a package with
+In my experience, trying to deal with =haskell-mode= head-on is a pain in the
+ass, and makes programming really slow. However, =intero= is a package with
 batteries-included that works wonders. The best idea is to install it and hook
 it to Haskell.
 
@@ -927,7 +927,7 @@ it to Haskell.
 
 *** Disable soft wrapping in profiling files
 
-GHC generates ~.prof~ files, which sometimes tend to have really long lines. To
+GHC generates =.prof= files, which sometimes tend to have really long lines. To
 make it easier to read them, I like to disable line truncation for that file
 extension. The problem is that, well, is not as straightforward as you may
 think...
@@ -968,7 +968,7 @@ lately. This is just a little disclaimer taking into account that this is just
 a leisure configuration and if you are going to manage code on production maybe
 you need a different configuration to face it.
 
-*** Installing and configuring ~go-mode~
+*** Installing and configuring =go-mode=
 
 The first recommendation for a Go major mode seems to be this one:
 
@@ -987,7 +987,7 @@ be read (4 instead 8 characters long)
 (setq-default tab-width 4)
 #+END_SRC
 
-*** Calling ~go-fmt~ on save
+*** Calling =go-fmt= on save
 
 We can use hooks to automatically format our code according to the guidelines:
 
@@ -996,7 +996,7 @@ We can use hooks to automatically format our code according to the guidelines:
 (add-hook 'before-save-hook 'gofmt-before-save)
 #+END_SRC
 
-*** Adding the ~company~ backend
+*** Adding the =company= backend
 
 Making auto-completion work in Go requires:
 
@@ -1010,7 +1010,7 @@ Making auto-completion work in Go requires:
 
 *** Viewing documentation in the minibuffer
 
-Using ~go-eldoc~ we can see the declaration, arguments, return types, etc of
+Using =go-eldoc= we can see the declaration, arguments, return types, etc of
 the functions we are using in our code.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1042,7 +1042,7 @@ language.
   :config (setq rust-format-on-save t))
 #+END_SRC
 
-*** Enable ~flycheck~
+*** Enable =flycheck=
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package flycheck-rust
@@ -1051,7 +1051,7 @@ language.
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+END_SRC
 
-*** Enable the ~company~ backend
+*** Enable the =company= backend
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package racer
@@ -1068,11 +1068,11 @@ language.
 ** LaTeX
 
 With this configuration, we try to aim for a WYSIWYG editor in Emacs. It
-requires to have ~AUCTeX~ installed.
+requires to have =AUCTeX= installed.
 
-*** Basic ~AUCTeX~ setup
+*** Basic =AUCTeX= setup
 
-This snippet makes that the ~AUCTeX~ macros are loaded every time the editor
+This snippet makes that the =AUCTeX= macros are loaded every time the editor
 requires them.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1083,7 +1083,7 @@ requires them.
 ;(setq TeX-PDF-mode t)
 #+END_SRC
 
-*** Enable ~flyspell~ in Tex edition
+*** Enable =flyspell= in Tex edition
 
 Add the hook to enable it by default.
 
@@ -1101,7 +1101,7 @@ more useful to directly have everything auto-filled.
 (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
 #+END_SRC
 
-*** Adding ~company~ support for Tex
+*** Adding =company= support for Tex
 
 Add the backend enable auto-completion for LaTeX files.
 
@@ -1113,12 +1113,12 @@ Add the backend enable auto-completion for LaTeX files.
   (company-auctex-init))
 #+END_SRC
 
-* ~org-mode~
+* =org-mode=
 ** Basic setup and other habits
-*** Enable ~auto-fill-mode~ in Emacs
+*** Enable =auto-fill-mode= in Emacs
 
 I truly believe that code and other text files have to respect a 79 characters
-per line bound. No, 120 is not enough. Of course, for me ~org-mode~ should also
+per line bound. No, 120 is not enough. Of course, for me =org-mode= should also
 be, so we enable this behaviour to be automatic. Also, keep in mind that Emacs
 auto fills to 70 characters, so we have to manually set the 79 limit.
 
@@ -1130,7 +1130,7 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 *** Ensure LaTeX export options
 
 We need to ensure that the indentation is left unaltered when exporting to
-LaTeX, and also to add several options for ~org-ref~ exporting to work properly
+LaTeX, and also to add several options for =org-ref= exporting to work properly
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq org-src-preserve-indentation t)
@@ -1171,9 +1171,9 @@ confirmation of being executed.
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
-*** Native ~TAB~ in source blocks
+*** Native =TAB= in source blocks
 
-This option makes ~TAB~ work as if the keystroke was issued in the code's major
+This option makes =TAB= work as if the keystroke was issued in the code's major
 mode.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1224,7 +1224,7 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
 *** Better RET
 
 While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][the Kitchin Research Group website]], I stumbled into
-this package that allows a better behavior of ~RET~ in ~org-mode~.
+this package that allows a better behavior of =RET= in =org-mode=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package org-autolist
@@ -1252,7 +1252,7 @@ the text with the different signs.
 (defun org-mode-format-tt (&optional arg)
   "Surround the selcted text with virgules (monotype)"
   (interactive "P")
-  (insert-pair arg ?\~ ?\~))
+  (insert-pair arg ?\= ?\=))
 
 
 (add-hook 'org-mode-hook
@@ -1265,9 +1265,9 @@ the text with the different signs.
             (local-set-key (kbd "C-c f =") 'org-mode-format-tt)))
 #+END_SRC
 
-*** Keybinding for ~org-agenda~
+*** Keybinding for =org-agenda=
 
-I like to have an easy access to the agenda, so I'll just bind it to ~C-c a~.
+I like to have an easy access to the agenda, so I'll just bind it to =C-c a=.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq org-agenda-span 14)
@@ -1284,9 +1284,9 @@ the same syntax highlight as the mode supposed to deal with it.
 (setq org-src-fontify-natively t)
 #+END_SRC
 
-*** Enable ~org-bullets~
+*** Enable =org-bullets=
 
-Enable ~org-bullets~ to make it clearer. Also, the defaults are maybe
+Enable =org-bullets= to make it clearer. Also, the defaults are maybe
 a bit too much for me, so edit them.
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1300,7 +1300,7 @@ a bit too much for me, so edit them.
 
 *** Custom ellipsis
 
-Also, I don't really like ~...~ to be the symbol for an ~org~ ellipsis. I
+Also, I don't really like =...= to be the symbol for an =org= ellipsis. I
 prefer to set something much more visual:
 
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1309,8 +1309,8 @@ prefer to set something much more visual:
 
 *** Pretty symbols
 
-This setting will make subscripts (~x_{subscript}~) and superscripts
-(~x^{superscript}~) appear in ~org~ in a WYSIWYG fashion.
+This setting will make subscripts (=x_{subscript}=) and superscripts
+(=x^{superscript}=) appear in =org= in a WYSIWYG fashion.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq-default org-pretty-entities t)
@@ -1327,24 +1327,24 @@ to read it in a Retina display.
 
 ** Spell checking
 
-Add spell checking by enabling ~flyspell~ in its buffers. The configuration for
-~flyspell~ is above.
+Add spell checking by enabling =flyspell= in its buffers. The configuration for
+=flyspell= is above.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'org-mode-hook 'flyspell-mode)
 ;(add-hook 'org-mode-hook 'flyspell-buffer)
 #+END_SRC
 
-** ~org-ref~
+** =org-ref=
 
-~org-ref~ is a great package that enables a great deal of references and
-shortcuts in ~org-mode~ when exporting to different formats like HTML or
+=org-ref= is a great package that enables a great deal of references and
+shortcuts in =org-mode= when exporting to different formats like HTML or
 LaTeX. The configuration can be a bit of a pain in the ass:
 
 *** Basic setup and default dirs
 
 We require the packages and set the default for the bibliography notes, the
-main ~.bib~ bibliography and the directory where the PDFs can be downloaded to.
+main =.bib= bibliography and the directory where the PDFs can be downloaded to.
 
 #+BEGIN_SRC emacs-lisp :results silent
 ;; (use-package org-ref-pdf
@@ -1376,8 +1376,8 @@ We also make sure to create the directory if it does not exist
 
 *** Set default key in Bibtex entries
 
-When using tools like ~crossref-add-bibtex-entry~, we want a meaningful key to
-be defined in the entries. I found this method in the ~org-ref~ config file.
+When using tools like =crossref-add-bibtex-entry=, we want a meaningful key to
+be defined in the entries. I found this method in the =org-ref= config file.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq bibtex-autokey-year-length 4
@@ -1389,11 +1389,11 @@ be defined in the entries. I found this method in the ~org-ref~ config file.
       bibtex-autokey-titleword-length 5)
 #+END_SRC
 
-** ~ditaa~
+** =ditaa=
 
-~ditaa~ is a command-line utility, packed with ~org~, that allows conversion
+=ditaa= is a command-line utility, packed with =org=, that allows conversion
 from ascii art to bitmap. This is basically sorcery for taking notes. To enable
-it, we have to explicitly load it to ~babel~:
+it, we have to explicitly load it to =babel=:
 
 #+BEGIN_SRC emacs-lisp :results silent
 (org-babel-do-load-languages
@@ -1436,12 +1436,12 @@ GNOME's default one, Evince.
 *** Clean intermediate files.
 
 Thanks to [[https://github.com/labellson][Dani]] for letting me know that it is possible to automatically delete
-the intermediate files generated when exporting ~org-mode~ files. Just set the
+the intermediate files generated when exporting =org-mode= files. Just set the
 file extensions of all the undesired files and Emacs will take care of it.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq org-latex-logfiles-extensions
-	  '("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
+	  '("lof" "lot" "tex=" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
 		"dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
 #+END_SRC
 
@@ -1473,7 +1473,7 @@ We need to manually enable the export to Beamer option.
 #+END_SRC
 
 * Other Major Modes
-** ~markdown-mode~
+** =markdown-mode=
 
 Even though I am not a great fan, I am often forced to write Markdown more
 often that I would like to. This is the minimal configuration I have for such
@@ -1486,13 +1486,13 @@ mode.
 #+END_SRC
 
 
-** ~csv-mode~
+** =csv-mode=
 
 Data science is hard, ok? You have to deal with huge and not super friendly
 files. However, being stubborn and geek as a I am, I try to get into Excel/Calc
 as few times as I can. The best approach (specially when using a second screen,
 bigger than a laptop) was simply to use a mode that allows for markup and
-alignment of ~.csv~ files. However, since it was sometimes dealing with files
+alignment of =.csv= files. However, since it was sometimes dealing with files
 too big to be completely aligned, I added a function to only align the visible
 part of the file.
 
@@ -1512,7 +1512,7 @@ part of the file.
 			  ("C-c C-w" . 'csv-align-visible)))
 #+END_SRC
 
-** ~bbdb~: The Insidious Big Brother's Database
+** =bbdb=: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
 
@@ -1521,9 +1521,9 @@ One of the best known packages for contact management in Emacs.
   :ensure t)
 #+END_SRC
 
-** ~erc~
+** =erc=
 
-~erc~ is a IRC client for Emacs. It is a wonderful tool worth checking out, and
+=erc= is a IRC client for Emacs. It is a wonderful tool worth checking out, and
 requires really little configuration to make to be great.
 
 *** Hide messages from inactive people
@@ -1538,15 +1538,15 @@ or quitted if that user has been inactive for more than half an hour.
 
 *** Use the proper default nickname
 
-~erc~ suggests a default nickname when logging in. ~agis~ is my username, if
+=erc= suggests a default nickname when logging in. =agis= is my username, if
 you want to set another one just change that argument.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq erc-nick "agis")
 #+END_SRC
-** ~w3m~
+** =w3m=
 
-~w3m~ is a web browser. Yes, you read that right. No, it's not going to be a
+=w3m= is a web browser. Yes, you read that right. No, it's not going to be a
 substitute of your regular browser, but it's handy to have a fast way to query
 things without going out of Emacs. It's super geeky, I know.
 
@@ -1593,10 +1593,10 @@ r/emacs the default one.
 
 TODO: In my current setup, the colors are incredibly aggressive.
 
-** ~notmuch~
+** =notmuch=
 
 This package allows to fetch and write emails from Emacs. Is it pushing a text
-editor too far? Maybe. Also, take into account that it is part of ~notmuch~ and
+editor too far? Maybe. Also, take into account that it is part of =notmuch= and
 it should be installed in your system.
 
 #+BEGIN_SRC emacs-lisp :results silent
