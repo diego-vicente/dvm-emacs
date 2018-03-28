@@ -1490,6 +1490,19 @@ We need to manually enable the export to Beamer option.
 #+END_SRC
 
 * Other Major Modes
+** ~markdown-mode~
+
+Even though I am not a great fan, I am often forced to write Markdown more
+often that I would like to. This is the minimal configuration I have for such
+mode.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . visual-line-mode))
+#+END_SRC
+
+
 ** ~csv-mode~
 
 Data science is hard, ok? You have to deal with huge and not super friendly
