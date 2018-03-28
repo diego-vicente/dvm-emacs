@@ -910,7 +910,9 @@ indentation of the comments.
 
 (use-package python-docstring
   :ensure t
-  :config (add-hook 'python-mode-hook 'python-docstring-mode))
+  :config
+  (setq python-docstring-sentence-end-double-space nil)
+  (add-hook 'python-mode-hook 'python-docstring-mode))
 #+END_SRC
 
 *** Notebook configuration
