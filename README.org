@@ -1618,7 +1618,6 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package mu4e
-  :ensure t
   :init
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
