@@ -24,7 +24,6 @@ use it, needless to say to use your own information.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq user-full-name "Diego Vicente"
-      user-mail-address "mail@diego.codes"
       calendar-latitude 40.33
       calendar-longitude -3.76
       calendar-location-name "Madrid, Spain")
@@ -1595,13 +1594,69 @@ r/emacs the default one.
 
 TODO: In my current setup, the colors are incredibly aggressive.
 
-** ~notmuch~
+** ~mu4e~
 
 This package allows to fetch and write emails from Emacs. Is it pushing a text
-editor too far? Maybe. Also, take into account that it is part of ~notmuch~ and
-it should be installed in your system.
+editor too far? Maybe. This package is part of =mu= and it automatically
+installs (or at least should) the Emacs package. Here, we load it on run-time
+and make the configuration. The main part of the configuration should however
+be in the =.offlineimaprc= file, which configures the tool that actually
+fetches and downloads all the mail.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package notmuch
-  :ensure t)
+(use-package mu4e
+  :init
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+
+  :config
+  (setq mail-user-agent 'mu4e-user-agent)
+  (setq mu4e-get-mail-command "offlineimap")
+
+  ;; Gmail specifics
+  (setq mu4e-drafts-folder "/[Gmail].Borradores")
+  (setq mu4e-sent-folder   "/[Gmail].Enviados")
+  (setq mu4e-trash-folder  "/[Gmail].Papelera")
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+		starttls-use-gnutls t
+		smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+		smtpmail-auth-credentials
+		'(("smtp.gmail.com" 587 "100317150@alumnos.uc3m.es" nil))
+		smtpmail-default-smtp-server "smtp.gmail.com"
+		smtpmail-smtp-server "smtp.gmail.com"
+		smtpmail-smtp-service 587)
+
+  (defvar my-mu4e-account-alist
+	'(("Gmail"
+       (mu4e-sent-folder "/[Gmail].Enviados")
+       (user-mail-address "100317150@alumnos.uc3m.es")
+       (smtpmail-smtp-user "100317150@alumnos.uc3m.es")
+       (smtpmail-local-domain "smtp.gmail.com")
+       (smtpmail-default-smtp-server "smtp.gmail.com")
+       (smtpmail-smtp-server "smtp.gmail.com")
+       (smtpmail-smtp-service 587))
+      ))
+
+  (defun my-mu4e-set-account ()
+	"Set the account for composing a message.
+     This function is taken from:
+     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
+	(let* ((account
+			(if mu4e-compose-parent-message
+				(let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+				  (string-match "/\\(.*?\\)/" maildir)
+				  (match-string 1 maildir))
+			  (completing-read (format "Compose with account: (%s) "
+									   (mapconcat #'(lambda (var) (car var))
+												  my-mu4e-account-alist "/"))
+							   (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+							   nil t nil nil (caar my-mu4e-account-alist))))
+		   (account-vars (cdr (assoc account my-mu4e-account-alist))))
+      (if account-vars
+		  (mapc #'(lambda (var)
+					(set (car var) (cadr var)))
+				account-vars)
+		(error "No email account found"))))
+
+  (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account))
 #+END_SRC
