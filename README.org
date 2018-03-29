@@ -1591,7 +1591,6 @@ r/emacs the default one.
 
 TODO: In my current setup, the colors are incredibly aggressive.
 
-<<<<<<< HEAD
 ** =mu4e=
 
 This package allows to fetch and write emails from Emacs. Is it pushing a text
