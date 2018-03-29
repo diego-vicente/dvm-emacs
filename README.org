@@ -1600,30 +1600,25 @@ and make the configuration. The main part of the configuration should however
 be in the =.offlineimaprc= file, which configures the tool that actually
 fetches and downloads all the mail.
 
-#+BEGIN_SRC emacs-lisp :results silent
-(defun my-mu4e-set-account ()
-  "Set the account for composing a message.
-     This function is taken from:
-     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
-  (interactive)
-  (let* ((account
-		  (if mu4e-compose-parent-message
-			  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-				(string-match "/\\(.*?\\)/" maildir)
-				(match-string 1 maildir))
-			(completing-read (format "Compose with account: (%s) "
-									 (mapconcat #'(lambda (var) (car var))
-												my-mu4e-account-alist "/"))
-							 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-							 nil t nil nil (caar my-mu4e-account-alist))))
-		 (account-vars (cdr (assoc account my-mu4e-account-alist))))
-    (if account-vars
-		(mapc #'(lambda (var)
-				  (set (car var) (cadr var)))
-			  account-vars)
-	  (error "No email account found"))))
+The configuration is not easy and it is absolutely not accessible for new Emacs
+users: plenty of things are going to break and you will need to tinker a lot of
+stuff. Be confident before spending an hour of your time downloading emails for
+nothing.
 
+*** Basic =mu4e= configuration
+
+After setting a proper =offlineimap= configuration, it is important to add the
+installation path of =mu4e= manually when requiring it. Set it to your default
+email agent and tell Emacs all the necessary data to fetch and send email. Take
+into account that sending is not by =offlineimap= and requires a different
+configuration (apart from using =smtpmail= which comes bundled in Emacs). If
+you have multiple accounts, you can change between them using your own version
+of =my-mu4e-account-alist= as well as the function provided by the devs,
+=my-mu4e-set-account=.
+
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package mu4e
+  :ensure t
   :init
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
@@ -1632,7 +1627,7 @@ fetches and downloads all the mail.
   (setq mu4e-get-mail-command "offlineimap"
 		mu4e-completing-read-function 'ivy-completing-read)
 
-  ;; Defaults to work mail for now
+  ;; Defaults to my personal mail
   (setq mu4e-sent-folder   "/Personal/Sent")
   (setq mu4e-trash-folder  "/Personal/Trash")
   (setq mu4e-drafts-folder "/Personal/Drafts")
@@ -1669,11 +1664,42 @@ fetches and downloads all the mail.
        (smtpmail-smtp-service 587))
       ))
 
+  (defun my-mu4e-set-account ()
+  "Set the account for composing a message.
+     This function is taken from:
+     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
+  (interactive)
+  (let* ((account
+		  (if mu4e-compose-parent-message
+			  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+				(string-match "/\\(.*?\\)/" maildir)
+				(match-string 1 maildir))
+			(completing-read (format "Compose with account: (%s) "
+									 (mapconcat #'(lambda (var) (car var))
+												my-mu4e-account-alist "/"))
+							 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+							 nil t nil nil (caar my-mu4e-account-alist))))
+		 (account-vars (cdr (assoc account my-mu4e-account-alist))))
+    (if account-vars
+		(mapc #'(lambda (var)
+				  (set (car var) (cadr var)))
+			  account-vars)
+	  (error "No email account found"))))
+
   (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
   :bind (("C-c m" . mu4e))
   :hook (mu4e-compose-pre-hook . my-mu4e-set-account))
+#+END_SRC
 
+*** Unread mail notifications in the mode-line
+
+To get a simple unread email count in your mode-line, just use the package
+=mu4e-alert= which basically does everything for you. This configuration also
+includes a function to periodically check for new mails. It is a bit hacky, so
+thank the gods that someone else has done it for you.
+
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package mu4e-alert
   :ensure t
   :after mu4e
@@ -1693,7 +1719,18 @@ fetches and downloads all the mail.
     (mu4e-alert-enable-mode-line-display))
 
   (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line))
+#+END_SRC
 
+*** Write rich-text emails in =org-mode=
+
+Bringing the best of Emacs into your inbox, you can use =org-mime= to write
+emails using the =org-mode= markup syntax, and it will allow you to seamlessly
+export them to HTML and send them as beautiful formatted text without any
+effort. Last part of the configuration has yet another hacky disclaimer: the
+lack of a proper hook to make it automatic forces us to define some key
+bindings in certain modes to make everything more comfortable.
+
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package org-mime
   :ensure t
   :after mu4e
