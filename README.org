@@ -1625,7 +1625,7 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
   :config
   (setq mail-user-agent 'mu4e-user-agent)
   (setq mu4e-get-mail-command "offlineimap"
-		mu4e-completing-read-function 'ivy-completing-read)
+        mu4e-completing-read-function 'ivy-completing-read)
 
   ;; Defaults to my personal mail
   (setq mu4e-sent-folder   "/Personal/Sent")
@@ -1635,29 +1635,29 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
   (setq message-send-mail-function 'smtpmail-send-it)
 
   (defvar my-mu4e-account-alist
-	'(("Personal"
+    '(("Personal"
        (mu4e-sent-folder "/Personal/Sent")
        (user-mail-address "diegovicente@protonmail.com")
        (smtpmail-smtp-user "diegovicente@protonmail.com")
-	   (smtpmail-stream-type plain)
+       (smtpmail-stream-type plain)
        (smtpmail-local-domain "127.0.0.1")
        (smtpmail-default-smtp-server "127.0.0.1")
        (smtpmail-smtp-server "127.0.0.1")
        (smtpmail-smtp-service 1025))
-	  ("UC3M"
+      ("UC3M"
        (mu4e-sent-folder "/University/[Gmail].Enviados")
        (user-mail-address "100317150@alumnos.uc3m.es")
        (smtpmail-smtp-user "100317150@alumnos.uc3m.es")
-	   (smtpmail-stream-type starttls)
+       (smtpmail-stream-type starttls)
        (smtpmail-local-domain "smtp.gmail.com")
        (smtpmail-default-smtp-server "smtp.gmail.com")
        (smtpmail-smtp-server "smtp.gmail.com")
        (smtpmail-smtp-service 587))
-	  ("Decide"
+      ("Decide"
        (mu4e-sent-folder "/Decide/[Gmail].Enviados")
        (user-mail-address "diego.vicente@decidesoluciones.es")
        (smtpmail-smtp-user "diego.vicente@decidesoluciones.es")
-	   (smtpmail-stream-type starttls)
+       (smtpmail-stream-type starttls)
        (smtpmail-local-domain "smtp.gmail.com")
        (smtpmail-default-smtp-server "smtp.gmail.com")
        (smtpmail-smtp-server "smtp.gmail.com")
@@ -1670,21 +1670,21 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
      https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
   (interactive)
   (let* ((account
-		  (if mu4e-compose-parent-message
-			  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-				(string-match "/\\(.*?\\)/" maildir)
-				(match-string 1 maildir))
-			(completing-read (format "Compose with account: (%s) "
-									 (mapconcat #'(lambda (var) (car var))
-												my-mu4e-account-alist "/"))
-							 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-							 nil t nil nil (caar my-mu4e-account-alist))))
-		 (account-vars (cdr (assoc account my-mu4e-account-alist))))
+          (if mu4e-compose-parent-message
+              (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                (string-match "/\\(.*?\\)/" maildir)
+                (match-string 1 maildir))
+            (completing-read (format "Compose with account: (%s) "
+                                     (mapconcat #'(lambda (var) (car var))
+                                                my-mu4e-account-alist "/"))
+                             (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                             nil t nil nil (caar my-mu4e-account-alist))))
+         (account-vars (cdr (assoc account my-mu4e-account-alist))))
     (if account-vars
-		(mapc #'(lambda (var)
-				  (set (car var) (cadr var)))
-			  account-vars)
-	  (error "No email account found"))))
+        (mapc #'(lambda (var)
+                  (set (car var) (cadr var)))
+              account-vars)
+      (error "No email account found"))))
 
   (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
@@ -1705,12 +1705,12 @@ thank the gods that someone else has done it for you.
   :after mu4e
   :init
   (setq mu4e-alert-interesting-mail-query
-		(concat
-		 "flag:unread maildir:/Personal/INBOX "
-		 "OR "
-		 "flag:unread maildir:/Decide/INBOX"
-		 "OR "
-		 "flag:unread maildir:/University/INBOX"))
+        (concat
+         "flag:unread maildir:/Personal/INBOX "
+         "OR "
+         "flag:unread maildir:/Decide/INBOX"
+         "OR "
+         "flag:unread maildir:/University/INBOX"))
   (mu4e-alert-enable-mode-line-display)
 
   (defun gjstein-refresh-mu4e-alert-mode-line ()
@@ -1738,22 +1738,22 @@ bindings in certain modes to make everything more comfortable.
   (setq org-mime-preserve-breaks nil)
 
   (defun mu4e-compose-org-mail ()
-	(interactive)
-	(mu4e-compose-new)
-	(mu4e-org-mode))
+    (interactive)
+    (mu4e-compose-new)
+    (mu4e-org-mode))
 
   (defun htmlize-and-send ()
-	"When in an org-mu4e-compose-org-mode message, htmlize and send it."
-	(interactive)
+    "When in an org-mu4e-compose-org-mode message, htmlize and send it."
+    (interactive)
     (org-mime-htmlize)
     (message-send-and-exit))
 
   :bind (:map mu4e-org-mode-map
-			  ("C-c C-c" . htmlize-and-send)
-	     ;; These next lines would not be necessary if we could set a custom
-	     ;; compose function to automatically activate mu4e-org-mode
-		 :map mu4e-main-mode-map
-		      ("c" . mu4e-compose-org-mail)
-		 :map mu4e-compose-mode-map
-		      ("C-c o" . mu4e-org-mode)))
+              ("C-c C-c" . htmlize-and-send)
+         ;; These next lines would not be necessary if we could set a custom
+         ;; compose function to automatically activate mu4e-org-mode
+         :map mu4e-main-mode-map
+              ("c" . mu4e-compose-org-mail)
+         :map mu4e-compose-mode-map
+              ("C-c o" . mu4e-org-mode)))
 #+END_SRC
