@@ -1484,7 +1484,6 @@ mode.
   :hook (markdown-mode . visual-line-mode))
 #+END_SRC
 
-
 ** =csv-mode=
 
 Data science is hard, ok? You have to deal with huge and not super friendly
@@ -1593,7 +1592,7 @@ r/emacs the default one.
 TODO: In my current setup, the colors are incredibly aggressive.
 
 <<<<<<< HEAD
-** ~mu4e~
+** =mu4e=
 
 This package allows to fetch and write emails from Emacs. Is it pushing a text
 editor too far? Maybe. This package is part of =mu= and it automatically
@@ -1601,68 +1600,78 @@ installs (or at least should) the Emacs package. Here, we load it on run-time
 and make the configuration. The main part of the configuration should however
 be in the =.offlineimaprc= file, which configures the tool that actually
 fetches and downloads all the mail.
-=======
-** =notmuch=
-
-This package allows to fetch and write emails from Emacs. Is it pushing a text
-editor too far? Maybe. Also, take into account that it is part of =notmuch= and
-it should be installed in your system.
->>>>>>> 9d93ff9380dc28949d041192b58d5eec4ebe9add
 
 #+BEGIN_SRC emacs-lisp :results silent
+(defun my-mu4e-set-account ()
+  "Set the account for composing a message.
+     This function is taken from:
+     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
+  (interactive)
+  (let* ((account
+		  (if mu4e-compose-parent-message
+			  (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+				(string-match "/\\(.*?\\)/" maildir)
+				(match-string 1 maildir))
+			(completing-read (format "Compose with account: (%s) "
+									 (mapconcat #'(lambda (var) (car var))
+												my-mu4e-account-alist "/"))
+							 (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+							 nil t nil nil (caar my-mu4e-account-alist))))
+		 (account-vars (cdr (assoc account my-mu4e-account-alist))))
+    (if account-vars
+		(mapc #'(lambda (var)
+				  (set (car var) (cadr var)))
+			  account-vars)
+	  (error "No email account found"))))
+
 (use-package mu4e
   :init
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
   :config
   (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-get-mail-command "offlineimap")
+  (setq mu4e-get-mail-command "offlineimap"
+		mu4e-completing-read-function 'ivy-completing-read)
 
-  ;; Gmail specifics
-  (setq mu4e-drafts-folder "/[Gmail].Borradores")
-  (setq mu4e-sent-folder   "/[Gmail].Enviados")
-  (setq mu4e-trash-folder  "/[Gmail].Papelera")
-  (require 'smtpmail)
-  (setq message-send-mail-function 'smtpmail-send-it
-		starttls-use-gnutls t
-		smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-		smtpmail-auth-credentials
-		'(("smtp.gmail.com" 587 "100317150@alumnos.uc3m.es" nil))
-		smtpmail-default-smtp-server "smtp.gmail.com"
-		smtpmail-smtp-server "smtp.gmail.com"
-		smtpmail-smtp-service 587)
+  ;; Defaults to work mail for now
+  (setq mu4e-sent-folder   "/Personal/Sent")
+  (setq mu4e-trash-folder  "/Personal/Trash")
+  (setq mu4e-drafts-folder "/Personal/Drafts")
+
+  (setq message-send-mail-function 'smtpmail-send-it)
 
   (defvar my-mu4e-account-alist
-	'(("Gmail"
-       (mu4e-sent-folder "/[Gmail].Enviados")
+	'(("Personal"
+       (mu4e-sent-folder "/Personal/Sent")
+       (user-mail-address "diegovicente@protonmail.com")
+       (smtpmail-smtp-user "diegovicente@protonmail.com")
+	   (smtpmail-stream-type plain)
+       (smtpmail-local-domain "127.0.0.1")
+       (smtpmail-default-smtp-server "127.0.0.1")
+       (smtpmail-smtp-server "127.0.0.1")
+       (smtpmail-smtp-service 1025))
+	  ("UC3M"
+       (mu4e-sent-folder "/University/[Gmail].Enviados")
        (user-mail-address "100317150@alumnos.uc3m.es")
        (smtpmail-smtp-user "100317150@alumnos.uc3m.es")
+	   (smtpmail-stream-type starttls)
+       (smtpmail-local-domain "smtp.gmail.com")
+       (smtpmail-default-smtp-server "smtp.gmail.com")
+       (smtpmail-smtp-server "smtp.gmail.com")
+       (smtpmail-smtp-service 587))
+	  ("Decide"
+       (mu4e-sent-folder "/Decide/[Gmail].Enviados")
+       (user-mail-address "diego.vicente@decidesoluciones.es")
+       (smtpmail-smtp-user "diego.vicente@decidesoluciones.es")
+	   (smtpmail-stream-type starttls)
        (smtpmail-local-domain "smtp.gmail.com")
        (smtpmail-default-smtp-server "smtp.gmail.com")
        (smtpmail-smtp-server "smtp.gmail.com")
        (smtpmail-smtp-service 587))
       ))
 
-  (defun my-mu4e-set-account ()
-	"Set the account for composing a message.
-     This function is taken from:
-     https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
-	(let* ((account
-			(if mu4e-compose-parent-message
-				(let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-				  (string-match "/\\(.*?\\)/" maildir)
-				  (match-string 1 maildir))
-			  (completing-read (format "Compose with account: (%s) "
-									   (mapconcat #'(lambda (var) (car var))
-												  my-mu4e-account-alist "/"))
-							   (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-							   nil t nil nil (caar my-mu4e-account-alist))))
-		   (account-vars (cdr (assoc account my-mu4e-account-alist))))
-      (if account-vars
-		  (mapc #'(lambda (var)
-					(set (car var) (cadr var)))
-				account-vars)
-		(error "No email account found"))))
+  (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
-  (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account))
+  :bind (("C-c m" . mu4e))
+  :hook (mu4e-compose-pre-hook . my-mu4e-set-account))
 #+END_SRC
