@@ -1673,6 +1673,27 @@ fetches and downloads all the mail.
 
   :bind (("C-c m" . mu4e))
   :hook (mu4e-compose-pre-hook . my-mu4e-set-account))
+
+(use-package mu4e-alert
+  :ensure t
+  :after mu4e
+  :init
+  (setq mu4e-alert-interesting-mail-query
+		(concat
+		 "flag:unread maildir:/Personal/INBOX "
+		 "OR "
+		 "flag:unread maildir:/Decide/INBOX"
+		 "OR "
+		 "flag:unread maildir:/University/INBOX"))
+  (mu4e-alert-enable-mode-line-display)
+
+  (defun gjstein-refresh-mu4e-alert-mode-line ()
+    (interactive)
+    (mu4e~proc-kill)
+    (mu4e-alert-enable-mode-line-display))
+
+  (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line))
+
 (use-package org-mime
   :ensure t
   :after mu4e
