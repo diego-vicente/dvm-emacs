@@ -1673,4 +1673,29 @@ fetches and downloads all the mail.
 
   :bind (("C-c m" . mu4e))
   :hook (mu4e-compose-pre-hook . my-mu4e-set-account))
+(use-package org-mime
+  :ensure t
+  :after mu4e
+  :config
+  (setq org-mime-preserve-breaks nil)
+
+  (defun mu4e-compose-org-mail ()
+	(interactive)
+	(mu4e-compose-new)
+	(mu4e-org-mode))
+
+  (defun htmlize-and-send ()
+	"When in an org-mu4e-compose-org-mode message, htmlize and send it."
+	(interactive)
+    (org-mime-htmlize)
+    (message-send-and-exit))
+
+  :bind (:map mu4e-org-mode-map
+			  ("C-c C-c" . htmlize-and-send)
+	     ;; These next lines would not be necessary if we could set a custom
+	     ;; compose function to automatically activate mu4e-org-mode
+		 :map mu4e-main-mode-map
+		      ("c" . mu4e-compose-org-mail)
+		 :map mu4e-compose-mode-map
+		      ("C-c o" . mu4e-org-mode)))
 #+END_SRC
