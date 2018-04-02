@@ -1560,54 +1560,6 @@ you want to set another one just change that argument.
 #+BEGIN_SRC emacs-lisp :results silent
 (setq erc-nick "agis")
 #+END_SRC
-** =w3m=
-
-=w3m= is a web browser. Yes, you read that right. No, it's not going to be a
-substitute of your regular browser, but it's handy to have a fast way to query
-things without going out of Emacs. It's super geeky, I know.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(global-set-key (kbd "C-c w") 'w3m)
-#+END_SRC
-
-*** Set browser options
-
-Basically, making it the default browser from Emacs, enable the cookies and
-setting an Android agent to prevent clutter.
-
-#+BEGIN_SRC emacs-lisp :results silent
-;; (setq browse-url-browser-function 'w3m-goto-url-new-session)
-(setq w3m-set-cookies t)
-(setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid
- Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile
- Safari/533.")
-#+END_SRC
-
-*** Giving permission to set cookies
-
-I like to explicitly give permission to my frequent places to set cookies.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(setq w3m-cookie-accept-domains '("reddit.com"))
-#+END_SRC
-
-*** Reddit shortcut
-
-This function enables a shortcut that prompts the user for a subreddit, being
-r/emacs the default one.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(defun reddit (subreddit)
-  "Opens the `subreddit' in w3m-new-session"
-  (interactive
-   (list
-    (read-string "Enter subreddit (default: r/emacs): " nil nil "emacs" nil)))
-  (browse-url (format "http://m.reddit.com/r/%s" subreddit))
-  )
-#+END_SRC
-
-
-TODO: In my current setup, the colors are incredibly aggressive.
 
 ** =mu4e=
 
