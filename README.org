@@ -169,12 +169,11 @@ from polluting everywhere.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-  backup-by-copying t    ; Don't delink hardlinks
-  version-control t      ; Use version numbers on backups
-  delete-old-versions t  ; Automatically delete excess backups
-  kept-new-versions 20   ; how many of the newest versions to keep
-  kept-old-versions 5    ; and how many of the old
-  )
+	  backup-by-copying t
+	  version-control t
+	  delete-old-versions t
+	  kept-new-versions 20
+	  kept-old-versions 5)
 #+END_SRC
 
 ** Fill the =exec-path= variable
@@ -189,9 +188,10 @@ package to MELPA, so to install it:
 (use-package exec-path-from-shell
   :ensure t
   :demand t
-  :config (when (memq window-system '(mac ns x))
-            (exec-path-from-shell-initialize)
-            (add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
 #+END_SRC
 
 ** Insert new line without breaking
@@ -244,8 +244,8 @@ in programming modes, we can use this function:
 
 #+BEGIN_SRC emacs-lisp :results silent
 (defun comment-auto-fill ()
-      (setq-local comment-auto-fill-only-comments t)
-      (auto-fill-mode 1))
+  (setq-local comment-auto-fill-only-comments t)
+  (auto-fill-mode 1))
 
 (add-hook 'prog-mode-hook 'comment-auto-fill)
 #+END_SRC
@@ -470,7 +470,6 @@ have it in programming modes and in =org-mode=.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package git-gutter
   :ensure git-gutter-fringe
-  :delight
   :config
   (add-hook 'prog-mode-hook 'git-gutter-mode)
   (add-hook 'org-mode-hook 'git-gutter-mode))
@@ -630,8 +629,7 @@ it.
   :demand t
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
-                               'ivy-rich-switch-buffer-transformer)
-  )
+                               'ivy-rich-switch-buffer-transformer))
 #+END_SRC
 
 ** =iy-go-to-char=
@@ -731,10 +729,9 @@ example, LaTeX or =org-mode= one) we need the last hook message.
 (use-package flyspell
   :ensure t
   :config
-  (progn
-    (setq ispell-program-name "aspell"
-          ispell-dictionary "english")
-    (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))))
+  (setq ispell-program-name "aspell"
+        ispell-dictionary "english")
+  (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex))))
 #+END_SRC
 
 In case I am writing a text in a different language, I can just use =M-x
@@ -833,11 +830,7 @@ Makes Lisp regular expressions more readable.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package easy-escape
   :ensure t
-  :config
-  (progn
-    (add-hook 'lisp-mode-hook 'easy-escape-minor-mode)
-    (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode)
-    ))
+  :hook ((lisp-mode-hook emacs-lisp-mode-hook) . easy-escape-minor))
 #+END_SRC
 
 ** =undo-tree=
@@ -860,10 +853,9 @@ of TextMate.
 (use-package yasnippet
   :ensure t
   :config
-  (progn
-    (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
-    (yas-global-mode 1)
-    (advice-add 'yas--auto-fill-wrapper :override #'ignore)))
+  (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
+  (yas-global-mode 1)
+  (advice-add 'yas--auto-fill-wrapper :override #'ignore))
 #+END_SRC
 
 In the =/snippets= folder in this repository you can see my snippets
@@ -879,7 +871,7 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package rainbow-delimiters
   :ensure t
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
 #+END_SRC
 
 * Programming Modes
@@ -906,13 +898,12 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package sphinx-doc
   :ensure t
-  :config (add-hook 'python-mode-hook 'sphinx-doc-mode))
+  :hook (python-mode-hook . sphinx-doc-mode))
 
 (use-package python-docstring
   :ensure t
-  :config
-  (setq python-docstring-sentence-end-double-space nil)
-  (add-hook 'python-mode-hook 'python-docstring-mode))
+  :config (setq python-docstring-sentence-end-double-space nil)
+  :hook (python-mode-hook . python-docstring-mode))
 #+END_SRC
 
 *** Notebook configuration
@@ -938,8 +929,8 @@ it to Haskell.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package intero
   :ensure t
-  :init   (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
-  :config (add-hook 'haskell-mode-hook 'intero-mode))
+  :init (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
+  :hook (haskell-mode-hook . intero-mode))
 #+END_SRC
 
 *** Disable soft wrapping in profiling files
