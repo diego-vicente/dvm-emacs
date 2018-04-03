@@ -830,7 +830,7 @@ Makes Lisp regular expressions more readable.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package easy-escape
   :ensure t
-  :hook ((lisp-mode-hook emacs-lisp-mode-hook) . easy-escape-minor))
+  :hook ((lisp-mode emacs-lisp-mode) . easy-escape-minor))
 #+END_SRC
 
 ** =undo-tree=
@@ -871,7 +871,7 @@ easier (specially in Lisp)
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package rainbow-delimiters
   :ensure t
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
 * Programming Modes
@@ -898,12 +898,12 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package sphinx-doc
   :ensure t
-  :hook (python-mode-hook . sphinx-doc-mode))
+  :hook (python-mode . sphinx-doc-mode))
 
 (use-package python-docstring
   :ensure t
   :config (setq python-docstring-sentence-end-double-space nil)
-  :hook (python-mode-hook . python-docstring-mode))
+  :hook (python-mode . python-docstring-mode))
 #+END_SRC
 
 *** Notebook configuration
@@ -930,7 +930,7 @@ it to Haskell.
 (use-package intero
   :ensure t
   :init (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
-  :hook (haskell-mode-hook . intero-mode))
+  :hook (haskell-mode . intero-mode))
 #+END_SRC
 
 *** Disable soft wrapping in profiling files
@@ -1646,10 +1646,10 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
               account-vars)
       (error "No email account found"))))
 
-  (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+  ;; (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
   :bind (("C-c m" . mu4e))
-  :hook (mu4e-compose-pre-hook . my-mu4e-set-account))
+  :hook (mu4e-compose-pre . my-mu4e-set-account))
 #+END_SRC
 
 *** Unread mail notifications in the mode-line
