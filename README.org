@@ -1229,6 +1229,32 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
                              (org-file-path "agenda.org")))
 #+END_SRC
 
+*** Add a planning file per project
+
+I like the idea of having a file in the root of each project called
+=planning.org=, in which I can put all the tasks, ideas, and other research I
+perform about a project. In case I add =TODO= entries, meetings, or other
+artifacts, I want them to appear in the agenda. For that reason, this functions
+checks for possible planning files existing in my projects.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(defun get-my-planning-files ()
+  "Get a list of existing planning files per project."
+  (let ((candidates (map 'list
+						(lambda (x) (concat x "planning.org"))
+						(projectile-relevant-known-projects))))
+	(remove-if-not 'file-exists-p candidates)))
+
+(defun update-planning-files ()
+  "Update the org-agenda-files variable with the planning files per project."
+  (interactive)
+  (dolist (new-org-file (get-my-planning-files))
+	(add-to-list 'org-agenda-files new-org-file)))
+
+;; For some reason, the list seem to be overwritten during init
+(add-hook 'after-init-hook 'update-planning-files)
+#+END_SRC
+
 *** Better RET
 
 While reading this post in [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][the Kitchin Research Group website]], I stumbled into
