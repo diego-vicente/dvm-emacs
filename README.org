@@ -1605,6 +1605,7 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package mu4e
+  :demand t
   :init
   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 
@@ -1672,8 +1673,6 @@ of =my-mu4e-account-alist= as well as the function provided by the devs,
               account-vars)
       (error "No email account found"))))
 
-  ;; (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-
   :bind (("C-c m" . mu4e))
   :hook (mu4e-compose-pre . my-mu4e-set-account))
 #+END_SRC
@@ -1688,23 +1687,28 @@ thank the gods that someone else has done it for you.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package mu4e-alert
   :ensure t
+  :demand t
   :after mu4e
   :init
   (setq mu4e-alert-interesting-mail-query
         (concat
          "flag:unread maildir:/Personal/INBOX "
          "OR "
-         "flag:unread maildir:/Decide/INBOX"
+         "flag:unread maildir:/Decide/INBOX "
          "OR "
          "flag:unread maildir:/University/INBOX"))
   (mu4e-alert-enable-mode-line-display)
 
-  (defun gjstein-refresh-mu4e-alert-mode-line ()
+  (defun refresh-mu4e-alert-mode-line ()
     (interactive)
     (mu4e~proc-kill)
     (mu4e-alert-enable-mode-line-display))
 
-  (run-with-timer 0 60 'gjstein-refresh-mu4e-alert-mode-line))
+  (defun set-mu4e-alert-mode-line ()
+	(interactive)
+	(run-with-timer 0 60 'refresh-mu4e-alert-mode-line))
+
+  :hook (after-init . set-mu4e-alert-mode-line))
 #+END_SRC
 
 *** Write rich-text emails in =org-mode=
