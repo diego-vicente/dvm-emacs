@@ -1458,13 +1458,13 @@ one needs to take notes in class or other situations where a diagram is needed.
 *** Open PDFs using the appropriate viewer
 
 I am not super fond of the default Emacs PDF viewer, so I prefer to set it to
-GNOME's default one, Evince.
+Okular.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (add-hook 'org-mode-hook
       '(lambda ()
          (delete '("\\.pdf\\'" . default) org-file-apps)
-         (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s"))))
+         (add-to-list 'org-file-apps '("\\.pdf\\'" . "okular %s"))))
 #+END_SRC
 
 *** Clean intermediate files.
