@@ -1174,7 +1174,7 @@ confirmation of being executed.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("emacs-lisp" "python" "sh"))))
+  (not (member lang '("emacs-lisp" "python" "sh" "dot"))))
 
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
@@ -1447,11 +1447,6 @@ one needs to take notes in class or other situations where a diagram is needed.
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((dot . t)))
-
-(defun my-org-confirm-babel-evaluate (lang body)
-  (not (member lang '("dot"))))
-
-(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
 ** Export settings
