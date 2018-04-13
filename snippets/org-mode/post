@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Blog Post
+# group: templates
+# key: ?post
+# contributor: Diego Vicente
+# --
+#+TITLE:  ${1:title}
+#+AUTHOR: Diego Vicente Martín
+#+EMAIL:  mail@diego.codes
+#+DATE:   ${2:date}
+
+#+SUBTITLE: Published on ${2:date}
+#+OPTIONS: html-link-use-abs-url:nil
+#+OPTIONS: html-scripts:t html-style:t tex:t toc:t
+#+OPTIONS: date:nil author:nil timestamp:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/fontawesome-all.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../org-css/stylesheet.css" />
