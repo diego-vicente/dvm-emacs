@@ -1500,53 +1500,52 @@ CSS style for the exporting and developed the following configuration, which
 relies on the properties that =org-publish= provides.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(require 'ox-publish)
+(use-package ox-publish
+  :init
+  (setq my-blog-header-file "~/Projects/blog/org/partials/header.html"
+		my-blog-footer-file "~/Projects/blog/org/partials/footer.html"
+		setq org-html-validation-link nil)
 
-(setq my-blog-header-file "~/Projects/blog/org/partials/header.html")
-(setq my-blog-footer-file "~/Projects/blog/org/partials/footer.html")
+  (defun my-blog-header (arg)
+	(with-temp-buffer
+	  (insert-file-contents my-blog-header-file)
+	  (buffer-string)))
 
-(setq org-html-validation-link nil)
+  (defun my-blog-footer (arg)
+	(with-temp-buffer
+	  (insert-file-contents my-blog-footer-file)
+	  (buffer-string)))
 
-(defun my-blog-header (arg)
-  (with-temp-buffer
-    (insert-file-contents my-blog-header-file)
-    (buffer-string)))
+  :config
+  (setq org-publish-project-alist
+		'(;; Publish the posts
+		  ("org-notes"
+		   :base-directory "~/Projects/blog2/org"
+		   :base-extension "org"
+		   :publishing-directory "~/Projects/blog2/public"
+		   :recursive t
+		   :publishing-function org-html-publish-to-html
+		   :headline-levels 4
+		   :section-numbers nil
+		   ;; :auto-preamble t
+		   :html-head nil
+		   :html-head-include-default-style nil
+		   :html-head-include-scripts nil
+		   :html-preamble my-blog-header
+		   :html-postamble my-blog-footer
+		   )
 
-(defun my-blog-footer (arg)
-  (with-temp-buffer
-    (insert-file-contents my-blog-footer-file)
-    (buffer-string)))
+		  ;; For static files that should remain untouched
+		  ("org-static"
+		   :base-directory "~/Projects/blog2/org/"
+		   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
+		   :publishing-directory "~/Projects/blog2/public"
+		   :recursive t
+		   :publishing-function org-publish-attachment
+		   )
 
-(setq org-publish-project-alist
-	  '(;; Publish the posts
-		("org-notes"
-		 :base-directory "~/Projects/blog2/org"
-		 :base-extension "org"
-		 :publishing-directory "~/Projects/blog2/public"
-		 :recursive t
-		 :publishing-function org-html-publish-to-html
-		 :headline-levels 4
-		 :section-numbers nil
-		 ;; :auto-preamble t
-         :html-head nil
-         :html-head-include-default-style nil
-         :html-head-include-scripts nil
-		 :html-preamble my-blog-header
-		 :html-postamble my-blog-footer
-		 )
-
-		;; For static files that should remain untouched
-		("org-static"
-		 :base-directory "~/Projects/blog2/org/"
-		 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
-		 :publishing-directory "~/Projects/blog2/public"
-		 :recursive t
-		 :publishing-function org-publish-attachment
-		 )
-
-		;; Combine the two previous components in a single one
-		("org" :components ("org-notes" "org-static"))))
-
+		  ;; Combine the two previous components in a single one
+		  ("org" :components ("org-notes" "org-static")))))
 #+END_SRC
 
 * Other Major Modes
