@@ -1504,7 +1504,7 @@ relies on the properties that =org-publish= provides.
   :init
   (setq my-blog-header-file "~/Projects/blog/org/partials/header.html"
 		my-blog-footer-file "~/Projects/blog/org/partials/footer.html"
-		setq org-html-validation-link nil)
+		org-html-validation-link nil)
 
   (defun my-blog-header (arg)
 	(with-temp-buffer
