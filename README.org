@@ -1520,9 +1520,9 @@ relies on the properties that =org-publish= provides.
   (setq org-publish-project-alist
 		'(;; Publish the posts
 		  ("org-notes"
-		   :base-directory "~/Projects/blog2/org"
+		   :base-directory "~/Projects/blog/org"
 		   :base-extension "org"
-		   :publishing-directory "~/Projects/blog2/public"
+		   :publishing-directory "~/Projects/blog/public"
 		   :recursive t
 		   :publishing-function org-html-publish-to-html
 		   :headline-levels 4
@@ -1537,9 +1537,9 @@ relies on the properties that =org-publish= provides.
 
 		  ;; For static files that should remain untouched
 		  ("org-static"
-		   :base-directory "~/Projects/blog2/org/"
+		   :base-directory "~/Projects/blog/org/"
 		   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
-		   :publishing-directory "~/Projects/blog2/public"
+		   :publishing-directory "~/Projects/blog/public"
 		   :recursive t
 		   :publishing-function org-publish-attachment
 		   )
