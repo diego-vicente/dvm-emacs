@@ -1490,6 +1490,65 @@ We need to manually enable the export to Beamer option.
 (use-package ox-beamer)
 #+END_SRC
 
+** My blog publishing configuration
+
+To generate my blog, I used =hugo= and =org-mode= files. After some issues with
+=hugo= and a few of its assumptions about how I used =org=, but above all after
+being absolutely marvelled by =org='s power when exporting files, I decided to
+migrate the setup to just a pure =org= exporting web-site. I crafted a custom
+CSS style for the exporting and developed the following configuration, which
+relies on the properties that =org-publish= provides.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(require 'ox-publish)
+
+(setq my-blog-header-file "~/Projects/blog/org/partials/header.html")
+(setq my-blog-footer-file "~/Projects/blog/org/partials/footer.html")
+
+(setq org-html-validation-link nil)
+
+(defun my-blog-header (arg)
+  (with-temp-buffer
+    (insert-file-contents my-blog-header-file)
+    (buffer-string)))
+
+(defun my-blog-footer (arg)
+  (with-temp-buffer
+    (insert-file-contents my-blog-footer-file)
+    (buffer-string)))
+
+(setq org-publish-project-alist
+	  '(;; Publish the posts
+		("org-notes"
+		 :base-directory "~/Projects/blog2/org"
+		 :base-extension "org"
+		 :publishing-directory "~/Projects/blog2/public"
+		 :recursive t
+		 :publishing-function org-html-publish-to-html
+		 :headline-levels 4
+		 :section-numbers nil
+		 ;; :auto-preamble t
+         :html-head nil
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+		 :html-preamble my-blog-header
+		 :html-postamble my-blog-footer
+		 )
+
+		;; For static files that should remain untouched
+		("org-static"
+		 :base-directory "~/Projects/blog2/org/"
+		 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
+		 :publishing-directory "~/Projects/blog2/public"
+		 :recursive t
+		 :publishing-function org-publish-attachment
+		 )
+
+		;; Combine the two previous components in a single one
+		("org" :components ("org-notes" "org-static"))))
+
+#+END_SRC
+
 * Other Major Modes
 ** =markdown-mode=
 
