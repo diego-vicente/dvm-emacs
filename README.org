@@ -580,21 +580,10 @@ second buffer open, it will assume that you want to move it there. Same with
 copy and other operations.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(setq dired-dwim-target t)
-#+END_SRC
-
-** =neotree=
-
-I used the default =dired= for a long time, but I found that =neotree= adds
-less clutter normally. I also set the theme for the icons using
-=all-the-icons=. Since I have already the muscle memory, I just override
-=dired='s regular binding to open =neotree=.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package neotree
-  :ensure t
-  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+(use-package dired
+  :config
+  (setq dired-dwim-target t)
+  :hook (dired-mode . dired-hide-details-mode))
 #+END_SRC
 
 ** =ivy=
@@ -606,7 +595,6 @@ than =helm=, simpler and faster.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ivy
   :ensure t
-  :demand t
   :config
   (ivy-mode 1)
   (setq ivy-count-format "%d/%d ")
@@ -626,7 +614,7 @@ it.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ivy-rich
   :ensure t
-  :demand t
+  :after ivy
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
                                'ivy-rich-switch-buffer-transformer))
