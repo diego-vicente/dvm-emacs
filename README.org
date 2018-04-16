@@ -1504,8 +1504,10 @@ relies on the properties that =org-publish= provides.
   :init
   (setq my-blog-header-file "~/Projects/blog/org/partials/header.html"
 		my-blog-footer-file "~/Projects/blog/org/partials/footer.html"
+		org-html-extension "{local-org}"
 		org-html-validation-link nil)
 
+  ;; Load partials on memory
   (defun my-blog-header (arg)
 	(with-temp-buffer
 	  (insert-file-contents my-blog-header-file)
@@ -1516,6 +1518,17 @@ relies on the properties that =org-publish= provides.
 	  (insert-file-contents my-blog-footer-file)
 	  (buffer-string)))
 
+  ;; To convert links in files from ".html" to "/"
+  (defun convert-html-link (link)
+	"Turn an .html link into a / link."
+	(let ((placeholder-extension (concat "." org-html-extension)))
+	  (replace-regexp-in-string placeholder-extension "/" link)))
+
+  (defun filter-local-links (link backend info)
+	"Filter that converts all the .html links to /."
+	(if (org-export-derived-backend-p backend 'html)
+		(convert-html-link link)
+	  (link)))
   :config
   (setq org-publish-project-alist
 		'(;; Publish the posts
@@ -1527,7 +1540,6 @@ relies on the properties that =org-publish= provides.
 		   :publishing-function org-html-publish-to-html
 		   :headline-levels 4
 		   :section-numbers nil
-		   ;; :auto-preamble t
 		   :html-head nil
 		   :html-head-include-default-style nil
 		   :html-head-include-scripts nil
@@ -1545,7 +1557,9 @@ relies on the properties that =org-publish= provides.
 		   )
 
 		  ;; Combine the two previous components in a single one
-		  ("org" :components ("org-notes" "org-static")))))
+		  ("org" :components ("org-notes" "org-static"))))
+
+  (add-to-list 'org-export-filter-link-functions 'filter-local-links)
 #+END_SRC
 
 * Other Major Modes
