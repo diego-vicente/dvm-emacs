@@ -1538,7 +1538,10 @@ relies on the properties that =org-publish= provides.
   (defun rename-exported-file (original exported)
 	"Rename exported file to remove the local placeholder extension."
 	(when (string-match-p org-html-extension exported)
-	  (rename-file exported (replace-local-org-file exported))))
+	  (let ((new-name(replace-local-org-file exported)))
+		(if (file-exists-p new-name)
+			(delete-file new-name))
+		(rename-file exported new-name))))
 
   :config
   (setq org-publish-project-alist
