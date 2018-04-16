@@ -1529,6 +1529,17 @@ relies on the properties that =org-publish= provides.
 	(if (org-export-derived-backend-p backend 'html)
 		(convert-html-link link)
 	  (link)))
+
+  ;; To fix the local placeholder used for link conversion
+  (defun replace-local-org-file (file)
+	"Returns the path to a file with the html extension instead of the placeholder."
+	(replace-regexp-in-string org-html-extension "html" file))
+
+  (defun rename-exported-file (original exported)
+	"Rename exported file to remove the local placeholder extension."
+	(when (string-match-p org-html-extension exported)
+	  (rename-file exported (replace-local-org-file exported))))
+
   :config
   (setq org-publish-project-alist
 		'(;; Publish the posts
@@ -1560,6 +1571,7 @@ relies on the properties that =org-publish= provides.
 		  ("org" :components ("org-notes" "org-static"))))
 
   (add-to-list 'org-export-filter-link-functions 'filter-local-links)
+  (add-hook 'org-publish-after-publishing-hook 'rename-exported-file))
 #+END_SRC
 
 * Other Major Modes
