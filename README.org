@@ -719,7 +719,19 @@ example, LaTeX or =org-mode= one) we need the last hook message.
   :config
   (setq ispell-program-name "aspell"
         ispell-dictionary "english")
-  (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex))))
+
+  (defun change-dictionary-spanish ()
+	(interactive)
+	(ispell-change-dictionary "español"))
+
+  (defun change-dictionary-english ()
+	(interactive)
+	(ispell-change-dictionary "english"))
+
+  :hook (org-mode . (lambda () (setq ispell-parser 'tex)))
+  :bind (:map org-mode-map
+			  ("C-c d s" . change-dictionary-spanish)
+			  ("C-c d e" . change-dictionary-english)))
 #+END_SRC
 
 In case I am writing a text in a different language, I can just use =M-x
