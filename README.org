@@ -1522,13 +1522,12 @@ relies on the properties that =org-publish= provides.
   (defun convert-html-link (link)
 	"Turn an .html link into a / link."
 	(let ((placeholder-extension (concat "." org-html-extension)))
-	  (replace-regexp-in-string placeholder-extension "/" link)))
+	  (replace-regexp-in-string placeholder-extension "" link)))
 
   (defun filter-local-links (link backend info)
 	"Filter that converts all the .html links to /."
 	(if (org-export-derived-backend-p backend 'html)
-		(convert-html-link link)
-	  (link)))
+		(convert-html-link link)))
 
   ;; To fix the local placeholder used for link conversion
   (defun replace-local-org-file (file)
