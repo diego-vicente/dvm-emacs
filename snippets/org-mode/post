@@ -13,5 +13,5 @@
 #+OPTIONS: html-link-use-abs-url:nil
 #+OPTIONS: html-scripts:t html-style:t tex:t toc:t
 #+OPTIONS: date:nil author:nil timestamp:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/fontawesome-all.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../org-css/stylesheet.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../css/fontawesome-all.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../org-css/stylesheet.css" />
