@@ -1537,7 +1537,7 @@ relies on the properties that =org-publish= provides.
   :config
   (setq org-publish-project-alist
 		'(;; Publish the posts
-		  ("org-notes"
+		  ("blog-notes"
 		   :base-directory "~/Projects/blog/org"
 		   :base-extension "org"
 		   :publishing-directory "~/Projects/blog/public"
@@ -1553,7 +1553,7 @@ relies on the properties that =org-publish= provides.
 		   )
 
 		  ;; For static files that should remain untouched
-		  ("org-static"
+		  ("blog-static"
 		   :base-directory "~/Projects/blog/org/"
 		   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
 		   :publishing-directory "~/Projects/blog/public"
@@ -1562,7 +1562,7 @@ relies on the properties that =org-publish= provides.
 		   )
 
 		  ;; Combine the two previous components in a single one
-		  ("org" :components ("org-notes" "org-static"))))
+		  ("blog" :components ("blog-notes" "blog-static"))))
 
   (add-to-list 'org-export-filter-link-functions 'filter-local-links))
 #+END_SRC
