@@ -823,16 +823,6 @@ single keystroke.
   :bind (("C-c i" . iedit-mode)))
 #+END_SRC
 
-** =easy-escape=
-
-Makes Lisp regular expressions more readable.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package easy-escape
-  :ensure t
-  :hook ((lisp-mode emacs-lisp-mode) . easy-escape-minor))
-#+END_SRC
-
 ** =undo-tree=
 
 This awesome package enables a gret undo-redo system that includes creating new
