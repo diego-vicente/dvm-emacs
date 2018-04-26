@@ -1492,6 +1492,21 @@ We need to manually enable the export to Beamer option.
 (use-package ox-beamer)
 #+END_SRC
 
+*** Reveal.js export
+
+This package allows for simple export to Reveal slides and includes the custom
+style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css][=org-css=]] repository.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package ox-reveal
+  :load-path "~/Utilities/org-reveal"
+  :config
+  (setq org-reveal-root
+		"file:///home/dvicente/Utilities/reveal.js"
+		org-reveal-extra-css
+		"https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css"))
+#+END_SRC
+
 ** My blog publishing configuration
 
 To generate my blog, I used =hugo= and =org-mode= files. After some issues with
