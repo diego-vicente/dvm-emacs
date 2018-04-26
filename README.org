@@ -1504,7 +1504,7 @@ style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/mas
   (setq org-reveal-root
 		"file:///home/dvicente/Utilities/reveal.js"
 		org-reveal-extra-css
-		"https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css"))
+		"https://rawgit.com/DiegoVicen/org-css/master/reveal-theme.css"))
 #+END_SRC
 
 ** My blog publishing configuration
