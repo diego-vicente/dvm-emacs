@@ -1155,7 +1155,7 @@ org-mode workflow.
 #+BEGIN_SRC emacs-lisp :results silent
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((shell . t)
+ '(;; (shell . t)
    (python . t)))
 #+END_SRC
 
@@ -1497,7 +1497,7 @@ We need to manually enable the export to Beamer option.
 This package allows for simple export to Reveal slides and includes the custom
 style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css][=org-css=]] repository.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package ox-reveal
   :load-path "~/Utilities/org-reveal"
   :config
@@ -1667,7 +1667,7 @@ you have multiple accounts, you can change between them using your own version
 of =my-mu4e-account-alist= as well as the function provided by the devs,
 =my-mu4e-set-account=.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package mu4e
   :demand t
   :init
@@ -1748,7 +1748,7 @@ To get a simple unread email count in your mode-line, just use the package
 includes a function to periodically check for new mails. It is a bit hacky, so
 thank the gods that someone else has done it for you.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package mu4e-alert
   :ensure t
   :demand t
@@ -1784,7 +1784,7 @@ effort. Last part of the configuration has yet another hacky disclaimer: the
 lack of a proper hook to make it automatic forces us to define some key
 bindings in certain modes to make everything more comfortable.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package org-mime
   :ensure t
   :after mu4e
