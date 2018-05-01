@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: Beamer slides
 # group: templates
-# key: ?slides
+# key: ?beamer
 # contributor: Diego Vicente
 # --
 #+TITLE:  ${1:title}

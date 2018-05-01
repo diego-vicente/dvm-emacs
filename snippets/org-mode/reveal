@@ -1,13 +1,13 @@
 # -*- mode: snippet -*-
-# name: Beamer slides
+# name: Reveal slides
 # group: templates
-# key: ?slides
+# key: ?reveal
 # contributor: Diego Vicente
 # --
 #+TITLE:  ${1:title}
 #+AUTHOR: Diego Vicente Martín
 #+EMAIL:  ${2:mail@diego.codes}
-#+DATE:   ${2:\today}
+#+DATE:   ${3:date}
 
 #+OPTIONS: H:2 num:nil toc:nil timestamp:nil
 #+REVEAL_TRANS: fade
