@@ -768,6 +768,15 @@ good 'ol =auto-complete=.
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
+There is also a second package that enables icons in the auto completion
+tool-tip. *NOTE*: only available for Emacs 26.
+
+#+BEGIN_SRC emacs-lisp :results silent
+;; (use-package company-box
+;;  :ensure t
+;;  :hook (company-mode . company-box-mode))
+#+END_SRC
+
 ** =smartparens=
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
