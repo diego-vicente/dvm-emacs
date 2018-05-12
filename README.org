@@ -722,7 +722,7 @@ example, LaTeX or =org-mode= one) we need the last hook message.
 
   (defun change-dictionary-spanish ()
 	(interactive)
-	(ispell-change-dictionary "español"))
+	(ispell-change-dictionary "espanol"))
 
   (defun change-dictionary-english ()
 	(interactive)
