@@ -353,11 +353,14 @@ printed.
 
 ** Add other keybindings
 
-Miscellaneous keybindings that don't really fit anywhere else.
+Miscellaneous keybindings that don't really fit anywhere else. Also, not only
+adding but removing some.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "M-j") 'mark-word)
+
+(unbind-key "C-z")
 #+END_SRC
 
 * My own Emacs-Lisp functions
