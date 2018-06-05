@@ -1427,10 +1427,7 @@ around, not associated with a concrete project.
 (use-package org-brain
   :ensure t
   :init
-  (setq org-brain-path "~/Documents/org-brain/")
-  :config
-  (setq org-brain-visualize-default-choices 'all)
-  (setq org-brain-title-max-length 12))
+  (setq org-brain-path "~/Documents/org-brain/"))
 #+END_SRC
 
 ** =ditaa=
