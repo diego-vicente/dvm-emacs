@@ -772,6 +772,41 @@ good 'ol =auto-complete=.
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
+** =lsp-mode=
+
+For a super-powered auto-completion and documentation system, it is possible to
+use Microsoft's very own Language Server Protocol in Emacs. Specific
+configurations will be added in this block for convenience, instead of in each
+language's own section. The package =lsp-ui= is used to give some graphic
+goodies when using LSP.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package lsp-mode
+  :ensure t
+  :config
+  (require 'lsp-imenu)
+  (lsp-define-stdio-client lsp-python "python"
+                           #'projectile-project-root
+                           '("pyls"))
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (lsp-python-enable)))
+  :hook (lsp-after-open . lsp-enable-imenu))
+
+(use-package lsp-ui
+  :ensure t
+  :config
+  (setq lsp-ui-sideline-ignore-duplicate t)
+  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+  (set-face-attribute 'lsp-ui-sideline-global nil :inherit 'shadow)
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package company-lsp
+  :ensure t
+  :demand t
+  :config (push 'company-lsp company-backends))
+#+END_SRC
+
 ** =smartparens=
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
