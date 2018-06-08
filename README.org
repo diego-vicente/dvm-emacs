@@ -458,11 +458,12 @@ in the screen. However, lately I have really been into Liberation Mono, Fira
 Mono, Office Code Pro and Roboto Mono. All great, readable fonts.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(if (system-is-chip)
-    (set-frame-font "Liberation Mono 8" t t)
-  (if (system-is-mac)
-      (set-frame-font "Roboto Mono 13" t t)
-    (set-frame-font "Roboto Mono 11" t t)))
+;; (if (system-is-chip)
+;;     (set-frame-font "Liberation Mono 8" t t)
+;;   (if (system-is-mac)
+;;       (set-frame-font "Roboto Mono 13" t t)
+;;     (set-frame-font "Roboto Mono 11" t t)))
+(set-face-attribute 'default nil :font "Roboto Mono")
 #+END_SRC
 
 ** Highlight changed and uncommited lines
