@@ -788,10 +788,9 @@ goodies when using LSP.
   (lsp-define-stdio-client lsp-python "python"
                            #'projectile-project-root
                            '("pyls"))
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (lsp-python-enable)))
-  :hook (lsp-after-open . lsp-enable-imenu))
+
+  :hook (lsp-after-open . lsp-enable-imenu)
+        (python-mode . (lambda () (lsp-python-enable))))
 
 (use-package lsp-ui
   :ensure t
