@@ -156,7 +156,7 @@ smooth scrolling.
 #+BEGIN_SRC emacs-lisp :results silent
 (setq scroll-step            1
       scroll-conservatively  10000
-	  mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse 't)
 #+END_SRC
@@ -169,11 +169,11 @@ from polluting everywhere.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-	  backup-by-copying t
-	  version-control t
-	  delete-old-versions t
-	  kept-new-versions 20
-	  kept-old-versions 5)
+      backup-by-copying t
+      version-control t
+      delete-old-versions t
+      kept-new-versions 20
+      kept-old-versions 5)
 #+END_SRC
 
 ** Fill the =exec-path= variable
@@ -526,7 +526,7 @@ menu if I need to check the minor modes at some points.
   :ensure t
   :config
   (setq x-underline-at-descent-line t
-		column-number-mode t)
+        column-number-mode t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
   (let ((line (face-attribute 'mode-line :underline)))
@@ -725,17 +725,17 @@ example, LaTeX or =org-mode= one) we need the last hook message.
         ispell-dictionary "english")
 
   (defun change-dictionary-spanish ()
-	(interactive)
-	(ispell-change-dictionary "espanol"))
+    (interactive)
+    (ispell-change-dictionary "espanol"))
 
   (defun change-dictionary-english ()
-	(interactive)
-	(ispell-change-dictionary "english"))
+    (interactive)
+    (ispell-change-dictionary "english"))
 
   :hook (org-mode . (lambda () (setq ispell-parser 'tex)))
   :bind (:map org-mode-map
-			  ("C-c d s" . change-dictionary-spanish)
-			  ("C-c d e" . change-dictionary-english)))
+              ("C-c d s" . change-dictionary-spanish)
+              ("C-c d e" . change-dictionary-english)))
 #+END_SRC
 
 In case I am writing a text in a different language, I can just use =M-x
@@ -798,8 +798,8 @@ goodies when using LSP.
   (setq lsp-ui-sideline-show-hover nil)
   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
   (set-face-attribute 'lsp-ui-sideline-global nil
-					  :inherit 'shadow
-					  :background "#f9f2d9")
+                      :inherit 'shadow
+                      :background "#f9f2d9")
   :hook (lsp-mode . lsp-ui-mode))
 
 (use-package company-lsp
@@ -915,7 +915,7 @@ easier (specially in Lisp)
   (elpy-enable)
   (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
   (setq python-shell-interpreter "ipython"
-		python-shell-interpreter-args "-i --simple-prompt")
+        python-shell-interpreter-args "-i --simple-prompt")
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+END_SRC
 
@@ -943,7 +943,7 @@ indentation of the comments.
   :ensure t
   :config
   :hook (ein:notebook-multilang-mode
-		 . (lambda () (ws-butler-mode -1) (visual-line-mode)))
+         . (lambda () (ws-butler-mode -1) (visual-line-mode)))
   :custom-face
   (ein:cell-input-area ((t (:background "#f9f2d9")))))
 #+END_SRC
@@ -1271,15 +1271,15 @@ checks for possible planning files existing in my projects.
 (defun get-my-planning-files ()
   "Get a list of existing planning files per project."
   (let ((candidates (map 'list
-						(lambda (x) (concat x "planning.org"))
-						(projectile-relevant-known-projects))))
-	(remove-if-not 'file-exists-p candidates)))
+                        (lambda (x) (concat x "planning.org"))
+                        (projectile-relevant-known-projects))))
+    (remove-if-not 'file-exists-p candidates)))
 
 (defun update-planning-files ()
   "Update the org-agenda-files variable with the planning files per project."
   (interactive)
   (dolist (new-org-file (get-my-planning-files))
-	(add-to-list 'org-agenda-files new-org-file)))
+    (add-to-list 'org-agenda-files new-org-file)))
 
 ;; For some reason, the list seem to be overwritten during init
 (add-hook 'after-init-hook 'update-planning-files)
@@ -1423,7 +1423,7 @@ main =.bib= bibliography and the directory where the PDFs can be downloaded to.
   (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
         org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
         org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
-		org-latex-prefer-user-labels t
+        org-latex-prefer-user-labels t
         org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "bibtex %b"
@@ -1514,8 +1514,8 @@ file extensions of all the undesired files and Emacs will take care of it.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq org-latex-logfiles-extensions
-	  '("lof" "lot" "tex=" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
-		"dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
+      '("lof" "lot" "tex=" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb"
+        "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"))
 #+END_SRC
 
 *** IEEE export
@@ -1555,7 +1555,7 @@ style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/mas
   :load-path "~/Utilities/org-reveal"
   :config
   (setq org-reveal-root "https://diego.codes/reveal.js"
-		org-reveal-extra-css "https://diego.codes/org-css/reveal-theme.css"))
+        org-reveal-extra-css "https://diego.codes/org-css/reveal-theme.css"))
 #+END_SRC
 
 ** My blog publishing configuration
@@ -1571,54 +1571,54 @@ relies on the properties that =org-publish= provides.
 (use-package ox-publish
   :init
   (setq my-blog-header-file "~/Projects/blog/org/partials/header.html"
-		my-blog-footer-file "~/Projects/blog/org/partials/footer.html"
-		org-html-validation-link nil)
+        my-blog-footer-file "~/Projects/blog/org/partials/footer.html"
+        org-html-validation-link nil)
 
   ;; Load partials on memory
   (defun my-blog-header (arg)
-	(with-temp-buffer
-	  (insert-file-contents my-blog-header-file)
-	  (buffer-string)))
+    (with-temp-buffer
+      (insert-file-contents my-blog-header-file)
+      (buffer-string)))
 
   (defun my-blog-footer (arg)
-	(with-temp-buffer
-	  (insert-file-contents my-blog-footer-file)
-	  (buffer-string)))
+    (with-temp-buffer
+      (insert-file-contents my-blog-footer-file)
+      (buffer-string)))
 
   (defun filter-local-links (link backend info)
-	"Filter that converts all the /index.html links to /"
-	(if (org-export-derived-backend-p backend 'html)
-		(replace-regexp-in-string "/index.html" "/" link)))
+    "Filter that converts all the /index.html links to /"
+    (if (org-export-derived-backend-p backend 'html)
+        (replace-regexp-in-string "/index.html" "/" link)))
 
   :config
   (setq org-publish-project-alist
-		'(;; Publish the posts
-		  ("blog-notes"
-		   :base-directory "~/Projects/blog/org"
-		   :base-extension "org"
-		   :publishing-directory "~/Projects/blog/public"
-		   :recursive t
-		   :publishing-function org-html-publish-to-html
-		   :headline-levels 4
-		   :section-numbers nil
-		   :html-head nil
-		   :html-head-include-default-style nil
-		   :html-head-include-scripts nil
-		   :html-preamble my-blog-header
-		   :html-postamble my-blog-footer
-		   )
+        '(;; Publish the posts
+          ("blog-notes"
+           :base-directory "~/Projects/blog/org"
+           :base-extension "org"
+           :publishing-directory "~/Projects/blog/public"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :section-numbers nil
+           :html-head nil
+           :html-head-include-default-style nil
+           :html-head-include-scripts nil
+           :html-preamble my-blog-header
+           :html-postamble my-blog-footer
+           )
 
-		  ;; For static files that should remain untouched
-		  ("blog-static"
-		   :base-directory "~/Projects/blog/org/"
-		   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
-		   :publishing-directory "~/Projects/blog/public"
-		   :recursive t
-		   :publishing-function org-publish-attachment
-		   )
+          ;; For static files that should remain untouched
+          ("blog-static"
+           :base-directory "~/Projects/blog/org/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|woff\\|woff2\\|ttf"
+           :publishing-directory "~/Projects/blog/public"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
 
-		  ;; Combine the two previous components in a single one
-		  ("blog" :components ("blog-notes" "blog-static"))))
+          ;; Combine the two previous components in a single one
+          ("blog" :components ("blog-notes" "blog-static"))))
 
   (add-to-list 'org-export-filter-link-functions 'filter-local-links))
 #+END_SRC
@@ -1653,13 +1653,13 @@ part of the file.
   :config
 
   (defun csv-align-visible ()
-	"Align only visible entries in csv-mode."
-	(interactive)
-	(csv-align-fields nil (window-start) (window-end)))
+    "Align only visible entries in csv-mode."
+    (interactive)
+    (csv-align-fields nil (window-start) (window-end)))
 
   ;; C-c C-a is already bound to align all fields, but can be too slow.
   :bind (:map csv-mode-map
-			  ("C-c C-w" . 'csv-align-visible)))
+              ("C-c C-w" . 'csv-align-visible)))
 #+END_SRC
 
 ** =bbdb=: The Insidious Big Brother's Database
@@ -1822,8 +1822,8 @@ thank the gods that someone else has done it for you.
     (mu4e-alert-enable-mode-line-display))
 
   (defun set-mu4e-alert-mode-line ()
-	(interactive)
-	(run-with-timer 0 60 'refresh-mu4e-alert-mode-line))
+    (interactive)
+    (run-with-timer 0 60 'refresh-mu4e-alert-mode-line))
 
   :hook (after-init . set-mu4e-alert-mode-line))
 #+END_SRC
