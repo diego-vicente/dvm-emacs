@@ -796,9 +796,11 @@ goodies when using LSP.
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-ignore-duplicate t)
+  (setq lsp-ui-sideline-show-hover nil)
   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
-  (set-face-attribute 'lsp-ui-sideline-global nil :inherit 'shadow)
+  (set-face-attribute 'lsp-ui-sideline-global nil
+					  :inherit 'shadow
+					  :background "#f9f2d9")
   :hook (lsp-mode . lsp-ui-mode))
 
 (use-package company-lsp
