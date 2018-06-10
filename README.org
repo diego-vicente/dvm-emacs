@@ -780,32 +780,35 @@ configurations will be added in this block for convenience, instead of in each
 language's own section. The package =lsp-ui= is used to give some graphic
 goodies when using LSP.
 
+*NOTE*: due to lag when booting up a file and other drawbacks, I would say that
+this is not yet ready to be used as a daily workflow. Your mileage may vary.
+
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package lsp-mode
-  :ensure t
-  :config
-  (require 'lsp-imenu)
-  (lsp-define-stdio-client lsp-python "python"
-                           #'projectile-project-root
-                           '("pyls"))
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :demand t
+;;   :config
+;;   (require 'lsp-imenu)
+;;   (lsp-define-stdio-client lsp-python "python"
+;;                            #'projectile-project-root
+;;                            '("pyls"))
 
-  :hook (lsp-after-open . lsp-enable-imenu)
-        (python-mode . (lambda () (lsp-python-enable))))
+;;   :hook (lsp-after-open . lsp-enable-imenu)
+;;         (python-mode . (lambda () (lsp-python-enable))))
 
-(use-package lsp-ui
-  :ensure t
-  :config
-  (setq lsp-ui-sideline-show-hover nil)
-  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
-  (set-face-attribute 'lsp-ui-sideline-global nil
-                      :inherit 'shadow
-                      :background "#f9f2d9")
-  :hook (lsp-mode . lsp-ui-mode))
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :config
+;;   (setq lsp-ui-sideline-show-hover nil)
+;;   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+;;   (set-face-attribute 'lsp-ui-sideline-global nil
+;;                       :inherit 'shadow
+;;                       :background "#f9f2d9")
+;;   :hook (lsp-mode . lsp-ui-mode))
 
-(use-package company-lsp
-  :ensure t
-  :demand t
-  :config (push 'company-lsp company-backends))
+;; (use-package company-lsp
+;;   :ensure t
+;;   :config (push 'company-lsp company-backends))
 #+END_SRC
 
 ** =smartparens=
