@@ -733,7 +733,7 @@ example, LaTeX or =org-mode= one) we need the last hook message.
     (ispell-change-dictionary "english"))
 
   :hook (org-mode . (lambda () (setq ispell-parser 'tex)))
-  :bind (:map org-mode-map
+  :bind (:map flyspell-mode-map
               ("C-c d s" . change-dictionary-spanish)
               ("C-c d e" . change-dictionary-english)))
 #+END_SRC
