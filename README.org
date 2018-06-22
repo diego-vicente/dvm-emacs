@@ -948,6 +948,17 @@ indentation of the comments.
   (ein:cell-input-area ((t (:background "#f9f2d9")))))
 #+END_SRC
 
+** R
+
+The quintessential programming language for statistics and numerical methods.
+This basic setup allows to fiddle around with R, but I am still learning it so
+don't expect a great and elaborate setup.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package ess
+  :ensure t)
+#+END_SRC
+
 ** Haskell
 *** Enable =intero=
 
