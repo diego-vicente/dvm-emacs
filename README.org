@@ -146,6 +146,15 @@ It is incredibly annoying after 20 minutes.
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
+** Disable abbreviations prompt
+
+Make Emacs not ask about when to save abbreviations. It is smart enough to
+figure it out on its own, and I don't really rely on abbreviations that much.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(setq save-abbrevs 'silent)
+#+END_SRC
+
 ** Fix scroll
 
 
