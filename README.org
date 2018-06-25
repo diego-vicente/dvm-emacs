@@ -564,6 +564,24 @@ necessary fonts that come bundled in the package!
   :ensure t)
 #+END_SRC
 
+** Add custom functions for changing themes
+
+#+BEGIN_SRC emacs-lisp :results silent
+(defun load-light-theme ()
+  (interactive)
+  (load-theme 'solarized-light t)
+  (set-face-attribute 'org-block nil :background "#f9f2d9")
+  (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")
+  (set-face-attribute 'ein:cell-input-area nil :background "#f9f2d9"))
+
+(defun load-dark-theme ()
+  (interactive)
+  (load-theme 'gruvbox-dark-medium t)
+  (set-face-attribute 'org-block nil :background "#242424")
+  (set-face-attribute 'mode-line-inactive nil :background "#242424")
+  (set-face-attribute 'ein:cell-input-area nil :background "#242424"))
+#+END_SRC
+
 * Packages & Tools
 ** =which-key=
 
