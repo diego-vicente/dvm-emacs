@@ -800,7 +800,9 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
 ;;                            '("pyls"))
 
 ;;   :hook (lsp-after-open . lsp-enable-imenu)
-;;         (python-mode . (lambda () (lsp-python-enable))))
+;;         (python-mode . (lambda ()
+;;                          (lsp-python-enable)
+;;                          (setq lsp-highlight-symbol-at-point nil))))
 
 ;; (use-package lsp-ui
 ;;   :ensure t
