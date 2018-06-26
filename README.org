@@ -469,7 +469,7 @@ Code Pro and Roboto Mono. All great, readable fonts.
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
-  (set-face-attribute 'default nil :font "Iosevka Term 12"))
+  (set-face-attribute 'default nil :font "Iosevka 12"))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
