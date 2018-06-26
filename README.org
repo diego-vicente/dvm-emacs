@@ -485,12 +485,14 @@ screen behavior in macOS.
 I really like how condensed is [[https://github.com/be5invis/Iosevka][Iosevka]], a coding typeface. Although it may look
 weird in the beginning, then it's a joy to have all your code properly fitting
 in the screen. Lately I have also been into Liberation Mono, Fira Mono, Office
-Code Pro and Roboto Mono. All great, readable fonts.
+Code Pro and Roboto Mono. All great, readable fonts. In the case of Iosevka, it
+can usually benefit for a tiny line-height increase.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
-  (set-face-attribute 'default nil :font "Iosevka 12"))
+  (set-face-attribute 'default nil :font "Iosevka 12")
+  (setq-default line-spacing 0.08))
 #+END_SRC
 
 ** Highlight changed and uncommited lines
