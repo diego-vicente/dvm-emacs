@@ -1725,6 +1725,18 @@ part of the file.
               ("C-c C-w" . 'csv-align-visible)))
 #+END_SRC
 
+** =pdf-tools=
+
+Although it supposedly works only on GNU/Linux, =pdf-tools= is a package that
+actually allows Emacs to be a PDF viewer. Actually, it is probably the best PDF
+viewer for Linux out there (maybe we could negotiate if Okular is). It allows
+to read, copy, select and annotate PDFs from Emacs.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package pdf-tools
+  :ensure t)
+#+END_SRC
+
 ** =bbdb=: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
