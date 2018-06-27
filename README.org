@@ -860,6 +860,20 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
 ;;   :config (push 'company-lsp company-backends))
 #+END_SRC
 
+** =eglot=
+
+As an alternative to =lsp-mode=, =eglot= appears as a lightweight package that
+allows typical interaction via Language Server Protocol. Startup times for
+Python are still terrible (probably =python-language-server= is the one to
+blame here) but seems more resilient to errors.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package eglot
+  :ensure t
+  ;; Automatically recognizes python-language-server
+  :hook (python . eglot))
+#+END_SRC
+
 ** =smartparens=
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
