@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Minimal Makefile
+# group: template
+# key: ?min
+# contributor: Diego Vicente
+# --
+P=${1:prog_name}
+OBJECTS=
+CFLAGS = -g -Wall -std=gnu11 -O3
+LDLIBS=
+CC=gcc
+
+$(P):$(OBJECTS)
