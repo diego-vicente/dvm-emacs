@@ -1025,6 +1025,17 @@ don't expect a great and elaborate setup.
   :ensure t)
 #+END_SRC
 
+** C
+
+Since C is as straightforward as a language can probably get, only minimal
+configuration is required.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(add-hook
+ 'c-mode-hook (lambda ()
+				(setq-local flycheck-gcc-language-standard "c11")))
+#+END_SRC
+
 ** Haskell
 *** Enable =intero=
 
