@@ -524,8 +524,10 @@ thing that actually annoys me is the fact that it changes the font in
   :ensure t
   :init
   (setq solarized-use-variable-pitch nil)
-  :config
-  (load-theme 'solarized-light t)
+  ;; Disable a theme before loading another
+  (defadvice load-theme (before theme-dont-propagate activate)
+	(mapc #'disable-theme custom-enabled-themes))
+  :config (load-theme 'solarized-light t)
   (set-face-attribute 'org-block nil :background "#f9f2d9"))
 #+END_SRC
 
@@ -603,6 +605,9 @@ necessary fonts that come bundled in the package!
   (set-face-attribute 'org-block nil :background "#242424")
   (set-face-attribute 'mode-line-inactive nil :background "#242424")
   (set-face-attribute 'ein:cell-input-area nil :background "#242424"))
+
+(global-set-key (kbd "C-c c l") 'load-light-theme)
+(global-set-key (kbd "C-c c d") 'load-dark-theme)
 #+END_SRC
 
 * Packages & Tools
