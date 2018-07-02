@@ -1427,6 +1427,21 @@ I like to have an easy access to the agenda, so I'll just bind it to =C-c a=.
 #+END_SRC
 
 ** Graphical aspects
+*** Multi-font configuration for org-mode
+
+I find it interesting to use a different mode for =org-mode=, which is
+basically text, a slightly different font than the regular one for frames. The
+perfect choice for that is Iosevka Slab, which is beautiful Iosevka with
+serifs.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package org-variable-pitch
+  :ensure t
+  :init (set-face-attribute 'variable-pitch nil :font "Iosevka Slab 12")
+  :config (setq org-variable-pitch-fixed-font "Iosevka 12")
+  :hook (org-mode . org-variable-pitch-minor-mode))
+#+END_SRC
+
 *** Use syntax highlight in source blocks
 
 When writing source code on a block, if this variable is enabled it will use
