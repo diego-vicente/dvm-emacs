@@ -1440,11 +1440,11 @@ perfect choice for that is Iosevka Slab, which is beautiful Iosevka with
 serifs.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package org-variable-pitch
-  :ensure t
-  :init (set-face-attribute 'variable-pitch nil :font "Iosevka Slab 12")
-  :config (setq org-variable-pitch-fixed-font "Iosevka 12")
-  :hook (org-mode . org-variable-pitch-minor-mode))
+;; (use-package org-variable-pitch
+;;   :ensure t
+;;   :init (set-face-attribute 'variable-pitch nil :font "Iosevka Slab 12")
+;;   :config (setq org-variable-pitch-fixed-font "Iosevka 12")
+;;   :hook (org-mode . org-variable-pitch-minor-mode))
 #+END_SRC
 
 *** Use syntax highlight in source blocks
@@ -1462,12 +1462,13 @@ Enable =org-bullets= to make it clearer. Also, the defaults are maybe
 a bit too much for me, so edit them.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
-  (setq org-bullets-bullet-list
-        '("◉" "◎" "○" "○" "○" "○")))
+;; (use-package org-bullets
+;;   :ensure t
+;;   :config
+;;   (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
+;;   (setq org-bullets-bullet-list
+;;         '("◉" "◎" "○" "○" "○" "○")))
+(setq org-hide-leading-stars t)
 #+END_SRC
 
 *** Custom ellipsis
