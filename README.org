@@ -601,10 +601,10 @@ necessary fonts that come bundled in the package!
 
 (defun load-dark-theme ()
   (interactive)
-  (load-theme 'gruvbox-dark-medium t)
-  (set-face-attribute 'org-block nil :background "#242424")
-  (set-face-attribute 'mode-line-inactive nil :background "#242424")
-  (set-face-attribute 'ein:cell-input-area nil :background "#242424"))
+  (load-theme 'gruvbox-dark-soft t)
+  (set-face-attribute 'org-block nil :background "#282828")
+  (set-face-attribute 'mode-line-inactive nil :background "#282828")
+  (set-face-attribute 'ein:cell-input-area nil :background "#282828"))
 
 (global-set-key (kbd "C-c c l") 'load-light-theme)
 (global-set-key (kbd "C-c c d") 'load-dark-theme)
