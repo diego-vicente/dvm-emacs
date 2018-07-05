@@ -520,15 +520,12 @@ thing that actually annoys me is the fact that it changes the font in
 =org-mode= headings by default (which is that variable I am setting to =t=).
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package solarized-theme
+(use-package gruvbox-theme
   :ensure t
   :init
-  (setq solarized-use-variable-pitch nil)
-  ;; Disable a theme before loading another
   (defadvice load-theme (before theme-dont-propagate activate)
 	(mapc #'disable-theme custom-enabled-themes))
-  :config (load-theme 'solarized-light t)
-  (set-face-attribute 'org-block nil :background "#f9f2d9"))
+  :config (load-theme 'gruvbox-light-soft t))
 #+END_SRC
 
 ** Mode-line configuration
