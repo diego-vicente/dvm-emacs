@@ -525,7 +525,9 @@ thing that actually annoys me is the fact that it changes the font in
   :init
   (defadvice load-theme (before theme-dont-propagate activate)
 	(mapc #'disable-theme custom-enabled-themes))
-  :config (load-theme 'gruvbox-light-soft t))
+  :config
+  (load-theme 'gruvbox-dark-soft t)
+  (load-theme 'gruvbox-light-soft t))
 #+END_SRC
 
 ** Mode-line configuration
