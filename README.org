@@ -562,8 +562,8 @@ menu if I need to check the minor modes at some points.
     (set-face-attribute 'mode-line-inactive nil :overline   line)
     (set-face-attribute 'mode-line-inactive nil :underline  line)
     (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+    (set-face-attribute 'mode-line-inactive nil :box        nil)))
+    ;; (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
@@ -591,17 +591,11 @@ necessary fonts that come bundled in the package!
 #+BEGIN_SRC emacs-lisp :results silent
 (defun load-light-theme ()
   (interactive)
-  (load-theme 'solarized-light t)
-  (set-face-attribute 'org-block nil :background "#f9f2d9")
-  (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")
-  (set-face-attribute 'ein:cell-input-area nil :background "#f9f2d9"))
+  (load-theme 'gruvbox-light-soft t))
 
 (defun load-dark-theme ()
   (interactive)
-  (load-theme 'gruvbox-dark-soft t)
-  (set-face-attribute 'org-block nil :background "#282828")
-  (set-face-attribute 'mode-line-inactive nil :background "#282828")
-  (set-face-attribute 'ein:cell-input-area nil :background "#282828"))
+  (load-theme 'gruvbox-dark-soft t))
 
 (global-set-key (kbd "C-c c l") 'load-light-theme)
 (global-set-key (kbd "C-c c d") 'load-dark-theme)
@@ -1011,9 +1005,7 @@ indentation of the comments.
   :ensure t
   :config
   :hook (ein:notebook-multilang-mode
-         . (lambda () (ws-butler-mode -1) (visual-line-mode)))
-  :custom-face
-  (ein:cell-input-area ((t (:background "#f9f2d9")))))
+         . (lambda () (ws-butler-mode -1) (visual-line-mode))))
 #+END_SRC
 
 ** R
