@@ -520,14 +520,29 @@ thing that actually annoys me is the fact that it changes the font in
 =org-mode= headings by default (which is that variable I am setting to =t=).
 
 #+BEGIN_SRC emacs-lisp :results silent
+(defadvice load-theme (before theme-dont-propagate activate)
+  (mapc #'disable-theme custom-enabled-themes))
+
+
 (use-package gruvbox-theme
   :ensure t
-  :init
-  (defadvice load-theme (before theme-dont-propagate activate)
-	(mapc #'disable-theme custom-enabled-themes))
   :config
-  (load-theme 'gruvbox-dark-soft t)
-  (load-theme 'gruvbox-light-soft t))
+  (defun load-dark-theme ()
+	(interactive)
+	(load-theme 'gruvbox-dark-soft t))
+  :bind(("C-c c d" . load-dark-theme)))
+
+(use-package solarized-theme
+  :ensure t
+  :demand t
+  :config
+  (setq solarized-use-variable-pitch nil
+		solarized-scale-org-headlines nil)
+  (defun load-light-theme ()
+	(interactive)
+	(load-theme 'solarized-light t))
+  (load-light-theme)
+  :bind(("C-c c l" . load-light-theme)))
 #+END_SRC
 
 ** Mode-line configuration
@@ -591,13 +606,6 @@ necessary fonts that come bundled in the package!
 ** Add custom functions for changing themes
 
 #+BEGIN_SRC emacs-lisp :results silent
-(defun load-light-theme ()
-  (interactive)
-  (load-theme 'gruvbox-light-soft t))
-
-(defun load-dark-theme ()
-  (interactive)
-  (load-theme 'gruvbox-dark-soft t))
 
 (global-set-key (kbd "C-c c l") 'load-light-theme)
 (global-set-key (kbd "C-c c d") 'load-dark-theme)
