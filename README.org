@@ -14,7 +14,9 @@ evaluated on startup. This can be done by moving =init.el= to the =emacs.d=
 directory. This can be done by executing =cp init.el =/.emacs.d/init.el= on the
 terminal. Note: this file assumes that this repository has been cloned to your
 home, if you are going to install it elsewhere please edit =init.el= to find
-this file.
+this file. Also, please notice that this is the route assumed in all systems
+except for my NixOS configuration, where the location of =init.el= is
+automatically inferred by the system.
 
 * Basic Emacs Setup
 ** My information
@@ -178,7 +180,6 @@ we will use the solomonic solution: set both to 4.
 
 ** Fix scroll
 
-
 Setting this values will force one-line scrolling everywhere (mouse and
 keyboard), resulting most of the times in a smoother scrolling than the actual
 smooth scrolling.
@@ -189,6 +190,18 @@ smooth scrolling.
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse 't)
+#+END_SRC
+
+** Find the configuration repository
+
+This variable defines where Emacs is supposed to be looking for things. The
+main reason to use this is to differentiate regular Unix-like systems and the
+special configuration NixOS is supposed to deliver.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(if (file-directory-p "~/nixos-setup")
+	(setq configuration-dir "~/nixos-setup/my-emacs/")
+  (setq configuration-dir "~/my-emacs/"))
 #+END_SRC
 
 ** Set the backups folder
@@ -365,7 +378,7 @@ better idea to define a new keybinding that automatically reloads that buffer.
 (defun open-emacs-configuration ()
   "Open the configuration.org file in buffer"
   (interactive)
-    (find-file "~/my-emacs/README.org"))
+    (find-file (concat configuration-dir "README.org")))
 
 (global-set-key (kbd "C-c c r") 'reload-emacs-configuration)
 (global-set-key (kbd "C-c c o") 'open-emacs-configuration)
@@ -955,7 +968,7 @@ of TextMate.
 (use-package yasnippet
   :ensure t
   :config
-  (add-to-list 'yas-snippet-dirs "~/my-emacs/snippets")
+  (add-to-list 'yas-snippet-dirs (concat configuration-dir "snippets"))
   (yas-global-mode 1)
   (advice-add 'yas--auto-fill-wrapper :override #'ignore))
 #+END_SRC
