@@ -893,6 +893,17 @@ blame here) but seems more resilient to errors.
   :hook (python . eglot))
 #+END_SRC
 
+** =cheat-sh=
+
+The one true definitive cheat sheet, =cht.sh= also provides an Emacs package to
+interact with it.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package cheat-sh
+  :ensure t
+  :bind (("C-c ?" . cheat-sh)))
+#+END_SRC
+
 ** =smartparens=
 
 Auto-close parenthesis and other characters. Useful as it seems. Also, I add a
