@@ -162,7 +162,7 @@ figure it out on its own, and I don't really rely on abbreviations that much.
 I know, everyone has a strong opinion about it. I just hate them.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 #+END_SRC
 
 Related to this, it is important to fix two settings: the indentation offset
@@ -850,33 +850,33 @@ goodies when using LSP.
 this is not yet ready to be used as a daily workflow. Your mileage may vary.
 
 #+BEGIN_SRC emacs-lisp :results silent
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :demand t
-;;   :config
-;;   (require 'lsp-imenu)
-;;   (lsp-define-stdio-client lsp-python "python"
-;;                            #'projectile-project-root
-;;                            '("pyls"))
+(use-package lsp-mode
+  :ensure t
+  :demand t
+  :config
+  (require 'lsp-imenu)
+  (setq-default lsp-highlight-symbol-at-point nil)
+  :hook (lsp-after-open . lsp-enable-imenu))
 
-;;   :hook (lsp-after-open . lsp-enable-imenu)
-;;         (python-mode . (lambda ()
-;;                          (lsp-python-enable)
-;;                          (setq lsp-highlight-symbol-at-point nil))))
+(use-package lsp-ui
+  :ensure t
+  :config
+  (setq lsp-ui-sideline-show-hover nil)
+  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+  (set-face-attribute 'lsp-ui-sideline-global nil
+                      :inherit 'shadow
+                      :background "#f9f2d9")
+  :hook (lsp-mode . lsp-ui-mode))
 
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :config
-;;   (setq lsp-ui-sideline-show-hover nil)
-;;   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
-;;   (set-face-attribute 'lsp-ui-sideline-global nil
-;;                       :inherit 'shadow
-;;                       :background "#f9f2d9")
-;;   :hook (lsp-mode . lsp-ui-mode))
-
-;; (use-package company-lsp
-;;   :ensure t
-;;   :config (push 'company-lsp company-backends))
+(use-package company-lsp
+  :ensure t
+  :config
+  (require 'company-lsp)
+  (setq company-lsp-enable-snippet t
+		company-lsp-cache-candidates t)
+  (push 'company-lsp company-backends)
+  (push 'java-mode company-global-modes)
+  (push 'kotlin-mode company-global-modes))
 #+END_SRC
 
 ** =eglot=
@@ -1062,6 +1062,23 @@ configuration is required.
 (add-hook
  'c-mode-hook (lambda ()
 				(setq-local flycheck-gcc-language-standard "c11")))
+#+END_SRC
+
+** Kotlin
+
+Is it possible to write JVM code without using an IDE and preserving sanity?
+Well, there is only one way to find out.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package kotlin-mode
+  :ensure t)
+
+(use-package lsp-intellij
+  :ensure t
+  :after lsp-mode
+  :config
+  (setq lsp-intellij--code-lens-kind-face nil)
+  :hook (kotlin-mode . lsp-intellij-enable))
 #+END_SRC
 
 ** Haskell
