@@ -546,7 +546,6 @@ thing that actually annoys me is the fact that it changes the font in
 (defadvice load-theme (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
 
-
 (use-package gruvbox-theme
   :ensure t
   :config
@@ -668,6 +667,14 @@ copy and other operations.
   :config
   (setq dired-dwim-target t)
   :hook (dired-mode . dired-hide-details-mode))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-sidebar
+  :ensure t
+  :bind (("C-c s" . dired-sidebar-toggle-sidebar)))
 #+END_SRC
 
 ** =ivy=
