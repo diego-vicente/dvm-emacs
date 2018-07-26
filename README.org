@@ -1067,12 +1067,16 @@ configuration is required.
 
 ** Kotlin
 
-Is it possible to write JVM code without using an IDE and preserving sanity?
-Well, there is only one way to find out.
+I recently started to learn Kotlin, which seems like a super promising language
+but it still seems like an impossible task to use outside an IDE. However,
+thanks to Language Server Protocol, is possible to inject all hardcore IntelliJ
+features in Emacs with a breeze. Simply install the corresponding LSP plugin in
+IntelliJ and enable all important modes.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package kotlin-mode
-  :ensure t)
+  :ensure t
+  :hook (kotlin-mode . company-mode))
 
 (use-package lsp-intellij
   :ensure t
