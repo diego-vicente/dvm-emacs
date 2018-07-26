@@ -204,6 +204,16 @@ special configuration NixOS is supposed to deliver.
   (setq configuration-dir "~/my-emacs/"))
 #+END_SRC
 
+** Add =utils= directory
+
+Especially after the great EmacsWiki schism, it is useful to just drop some
+random packages in the configuration repository and load theme from there. For
+that reason, I like to add that folder to the load path.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(add-to-list 'load-path (concat configuration-dir "utils"))
+#+END_SRC
+
 ** Set the backups folder
 
 This feature is super useful sometimes, but it kills me to swarm my projects
@@ -612,7 +622,11 @@ can be used basically everywhere. At least in macOS, remember to install the
 necessary fonts that come bundled in the package!
 
 #+BEGIN_SRC emacs-lisp :results silent
+(use-package font-lock+
+  :demand t)
+
 (use-package all-the-icons
+  :after font-lock+
   :ensure t)
 #+END_SRC
 
