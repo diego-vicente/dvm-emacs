@@ -273,10 +273,10 @@ package, and use these key bindings.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package buffer-move
   :ensure t
-  :bind (("C-x w <up>"    . buf-move-up)
-         ("C-x w <down>"  . buf-move-down)
-         ("C-x w <left>"  . buf-move-left)
-         ("C-x w <right>" . buf-move-right)))
+  :bind (("C-c w <up>"    . buf-move-up)
+         ("C-c w <down>"  . buf-move-down)
+         ("C-c w <left>"  . buf-move-left)
+         ("C-c w <right>" . buf-move-right)))
 #+END_SRC
 
 ** Redefining sentences in Emacs
