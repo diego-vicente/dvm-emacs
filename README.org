@@ -567,6 +567,15 @@ thing that actually annoys me is the fact that it changes the font in
   :bind(("C-c c l" . load-light-theme)))
 #+END_SRC
 
+** Disable no-break underlining
+
+I appreciate the feature, but I don't really need it and can be annoying
+sometimes. I just prefer to treat those white spaces like the rest.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(set-face-attribute 'nobreak-space nil :underline nil)
+#+END_SRC
+
 ** Mode-line configuration
 
 After trying most of the alternatives available to customizing the mode-line
