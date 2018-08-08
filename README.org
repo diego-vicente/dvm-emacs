@@ -1336,6 +1336,13 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 (setq-default fill-column 79)
 #+END_SRC
 
+*** Save timestamps when completing tasks
+
+#+BEGIN_SRC emacs-lisp :results silent
+(setq org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "DONE(d!)"))
+      org-log-into-drawer t)
+#+END_SRC
+
 *** Ensure LaTeX export options
 
 We need to ensure that the indentation is left unaltered when exporting to
