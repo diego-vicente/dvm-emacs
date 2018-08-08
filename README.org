@@ -549,9 +549,12 @@ thing that actually annoys me is the fact that it changes the font in
 (use-package gruvbox-theme
   :ensure t
   :config
+
   (defun load-dark-theme ()
 	(interactive)
-	(load-theme 'gruvbox-dark-soft t))
+	(load-theme 'gruvbox-dark-soft t)
+    (set-face-attribute 'org-block nil :background "#2A2A2A"))
+
   :bind(("C-c c d" . load-dark-theme)))
 
 (use-package solarized-theme
@@ -560,9 +563,12 @@ thing that actually annoys me is the fact that it changes the font in
   :config
   (setq solarized-use-variable-pitch nil
 		solarized-scale-org-headlines nil)
+
   (defun load-light-theme ()
 	(interactive)
-	(load-theme 'solarized-light t))
+	(load-theme 'solarized-light t)
+    (set-face-attribute 'org-block nil :background "#f9f2d9"))
+
   (load-light-theme)
   :bind(("C-c c l" . load-light-theme)))
 #+END_SRC
