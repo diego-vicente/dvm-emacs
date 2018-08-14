@@ -1345,7 +1345,7 @@ auto fills to 70 characters, so we have to manually set the 79 limit.
 *** Save timestamps when completing tasks
 
 #+BEGIN_SRC emacs-lisp :results silent
-(setq org-todo-keywords '((sequence "TODO(t)" "CURRENT(c)" "DONE(d!)"))
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)" "DROP(x!)"))
       org-log-into-drawer t)
 #+END_SRC
 
