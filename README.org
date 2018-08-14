@@ -26,6 +26,7 @@ use it, needless to say to use your own information.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq user-full-name "Diego Vicente"
+      user-mail-address "mail@diego.codes"
       calendar-latitude 40.33
       calendar-longitude -3.76
       calendar-location-name "Madrid, Spain")
