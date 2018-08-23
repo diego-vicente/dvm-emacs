@@ -1872,7 +1872,7 @@ actually allows Emacs to be a PDF viewer. Actually, it is probably the best PDF
 viewer for Linux out there (maybe we could negotiate if Okular is). It allows
 to read, copy, select and annotate PDFs from Emacs.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package pdf-tools
   :ensure t
   :demand t
