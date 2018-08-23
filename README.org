@@ -783,8 +783,8 @@ project.
   :ensure t
   :config
   (projectile-global-mode 1)
-  (setq projectile-use-git-grep t
-        projectile-keymap-prefix (kbd "C-c p")))
+  (define-key projectile-mode-map (kbd "C-C p") 'projectile-command-map)
+  (setq projectile-use-git-grep t))
 #+END_SRC
 
 Also, the extension =counsel-projectile= adds integration with =ivy=.
