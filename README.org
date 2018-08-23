@@ -1079,6 +1079,21 @@ indentation of the comments.
          . (lambda () (ws-butler-mode -1) (visual-line-mode))))
 #+END_SRC
 
+** Nim
+
+Nim is a compiled language which has several super interesting features, like
+tail-recursion optimization, Uniform Function Call Syntax, and a Pythonic
+style. Even though it is still relatively young and underground, it already has
+a solid support in Emacs with everything that there is to be asked for:
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package nim-mode
+  :ensure t
+  :hook ((nim-mode . nimsuggest-mode)
+         (numsuggest-mode . company-mode)
+         (numsuggest-mode . flycheck-mode)))
+#+END_SRC
+
 ** R
 
 The quintessential programming language for statistics and numerical methods.
