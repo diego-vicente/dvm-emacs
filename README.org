@@ -1088,8 +1088,8 @@ a solid support in Emacs with everything that there is to be asked for:
 (use-package nim-mode
   :ensure t
   :hook ((nim-mode . nimsuggest-mode)
-         (numsuggest-mode . company-mode)
-         (numsuggest-mode . flycheck-mode)))
+         (nim-mode . company-mode)
+         (nim-mode . flycheck-mode)))
 #+END_SRC
 
 ** R
