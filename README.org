@@ -721,9 +721,7 @@ it.
 (use-package ivy-rich
   :ensure t
   :after ivy
-  :config
-  (ivy-set-display-transformer 'ivy-switch-buffer
-                               'ivy-rich-switch-buffer-transformer))
+  :config (ivy-rich-mode 1))
 #+END_SRC
 
 ** =iy-go-to-char=
