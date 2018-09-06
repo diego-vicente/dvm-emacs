@@ -767,6 +767,10 @@ also binds the status function to =C-x g=.
 
 (use-package magit-lfs
   :ensure t)
+
+(use-package magit-todos
+  :ensure t
+  :config (magit-todos-mode))
 #+END_SRC
 
 ** =projectile=
@@ -1087,9 +1091,9 @@ a solid support in Emacs with everything that there is to be asked for:
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package nim-mode
   :ensure t
-  :hook ((nim-mode . nimsuggest-mode)
-         (nim-mode . company-mode)
-         (nim-mode . flycheck-mode)))
+  :hook ((nim-mode . company-mode)))
+         ;; (nim-mode . nimsuggest-mode)
+         ;; (nim-mode . flycheck-mode)))
 #+END_SRC
 
 ** R
