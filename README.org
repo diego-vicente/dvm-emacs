@@ -514,8 +514,13 @@ can usually benefit for a tiny line-height increase.
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
-  (set-face-attribute 'default nil :font "Iosevka 12")
   (setq-default line-spacing 0.08))
+
+(defun set-custom-font (frame)
+  (interactive)
+  (set-face-attribute 'default nil :font "Iosevka SS10 12"))
+
+(add-to-list 'after-make-frame-functions 'set-custom-font t)
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -607,17 +612,26 @@ menu if I need to check the minor modes at some points.
 (use-package moody
   :ensure t
   :config
-  (setq x-underline-at-descent-line t
-        column-number-mode t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)))
-    ;; (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+
+  (defun set-moody-face (frame)
+    (let ((line (face-attribute 'mode-line :underline frame)))
+      (set-face-attribute 'mode-line          frame :overline   line)
+      (set-face-attribute 'mode-line-inactive frame :overline   line)
+      (set-face-attribute 'mode-line-inactive frame :underline  line)
+      (set-face-attribute 'mode-line          frame :box        nil)
+      (set-face-attribute 'mode-line-inactive frame :box        nil)))
+
+  ;; (defun set-current-moody-face (&optional args)
+  ;;   (interactive)
+  ;;   (set-moody-face (selected-frame)))
+
+  (setq-default x-underline-at-descent-line t
+                column-number-mode t)
+
+  (add-to-list 'after-make-frame-functions 'set-moody-face t))
+  ;; (add-to-list 'after-make-frame-functions 'set-current-moody-face t))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
