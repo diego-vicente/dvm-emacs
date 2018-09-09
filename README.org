@@ -578,6 +578,15 @@ thing that actually annoys me is the fact that it changes the font in
   :bind(("C-c c l" . load-light-theme)))
 #+END_SRC
 
+** Disable splitting frames to creating frames
+
+This functionality is to be used along i3wm in order to delegate window
+management to i3 completely.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(setq-default pop-up-frames 'graphic-only)
+#+END_SRC
+
 ** Disable no-break underlining
 
 I appreciate the feature, but I don't really need it and can be annoying
