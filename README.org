@@ -581,14 +581,22 @@ thing that actually annoys me is the fact that it changes the font in
 ** Disable splitting frames to creating frames
 
 This functionality is to be used along i3wm in order to delegate window
-management to i3 completely.
+management to i3 completely. There is also a couple of functions that must be
+overriden in order to make everything work seamlessly.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq-default pop-up-frames 'graphic-only)
 
 ;; Fix quit-window definitions to get rid of buffers
-(substitute-key-definition 'quit-window 'delete-frame global-map)
-(substitute-key-definition 'quit-window 'delete-frame help-mode-map)
+(defun quit-window-dwim (&optional args)
+  "`delete-frame' if closing a single window, else `quit-window'."
+  (interactive)
+  (if (one-window-p)
+      (delete-frame)
+    (quit-window args)))
+
+(substitute-key-definition 'quit-window 'quit-window-dwim global-map)
+(substitute-key-definition 'quit-window 'quit-window-dwim help-mode-map)
 #+END_SRC
 
 ** Disable no-break underlining
@@ -791,7 +799,7 @@ also binds the status function to =C-x g=.
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
   ;; When trying to quit a frame, delete such frame
-  (setq-default magit-bury-buffer-function 'delete-frame)
+  (setq-default magit-bury-buffer-function 'quit-window-dwim)
   :bind (("C-x g" . magit-status)))
 
 (use-package magit-lfs
