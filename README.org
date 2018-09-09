@@ -585,6 +585,10 @@ management to i3 completely.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (setq-default pop-up-frames 'graphic-only)
+
+;; Fix quit-window definitions to get rid of buffers
+(substitute-key-definition 'quit-window 'delete-frame global-map)
+(substitute-key-definition 'quit-window 'delete-frame help-mode-map)
 #+END_SRC
 
 ** Disable no-break underlining
@@ -786,6 +790,8 @@ also binds the status function to =C-x g=.
   :config
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
+  ;; When trying to quit a frame, delete such frame
+  (setq-default magit-bury-buffer-function 'delete-frame)
   :bind (("C-x g" . magit-status)))
 
 (use-package magit-lfs
