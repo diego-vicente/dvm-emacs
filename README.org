@@ -557,7 +557,8 @@ thing that actually annoys me is the fact that it changes the font in
 
   (defun load-dark-theme ()
 	(interactive)
-	(load-theme 'gruvbox-dark-soft t)
+    (disable-theme 'solarized-light)
+	(load-theme 'gruvbox t)
     (set-face-attribute 'org-block nil :background "#2A2A2A"))
 
   :bind(("C-c c d" . load-dark-theme)))
@@ -571,6 +572,7 @@ thing that actually annoys me is the fact that it changes the font in
 
   (defun load-light-theme ()
 	(interactive)
+    (disable-theme 'gruvbox)
 	(load-theme 'solarized-light t)
     (set-face-attribute 'org-block nil :background "#f9f2d9"))
 
@@ -786,7 +788,6 @@ and diffs in VCS.
 #+END_SRC
 
 ** =magit=
-
 
 A porcelain client for git. =magit= alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
