@@ -514,7 +514,7 @@ can usually benefit for a tiny line-height increase.
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
-  (set-face-attribute 'default nil :font "Iosevka 12")
+  (set-face-attribute 'default nil :font "Iosevka SS10 12")
   (setq-default line-spacing 0.08))
 #+END_SRC
 
