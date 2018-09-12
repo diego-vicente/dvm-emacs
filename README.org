@@ -1918,6 +1918,10 @@ One of the best known packages for contact management in Emacs.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package bbdb
   :ensure t)
+
+(use-package counsel-bbdb
+  :ensure t
+  :after bbdb)
 #+END_SRC
 
 ** =erc=
