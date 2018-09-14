@@ -576,8 +576,10 @@ thing that actually annoys me is the fact that it changes the font in
 	(load-theme 'solarized-light t)
     (set-face-attribute 'org-block nil :background "#f9f2d9"))
 
-  (load-light-theme)
   :bind(("C-c c l" . load-light-theme)))
+
+;; Start with gruvbox by default
+(load-dark-theme)
 #+END_SRC
 
 ** Disable splitting frames to creating frames
@@ -1808,7 +1810,7 @@ We need to manually enable the export to Beamer option.
 This package allows for simple export to Reveal slides and includes the custom
 style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css][=org-css=]] repository.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package ox-reveal
   :load-path "~/Utilities/org-reveal"
   :config
