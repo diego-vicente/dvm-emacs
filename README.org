@@ -601,6 +601,7 @@ overriden in order to make everything work seamlessly.
 
 (substitute-key-definition 'quit-window 'quit-window-dwim global-map)
 (substitute-key-definition 'quit-window 'quit-window-dwim help-mode-map)
+(substitute-key-definition 'quit-window 'quit-window-dwim Buffer-menu-mode-map)
 #+END_SRC
 
 ** Disable no-break underlining
@@ -1766,7 +1767,7 @@ When opening a PDF, use the included =pdf-tools= viewer from Emacs.
    '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
 #+END_SRC
 
-*** Clean intermediate files.
+*** Clean intermediate files
 
 Thanks to [[https://github.com/labellson][Dani]] for letting me know that it is possible to automatically delete
 the intermediate files generated when exporting =org-mode= files. Just set the
@@ -1929,7 +1930,7 @@ actually allows Emacs to be a PDF viewer. Actually, it is probably the best PDF
 viewer for Linux out there (maybe we could negotiate if Okular is). It allows
 to read, copy, select and annotate PDFs from Emacs.
 
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package pdf-tools
   :ensure t
   :demand t
@@ -1981,5 +1982,5 @@ or quitted if that user has been inactive for more than half an hour.
 you want to set another one just change that argument.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(setq erc-nick "agis")
+(setq erc-nick "dvicente")
 #+END_SRC
