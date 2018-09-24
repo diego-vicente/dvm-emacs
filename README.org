@@ -934,24 +934,31 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   :ensure t
   :demand t
   :config
-  (require 'lsp-imenu)
   (setq-default lsp-highlight-symbol-at-point nil)
+  (lsp-define-stdio-client lsp-python "python"
+                           #'projectile-project-root
+                           '("pyls"))
+  :hook (python-mode . lsp-python-enable))
+
+(use-package lsp-imenu
+  :after lsp-mode
   :hook (lsp-after-open . lsp-enable-imenu))
+
 
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-show-hover nil)
-  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+  (setq lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-ignore-duplicate t)
+  (set-face-attribute 'lsp-ui-doc-background  nil :background "#2A2A2A")
   (set-face-attribute 'lsp-ui-sideline-global nil
                       :inherit 'shadow
-                      :background "#f9f2d9")
+                      :background "#2A2A2A")
   :hook (lsp-mode . lsp-ui-mode))
 
 (use-package company-lsp
   :ensure t
   :config
-  (require 'company-lsp)
   (setq company-lsp-enable-snippet t
 		company-lsp-cache-candidates t)
   (push 'company-lsp company-backends)
@@ -966,7 +973,7 @@ allows typical interaction via Language Server Protocol. Startup times for
 Python are still terrible (probably =python-language-server= is the one to
 blame here) but seems more resilient to errors.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package eglot
   :ensure t
   ;; Automatically recognizes python-language-server
@@ -1084,7 +1091,7 @@ easier (specially in Lisp)
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package elpy
   :ensure t
   :config
