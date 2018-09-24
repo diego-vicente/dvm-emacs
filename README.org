@@ -1968,6 +1968,75 @@ appropriate location:
 ln -s gnus.el ~/.gnus.el
 #+END_SRC
 
+** =mu4e=
+
+After trying to love =gnus=, I am really having a hard time getting around the
+cumbersome interface and how slow it can be. For that reason, I also want to
+have =mu= / =mu4e= around. I guess I am not the kind of power user that takes
+full advantage of =gnus=.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :demand t
+  :config
+  (setq send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo")))
+#+END_SRC
+
+This basic configuration also includes a notification daemon when I get new
+email in the mode-line.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package mu4e-alert
+  :ensure t
+  :after mu4e
+  :config
+  (setq mu4e-alert-modeline-formatter
+        'mu4e-alert-custom-mode-line-formatter)
+  (mu4e-alert-set-default-style 'libnotify)
+  :hook (after-init . mu4e-alert-enable-mode-line-display))
+
+(defun mu4e-alert-custom-mode-line-formatter (mail-count)
+  "Custom formatter used to get the string to be displayed in the mode-line.
+Uses Font Awesome mail icon to have a more visual icon in the display.
+MAIL-COUNT is the count of mails for which the string is to displayed"
+  (when (not (zerop mail-count))
+    (concat " "
+            (propertize
+             ""
+             ;; 'display (when (display-graphic-p)
+             ;;            display-time-mail-icon)
+             'face display-time-mail-face
+             'help-echo (concat (if (= mail-count 1)
+                                    "You have an unread email"
+                                  (format "You have %s unread emails" mail-count))
+                                "\nClick here to view "
+                                (if (= mail-count 1) "it" "them"))
+             'mouse-face 'mode-line-highlight
+             'keymap '(mode-line keymap
+                                 (mouse-1 . mu4e-alert-view-unread-mails)
+                                 (mouse-2 . mu4e-alert-view-unread-mails)
+                                 (mouse-3 . mu4e-alert-view-unread-mails)))
+            (if (zerop mail-count)
+                " "
+              (format " [%d] " mail-count)))))
+#+END_SRC
+
+Also, I define a custom function so that updating the mail is possible just by
+pinging the Emacs daemon. I have this function called as a post-hook every time
+the =offlineimap= is called.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(defun update-mail-in-server ()
+  "Check for mail and update the mode line icon."
+  (interactive)
+  (mu4e-update-mail-and-index t)
+  (mu4e-alert-enable-mode-line-display))
+#+END_SRC
+
+
 ** =bbdb=: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
