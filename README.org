@@ -1941,9 +1941,18 @@ to read, copy, select and annotate PDFs from Emacs.
 (use-package pdf-tools
   :ensure t
   :demand t
-  :config (pdf-tools-install)
+  :config
+  (pdf-tools-install)
+  (setq pdf-annot-activate-created-annotations t)
   :bind (:map pdf-view-mode-map
-              ("C-s" . isearch-forward)))
+              ("C-s" . isearch-forward)
+              ("h" . pdf-annot-add-highlight-markup-annotation)
+              ("t" . pdf-annot-add-text-annotation)
+              ("D" . pdf-annot-delete)))
+
+(use-package centered-window
+  :ensure t
+  :hook pdf-tools-enabled)
 #+END_SRC
 
 ** =gnus=
