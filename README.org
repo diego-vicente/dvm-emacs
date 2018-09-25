@@ -827,7 +827,10 @@ project.
   :config
   (projectile-global-mode 1)
   (define-key projectile-mode-map (kbd "C-C p") 'projectile-command-map)
-  (setq projectile-use-git-grep t))
+  (setq projectile-use-git-grep t
+        ;; Fix for compilation command and `generic` projects
+        projectile-project-compilation-cmd ""
+        projectile-project-run-cmd ""))
 #+END_SRC
 
 Also, the extension =counsel-projectile= adds integration with =ivy=.
