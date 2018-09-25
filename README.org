@@ -2043,7 +2043,17 @@ One of the best known packages for contact management in Emacs.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package bbdb
-  :ensure t)
+  :ensure t
+  :after mu4e
+  :config
+  ;; (require 'bbdb-loaddefs)
+  (autoload 'bbdb-insinuate-mu4e "bbdb-mu4e")
+  (bbdb-initialize 'message 'mu4e)
+  (setq bbdb-mail-user-agent 'message-user-agent
+        mu4e-view-mode-hook '(bbdb-mua-auto-update visual-line-mode)
+        mu4e-compose-complete-addresses nil
+        bbdb-mua-pop-up t
+        bbdb-mua-pop-up-window-size 5))
 #+END_SRC
 
 ** =erc=
