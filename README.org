@@ -803,7 +803,8 @@ also binds the status function to =C-x g=.
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
   ;; When trying to quit a frame, delete such frame
-  (setq-default magit-bury-buffer-function 'quit-window-dwim)
+  (setq-default magit-bury-buffer-function 'quit-window-dwim
+                magit-commit-show-diff nil)
   :bind (("C-x g" . magit-status)))
 
 (use-package magit-lfs
