@@ -230,6 +230,20 @@ from polluting everywhere.
       kept-old-versions 5)
 #+END_SRC
 
+** Real auto-save feature
+
+Pretty straightforward. Instead of creating an auxiliary file, just use the
+file itself. This may look like error-prone, but most of the times it is indeed
+just basically the same.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package real-auto-save
+  :ensure t
+  :demand t
+  :config (setq real-auto-save-interval 10))
+#+END_SRC
+
+
 ** Fill the =exec-path= variable
 
 I spent too much time until I figured this out. Since I mostly use GUI Emacs,
@@ -1953,10 +1967,6 @@ to read, copy, select and annotate PDFs from Emacs.
               ("h" . pdf-annot-add-highlight-markup-annotation)
               ("t" . pdf-annot-add-text-annotation)
               ("D" . pdf-annot-delete)))
-
-(use-package centered-window
-  :ensure t
-  :hook pdf-tools-enabled)
 #+END_SRC
 
 ** =gnus=
