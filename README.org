@@ -532,7 +532,7 @@ can usually benefit for a tiny line-height increase.
 
 (defun set-custom-font (frame)
   (interactive)
-  (set-face-attribute 'default nil :font "Iosevka SS10 12"))
+  (set-face-attribute 'default frame :font "Iosevka SS10 12"))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
 #+END_SRC
@@ -1996,7 +1996,20 @@ full advantage of =gnus=.
   :config
   (setq send-mail-function 'smtpmail-send-it
         message-send-mail-function 'smtpmail-send-it
-        smtpmail-auth-credentials (expand-file-name "~/.authinfo"))
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+        mu4e-sent-messages-behavior 'delete
+        message-kill-buffer-on-exit t
+        mu4e-confirm-quit nil
+        mu4e-completing-read-function 'ivy-completing-read
+        ;; Don't get too clever showing html
+        shr-use-colors nil
+        shr-use-fonts nil
+        ;; Define the default folders
+        mu4e-sent-folder   "/Fastmail/Sent"
+        mu4e-drafts-folder "/Fastmail/Drafts"
+        mu4e-trash-folder  "/Fastmail/Trash"
+        ;; Define custom shortcuts
+        mu4e-maildir-shortcuts '(("/Fastmail/INBOX" . ?i)))
   :bind (("C-c m" . mu4e)))
 #+END_SRC
 
@@ -2052,7 +2065,6 @@ the =offlineimap= is called.
   ;; Clear echo area in 2 seconds after update
   (run-with-timer 2 nil (lambda () (message nil))))
 #+END_SRC
-
 
 ** =bbdb=: The Insidious Big Brother's Database
 
