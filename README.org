@@ -2004,13 +2004,15 @@ full advantage of =gnus=.
         ;; Don't get too clever showing html
         shr-use-colors nil
         shr-use-fonts nil
+        shr-width 79
         ;; Define the default folders
         mu4e-sent-folder   "/Fastmail/Sent"
         mu4e-drafts-folder "/Fastmail/Drafts"
         mu4e-trash-folder  "/Fastmail/Trash"
         ;; Define custom shortcuts
         mu4e-maildir-shortcuts '(("/Fastmail/INBOX" . ?i)))
-  :bind (("C-c m" . mu4e)))
+  :bind (("C-c m" . mu4e))
+  :hook (mu4e-compose-mode . flyspell-mode))
 #+END_SRC
 
 This basic configuration also includes a notification daemon when I get new
@@ -2084,6 +2086,17 @@ One of the best known packages for contact management in Emacs.
         bbdb-mua-pop-up t
         bbdb-mua-pop-up-window-size 5))
 #+END_SRC
+
+
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package counsel-bbdb
+  :ensure t
+  :config
+  :bind (:map mu4e-compose-mode-map
+              ("TAB" . counsel-bbdb-complete-mail)))
+#+END_SRC
+
 
 ** =erc=
 
