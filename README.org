@@ -2011,16 +2011,37 @@ full advantage of =gnus=.
         message-kill-buffer-on-exit t
         mu4e-confirm-quit nil
         mu4e-completing-read-function 'ivy-completing-read
+        mu4e-compose-format-flowed t
         ;; Don't get too clever showing html
         shr-use-colors nil
         shr-use-fonts nil
         shr-width 79
         ;; Define the default folders
         mu4e-sent-folder   "/Fastmail/Sent"
-        mu4e-drafts-folder "/Fastmail/Drafts"
+        ;; mu4e-drafts-folder "/Fastmail/Drafts"
         mu4e-trash-folder  "/Fastmail/Trash"
         ;; Define custom shortcuts
         mu4e-maildir-shortcuts '(("/Fastmail/INBOX" . ?i)))
+
+  ;; Override the default bookmark list
+  (setq mu4e-bookmarks
+    `( ,(make-mu4e-bookmark
+         :name  "Unread messages"
+         :query "flag:unread AND NOT flag:trashed AND NOT maildir:/Fastmail/Spam"
+         :key ?u)
+       ,(make-mu4e-bookmark
+         :name "Today's messages"
+         :query "date:today..now"
+         :key ?t)
+       ,(make-mu4e-bookmark
+         :name "Last 7 days"
+         :query "date:7d..now"
+         :key ?w)
+       ,(make-mu4e-bookmark
+         :name "Inbox"
+         :query "maildir:/Fastmail/INBOX"
+         :key ?i)))
+
   :bind (("C-c m" . mu4e))
   :hook (mu4e-compose-mode . flyspell-mode))
 #+END_SRC
@@ -2036,6 +2057,8 @@ email in the mode-line.
   (setq mu4e-alert-modeline-formatter
         'mu4e-alert-custom-mode-line-formatter)
   (mu4e-alert-set-default-style 'libnotify)
+  (setq mu4e-alert-interesting-mail-query
+        "flag:unread AND NOT flag:trashed AND NOT maildir:/Fastmail/Spam")
   :hook (after-init . mu4e-alert-enable-mode-line-display))
 
 (defun mu4e-alert-custom-mode-line-formatter (mail-count)
@@ -2078,6 +2101,38 @@ the =offlineimap= is called.
   (run-with-timer 2 nil (lambda () (message nil))))
 #+END_SRC
 
+=org-mime= is a package that enables HTML email writing using =org-mode= on
+Emacs' side.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package org-mime
+  :ensure t
+  :after org
+  :config
+  (setq-default composing-html-mail nil)
+
+  (defun compose-org-mail ()
+    "Create a new org scratch buffer to compose an HTML mail."
+    (interactive)
+    (let ((draft-buffer (generate-new-buffer "*org-draft*")))
+      (with-current-buffer draft-buffer
+        (org-mode)
+        (insert "?header")
+        (yas/expand))
+      (display-buffer draft-buffer nil t)
+      (setq composing-html-mail t)))
+
+  (defun htmlize-org-mail ()
+    "When in an org mail, htmlize it."
+    (interactive)
+    (when composing-html-mail
+      (setq composing-html-mail nil)
+      (org-mime-org-buffer-htmlize)))
+
+  :hook (org-ctrl-c-ctrl-c . htmlize-org-mail))
+#+END_SRC
+
+
 ** =bbdb=: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
@@ -2097,7 +2152,8 @@ One of the best known packages for contact management in Emacs.
         bbdb-mua-pop-up-window-size 5))
 #+END_SRC
 
-
+Also, a secondary package takes advantage of =counsel= integration when
+completing addresses (much better idea than the default search).
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package counsel-bbdb
@@ -2106,7 +2162,6 @@ One of the best known packages for contact management in Emacs.
   :bind (:map mu4e-compose-mode-map
               ("TAB" . counsel-bbdb-complete-mail)))
 #+END_SRC
-
 
 ** =erc=
 
