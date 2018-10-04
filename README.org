@@ -592,8 +592,8 @@ thing that actually annoys me is the fact that it changes the font in
 
   :bind(("C-c c l" . load-light-theme)))
 
-;; Start with gruvbox by default
-(load-dark-theme)
+;; Start with solarized-light by default
+(load-light-theme)
 #+END_SRC
 
 ** Disable splitting frames to creating frames
