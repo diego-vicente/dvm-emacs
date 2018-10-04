@@ -1105,6 +1105,16 @@ easier (specially in Lisp)
   :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
+** =rmsbolt=
+
+This package allows to explore the compiled code for several languages in a
+similar fashion to =godbolt=.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package rmsbolt
+  :ensure t)
+#+END_SRC
+
 * Programming Modes
 ** Python
 *** Regular Python configuration
