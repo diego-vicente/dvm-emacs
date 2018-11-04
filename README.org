@@ -612,18 +612,30 @@ overriden in order to make everything work seamlessly.
     (quit-window args)))
 
 (defun running-i3 ()
-  (s-equals-p (getenv "DESKTOP_SESSION") "i3"))
+  (string-match-p
+   (regexp-quote "i3")
+   (shell-command-to-string "echo $DESKTOP_SESSION")))
 
 (defun set-up-i3 ()
-  (when (running-i3)
-    (setq-default pop-up-frames 'graphic-only)
-    (substitute-key-definition 'quit-window 'quit-window-dwim
-                               global-map)
-    (substitute-key-definition 'quit-window 'quit-window-dwim
-                               help-mode-map)
-    (substitute-key-definition 'quit-window 'quit-window-dwim
-                               Buffer-menu-mode-map)))
+  (setq-default pop-up-frames 'graphic-only
+                magit-bury-buffer-function 'quit-window-dwim
+                magit-commit-show-diff nil)
+  (substitute-key-definition 'quit-window 'quit-window-dwim
+                             global-map)
+  (substitute-key-definition 'quit-window 'quit-window-dwim
+                             help-mode-map)
+  (substitute-key-definition 'quit-window 'quit-window-dwim
+                             Buffer-menu-mode-map))
+
+(when (running-i3)
+  (set-up-i3))
 #+END_SRC
+
+This last line checks up if i3 is running and sets everything up (duh), but
+when Emacs is started as a daemon in =systemd= or before actually running i3,
+this check will fail. My solution is to run =emacsclient -e "(set-up-i3)"= in
+my i3 configuration, so that i3 is the one actually telling the Emacs daemon to
+get the proper settings.
 
 ** Better usage for =C-x o=
 
