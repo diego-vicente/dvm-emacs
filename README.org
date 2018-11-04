@@ -603,8 +603,6 @@ management to i3 completely. There is also a couple of functions that must be
 overriden in order to make everything work seamlessly.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(setq-default pop-up-frames 'graphic-only)
-
 ;; Fix quit-window definitions to get rid of buffers
 (defun quit-window-dwim (&optional args)
   "`delete-frame' if closing a single window, else `quit-window'."
@@ -613,9 +611,38 @@ overriden in order to make everything work seamlessly.
       (delete-frame)
     (quit-window args)))
 
-(substitute-key-definition 'quit-window 'quit-window-dwim global-map)
-(substitute-key-definition 'quit-window 'quit-window-dwim help-mode-map)
-(substitute-key-definition 'quit-window 'quit-window-dwim Buffer-menu-mode-map)
+(defun running-i3 ()
+  (s-equals-p (getenv "DESKTOP_SESSION") "i3"))
+
+(defun set-up-i3 ()
+  (when (running-i3)
+    (setq-default pop-up-frames 'graphic-only)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               global-map)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               help-mode-map)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               Buffer-menu-mode-map)))
+#+END_SRC
+
+** Better usage for =C-x o=
+
+Following a similar train of thought as the one in the previous snippet, =C-x
+o= default behavior can be improved with a simple check.
+
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
+;; TODO: fix different workspaces problem
+(setq  focus-follow-mouse t)
+
+(defun other-window-or-frame (&optional n)
+  "Switch to a different window or frame depending on the context"
+  (interactive)
+  (let ((count (if (eq n nil) 1 n)))
+        (if (one-window-p)
+            (other-frame count)
+          (other-window count))))
+
+(global-set-key (kbd "C-x o") 'other-window-or-frame)
 #+END_SRC
 
 ** Disable no-break underlining
@@ -816,9 +843,10 @@ also binds the status function to =C-x g=.
   :config
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
-  ;; When trying to quit a frame, delete such frame
-  (setq-default magit-bury-buffer-function 'quit-window-dwim
-                magit-commit-show-diff nil)
+  (when (running-i3)
+    ;; When trying to quit a frame, delete such frame
+    (setq-default magit-bury-buffer-function 'quit-window-dwim
+                  magit-commit-show-diff nil))
   :bind (("C-x g" . magit-status)))
 
 (use-package magit-lfs
