@@ -2001,7 +2001,7 @@ to read, copy, select and annotate PDFs from Emacs.
   :ensure t
   :demand t
   :config
-  (pdf-tools-install)
+  (pdf-tools-install t)
   (setq pdf-annot-activate-created-annotations t)
   :bind (:map pdf-view-mode-map
               ("C-s" . isearch-forward)
@@ -2035,6 +2035,8 @@ full advantage of =gnus=.
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :demand t
   :config
+  (require 'shr)
+
   (setq send-mail-function 'smtpmail-send-it
         message-send-mail-function 'smtpmail-send-it
         smtpmail-auth-credentials (expand-file-name "~/.authinfo")
