@@ -983,7 +983,7 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   (setq-default lsp-highlight-symbol-at-point nil)
   (lsp-define-stdio-client lsp-python "python"
                            #'projectile-project-root
-                           '("pyls"))
+                           '("/home/dvicente/Utilities/anaconda3/bin/pyls"))
   :hook (python-mode . lsp-python-enable))
 
 (use-package lsp-imenu
@@ -996,10 +996,13 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   :config
   (setq lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-ignore-duplicate t)
-  (set-face-attribute 'lsp-ui-doc-background  nil :background "#2A2A2A")
+  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+  (add-hook 'lsp-ui-doc-frame-hook
+          (lambda (frame _w)
+            (set-face-attribute 'default frame :font "Iosevka SS10 12")))
   (set-face-attribute 'lsp-ui-sideline-global nil
                       :inherit 'shadow
-                      :background "#2A2A2A")
+                      :background "#f9f2d9")
   :hook (lsp-mode . lsp-ui-mode))
 
 (use-package company-lsp
