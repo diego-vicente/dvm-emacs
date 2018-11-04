@@ -230,6 +230,20 @@ from polluting everywhere.
       kept-old-versions 5)
 #+END_SRC
 
+** Real auto-save feature
+
+Pretty straightforward. Instead of creating an auxiliary file, just use the
+file itself. This may look like error-prone, but most of the times it is indeed
+just basically the same.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package real-auto-save
+  :ensure t
+  :demand t
+  :config (setq real-auto-save-interval 10))
+#+END_SRC
+
+
 ** Fill the =exec-path= variable
 
 I spent too much time until I figured this out. Since I mostly use GUI Emacs,
@@ -514,8 +528,13 @@ can usually benefit for a tiny line-height increase.
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
-  (set-face-attribute 'default nil :font "Iosevka SS10 12")
   (setq-default line-spacing 0.08))
+
+(defun set-custom-font (frame)
+  (interactive)
+  (set-face-attribute 'default frame :font "Iosevka SS10 12"))
+
+(add-to-list 'after-make-frame-functions 'set-custom-font t)
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -552,7 +571,8 @@ thing that actually annoys me is the fact that it changes the font in
 
   (defun load-dark-theme ()
 	(interactive)
-	(load-theme 'gruvbox-dark-soft t)
+    (disable-theme 'solarized-light)
+	(load-theme 'gruvbox t)
     (set-face-attribute 'org-block nil :background "#2A2A2A"))
 
   :bind(("C-c c d" . load-dark-theme)))
@@ -566,11 +586,63 @@ thing that actually annoys me is the fact that it changes the font in
 
   (defun load-light-theme ()
 	(interactive)
+    (disable-theme 'gruvbox)
 	(load-theme 'solarized-light t)
     (set-face-attribute 'org-block nil :background "#f9f2d9"))
 
-  (load-light-theme)
   :bind(("C-c c l" . load-light-theme)))
+
+;; Start with solarized-light by default
+(load-light-theme)
+#+END_SRC
+
+** Disable splitting frames to creating frames
+
+This functionality is to be used along i3wm in order to delegate window
+management to i3 completely. There is also a couple of functions that must be
+overriden in order to make everything work seamlessly.
+
+#+BEGIN_SRC emacs-lisp :results silent
+;; Fix quit-window definitions to get rid of buffers
+(defun quit-window-dwim (&optional args)
+  "`delete-frame' if closing a single window, else `quit-window'."
+  (interactive)
+  (if (one-window-p)
+      (delete-frame)
+    (quit-window args)))
+
+(defun running-i3 ()
+  (s-equals-p (getenv "DESKTOP_SESSION") "i3"))
+
+(defun set-up-i3 ()
+  (when (running-i3)
+    (setq-default pop-up-frames 'graphic-only)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               global-map)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               help-mode-map)
+    (substitute-key-definition 'quit-window 'quit-window-dwim
+                               Buffer-menu-mode-map)))
+#+END_SRC
+
+** Better usage for =C-x o=
+
+Following a similar train of thought as the one in the previous snippet, =C-x
+o= default behavior can be improved with a simple check.
+
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
+;; TODO: fix different workspaces problem
+(setq  focus-follow-mouse t)
+
+(defun other-window-or-frame (&optional n)
+  "Switch to a different window or frame depending on the context"
+  (interactive)
+  (let ((count (if (eq n nil) 1 n)))
+        (if (one-window-p)
+            (other-frame count)
+          (other-window count))))
+
+(global-set-key (kbd "C-x o") 'other-window-or-frame)
 #+END_SRC
 
 ** Disable no-break underlining
@@ -607,17 +679,26 @@ menu if I need to check the minor modes at some points.
 (use-package moody
   :ensure t
   :config
-  (setq x-underline-at-descent-line t
-        column-number-mode t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)))
-    ;; (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+
+  (defun set-moody-face (frame)
+    (let ((line (face-attribute 'mode-line :underline frame)))
+      (set-face-attribute 'mode-line          frame :overline   line)
+      (set-face-attribute 'mode-line-inactive frame :overline   line)
+      (set-face-attribute 'mode-line-inactive frame :underline  line)
+      (set-face-attribute 'mode-line          frame :box        nil)
+      (set-face-attribute 'mode-line-inactive frame :box        nil)))
+
+  ;; (defun set-current-moody-face (&optional args)
+  ;;   (interactive)
+  ;;   (set-moody-face (selected-frame)))
+
+  (setq-default x-underline-at-descent-line t
+                column-number-mode t)
+
+  (add-to-list 'after-make-frame-functions 'set-moody-face t))
+  ;; (add-to-list 'after-make-frame-functions 'set-current-moody-face t))
 #+END_SRC
 
 ** Set the cursor as a vertical bar
@@ -752,7 +833,6 @@ and diffs in VCS.
 
 ** =magit=
 
-
 A porcelain client for git. =magit= alone is a reason to use Emacs over
 vi/vim. It is really wonderful to use and you should install right now. This
 also binds the status function to =C-x g=.
@@ -763,6 +843,10 @@ also binds the status function to =C-x g=.
   :config
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
+  (when (running-i3)
+    ;; When trying to quit a frame, delete such frame
+    (setq-default magit-bury-buffer-function 'quit-window-dwim
+                  magit-commit-show-diff nil))
   :bind (("C-x g" . magit-status)))
 
 (use-package magit-lfs
@@ -786,7 +870,10 @@ project.
   :config
   (projectile-global-mode 1)
   (define-key projectile-mode-map (kbd "C-C p") 'projectile-command-map)
-  (setq projectile-use-git-grep t))
+  (setq projectile-use-git-grep t
+        ;; Fix for compilation command and `generic` projects
+        projectile-project-compilation-cmd ""
+        projectile-project-run-cmd ""))
 #+END_SRC
 
 Also, the extension =counsel-projectile= adds integration with =ivy=.
@@ -893,15 +980,26 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   :ensure t
   :demand t
   :config
-  (require 'lsp-imenu)
   (setq-default lsp-highlight-symbol-at-point nil)
+  (lsp-define-stdio-client lsp-python "python"
+                           #'projectile-project-root
+                           '("/home/dvicente/Utilities/anaconda3/bin/pyls"))
+  :hook (python-mode . lsp-python-enable))
+
+(use-package lsp-imenu
+  :after lsp-mode
   :hook (lsp-after-open . lsp-enable-imenu))
+
 
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-ignore-duplicate t)
   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
+  (add-hook 'lsp-ui-doc-frame-hook
+          (lambda (frame _w)
+            (set-face-attribute 'default frame :font "Iosevka SS10 12")))
   (set-face-attribute 'lsp-ui-sideline-global nil
                       :inherit 'shadow
                       :background "#f9f2d9")
@@ -910,7 +1008,6 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
 (use-package company-lsp
   :ensure t
   :config
-  (require 'company-lsp)
   (setq company-lsp-enable-snippet t
 		company-lsp-cache-candidates t)
   (push 'company-lsp company-backends)
@@ -925,7 +1022,7 @@ allows typical interaction via Language Server Protocol. Startup times for
 Python are still terrible (probably =python-language-server= is the one to
 blame here) but seems more resilient to errors.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package eglot
   :ensure t
   ;; Automatically recognizes python-language-server
@@ -1039,11 +1136,21 @@ easier (specially in Lisp)
   :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
+** =rmsbolt=
+
+This package allows to explore the compiled code for several languages in a
+similar fashion to =godbolt=.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package rmsbolt
+  :ensure t)
+#+END_SRC
+
 * Programming Modes
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package elpy
   :ensure t
   :config
@@ -1726,7 +1833,7 @@ When opening a PDF, use the included =pdf-tools= viewer from Emacs.
    '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link)))))
 #+END_SRC
 
-*** Clean intermediate files.
+*** Clean intermediate files
 
 Thanks to [[https://github.com/labellson][Dani]] for letting me know that it is possible to automatically delete
 the intermediate files generated when exporting =org-mode= files. Just set the
@@ -1770,7 +1877,7 @@ We need to manually enable the export to Beamer option.
 This package allows for simple export to Reveal slides and includes the custom
 style I defined in my [[https://raw.githubusercontent.com/DiegoVicen/org-css/master/reveal.css][=org-css=]] repository.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package ox-reveal
   :load-path "~/Utilities/org-reveal"
   :config
@@ -1889,13 +1996,18 @@ actually allows Emacs to be a PDF viewer. Actually, it is probably the best PDF
 viewer for Linux out there (maybe we could negotiate if Okular is). It allows
 to read, copy, select and annotate PDFs from Emacs.
 
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package pdf-tools
   :ensure t
   :demand t
-  :config (pdf-tools-install)
+  :config
+  (pdf-tools-install t)
+  (setq pdf-annot-activate-created-annotations t)
   :bind (:map pdf-view-mode-map
-              ("C-s" . isearch-forward)))
+              ("C-s" . isearch-forward)
+              ("h" . pdf-annot-add-highlight-markup-annotation)
+              ("t" . pdf-annot-add-text-annotation)
+              ("D" . pdf-annot-delete)))
 #+END_SRC
 
 ** =gnus=
@@ -1911,17 +2023,177 @@ appropriate location:
 ln -s gnus.el ~/.gnus.el
 #+END_SRC
 
+** =mu4e=
+
+After trying to love =gnus=, I am really having a hard time getting around the
+cumbersome interface and how slow it can be. For that reason, I also want to
+have =mu= / =mu4e= around. I guess I am not the kind of power user that takes
+full advantage of =gnus=.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :demand t
+  :config
+  (require 'shr)
+
+  (setq send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+        mu4e-sent-messages-behavior 'delete
+        message-kill-buffer-on-exit t
+        mu4e-confirm-quit nil
+        mu4e-completing-read-function 'ivy-completing-read
+        mu4e-compose-format-flowed t
+        ;; Don't get too clever showing html
+        shr-use-colors nil
+        shr-use-fonts nil
+        shr-width 79
+        ;; Define the default folders
+        mu4e-sent-folder   "/Fastmail/Sent"
+        ;; mu4e-drafts-folder "/Fastmail/Drafts"
+        mu4e-trash-folder  "/Fastmail/Trash"
+        ;; Define custom shortcuts
+        mu4e-maildir-shortcuts '(("/Fastmail/INBOX" . ?i)))
+
+  ;; Override the default bookmark list
+  (setq mu4e-bookmarks
+    `( ,(make-mu4e-bookmark
+         :name  "Unread messages"
+         :query "flag:unread AND NOT flag:trashed AND NOT maildir:/Fastmail/Spam"
+         :key ?u)
+       ,(make-mu4e-bookmark
+         :name "Today's messages"
+         :query "date:today..now"
+         :key ?t)
+       ,(make-mu4e-bookmark
+         :name "Last 7 days"
+         :query "date:7d..now"
+         :key ?w)
+       ,(make-mu4e-bookmark
+         :name "Inbox"
+         :query "maildir:/Fastmail/INBOX"
+         :key ?i)))
+
+  :bind (("C-c m" . mu4e))
+  :hook (mu4e-compose-mode . flyspell-mode))
+#+END_SRC
+
+This basic configuration also includes a notification daemon when I get new
+email in the mode-line.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package mu4e-alert
+  :ensure t
+  :after mu4e
+  :config
+  (setq mu4e-alert-modeline-formatter
+        'mu4e-alert-custom-mode-line-formatter)
+  (mu4e-alert-set-default-style 'libnotify)
+  (setq mu4e-alert-interesting-mail-query
+        "flag:unread AND NOT flag:trashed AND NOT maildir:/Fastmail/Spam")
+  :hook (after-init . mu4e-alert-enable-mode-line-display))
+
+(defun mu4e-alert-custom-mode-line-formatter (mail-count)
+  "Custom formatter used to get the string to be displayed in the mode-line.
+Uses Font Awesome mail icon to have a more visual icon in the display.
+MAIL-COUNT is the count of mails for which the string is to displayed"
+  (when (not (zerop mail-count))
+    (concat " "
+            (propertize
+             ""
+             ;; 'display (when (display-graphic-p)
+             ;;            display-time-mail-icon)
+             'face display-time-mail-face
+             'help-echo (concat (if (= mail-count 1)
+                                    "You have an unread email"
+                                  (format "You have %s unread emails" mail-count))
+                                "\nClick here to view "
+                                (if (= mail-count 1) "it" "them"))
+             'mouse-face 'mode-line-highlight
+             'keymap '(mode-line keymap
+                                 (mouse-1 . mu4e-alert-view-unread-mails)
+                                 (mouse-2 . mu4e-alert-view-unread-mails)
+                                 (mouse-3 . mu4e-alert-view-unread-mails)))
+            (if (zerop mail-count)
+                " "
+              (format " [%d] " mail-count)))))
+#+END_SRC
+
+Also, I define a custom function so that updating the mail is possible just by
+pinging the Emacs daemon. I have this function called as a post-hook every time
+the =offlineimap= is called.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(defun update-mail-in-server ()
+  "Check for mail and update the mode line icon."
+  (interactive)
+  (mu4e-update-mail-and-index t)
+  (mu4e-alert-enable-mode-line-display)
+  ;; Clear echo area in 2 seconds after update
+  (run-with-timer 2 nil (lambda () (message nil))))
+#+END_SRC
+
+=org-mime= is a package that enables HTML email writing using =org-mode= on
+Emacs' side.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package org-mime
+  :ensure t
+  :after org
+  :config
+  (setq-default composing-html-mail nil)
+
+  (defun compose-org-mail ()
+    "Create a new org scratch buffer to compose an HTML mail."
+    (interactive)
+    (let ((draft-buffer (generate-new-buffer "*org-draft*")))
+      (with-current-buffer draft-buffer
+        (org-mode)
+        (insert "?header")
+        (yas/expand))
+      (display-buffer draft-buffer nil t)
+      (setq composing-html-mail t)))
+
+  (defun htmlize-org-mail ()
+    "When in an org mail, htmlize it."
+    (interactive)
+    (when composing-html-mail
+      (setq composing-html-mail nil)
+      (org-mime-org-buffer-htmlize)))
+
+  :hook (org-ctrl-c-ctrl-c . htmlize-org-mail))
+#+END_SRC
+
+
 ** =bbdb=: The Insidious Big Brother's Database
 
 One of the best known packages for contact management in Emacs.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package bbdb
-  :ensure t)
+  :ensure t
+  :after mu4e
+  :config
+  ;; (require 'bbdb-loaddefs)
+  (autoload 'bbdb-insinuate-mu4e "bbdb-mu4e")
+  (bbdb-initialize 'message 'mu4e)
+  (setq bbdb-mail-user-agent 'message-user-agent
+        mu4e-view-mode-hook '(bbdb-mua-auto-update visual-line-mode)
+        mu4e-compose-complete-addresses nil
+        bbdb-mua-pop-up t
+        bbdb-mua-pop-up-window-size 5))
+#+END_SRC
 
+Also, a secondary package takes advantage of =counsel= integration when
+completing addresses (much better idea than the default search).
+
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package counsel-bbdb
   :ensure t
-  :after bbdb)
+  :config
+  :bind (:map mu4e-compose-mode-map
+              ("TAB" . counsel-bbdb-complete-mail)))
 #+END_SRC
 
 ** =erc=
@@ -1945,5 +2217,5 @@ or quitted if that user has been inactive for more than half an hour.
 you want to set another one just change that argument.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(setq erc-nick "agis")
+(setq erc-nick "dvicente")
 #+END_SRC
