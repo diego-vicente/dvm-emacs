@@ -625,7 +625,8 @@ overriden in order to make everything work seamlessly.
   (substitute-key-definition 'quit-window 'quit-window-dwim
                              help-mode-map)
   (substitute-key-definition 'quit-window 'quit-window-dwim
-                             Buffer-menu-mode-map))
+                             Buffer-menu-mode-map)
+  (message "Configuration for i3 applied"))
 
 (when (running-i3)
   (set-up-i3))
