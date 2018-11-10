@@ -2009,17 +2009,20 @@ part of the file.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package csv-mode
   :ensure t
-  :demand
   :config
+  (setq csv-align-padding 2)
 
   (defun csv-align-visible ()
     "Align only visible entries in csv-mode."
     (interactive)
-    (csv-align-fields nil (window-start) (window-end)))
+    (csv-align-fields nil
+     (window-start (selected-window))
+     (window-end (selected-window)))
+    (message "Aligned visible fields only. Press C-c C-w to align again."))
 
   ;; C-c C-a is already bound to align all fields, but can be too slow.
-  :bind (:map csv-mode-map
-              ("C-c C-w" . 'csv-align-visible)))
+  :bind (:map csv-mode-map ("C-c C-w" . 'csv-align-visible))
+  :hook (csv-mode . csv-align-visible))
 #+END_SRC
 
 ** =pdf-tools=
