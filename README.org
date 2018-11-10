@@ -532,9 +532,30 @@ can usually benefit for a tiny line-height increase.
 
 (defun set-custom-font (frame)
   (interactive)
-  (set-face-attribute 'default frame :font "Iosevka SS10 12"))
+  (set-face-attribute 'default frame
+                      :font "Iosevka SS10 12"
+                      :weight 'semibold))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
+#+END_SRC
+
+Also, due to most of the fonts looking extremely light in Emacs GUI for Linux
+(we humans suck at font rendering), I like to make my fonts a bit thicker by
+just increasing the weight a bit (self-deception back to my macOS days).
+
+#+BEGIN_SRC emacs-lisp :results silent
+(defun thicken-all-faces ()
+  "Change all regular faces to semibold and bold to extrabold."
+  (interactive)
+  (mapc
+   (lambda (face)
+     (when (eq (face-attribute face :weight) 'bold)
+       (set-face-attribute face nil :weight 'extrabold))
+     (when (eq (face-attribute face :weight) 'normal)
+       (set-face-attribute face nil :weight 'semibold)))
+   (face-list)))
+
+(add-hook 'change-major-mode-after-body-hook 'thicken-all-faces)
 #+END_SRC
 
 ** Highlight changed and uncommited lines
