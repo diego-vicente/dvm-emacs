@@ -2085,6 +2085,7 @@ full advantage of =gnus=.
         shr-use-colors nil
         shr-use-fonts nil
         shr-width 79
+        mu4e-view-prefer-html t
         ;; Define the default folders
         mu4e-sent-folder   "/Fastmail/Sent"
         ;; mu4e-drafts-folder "/Fastmail/Drafts"
