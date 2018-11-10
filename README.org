@@ -1159,6 +1159,26 @@ similar fashion to =godbolt=.
   :ensure t)
 #+END_SRC
 
+** Docker utils
+
+There are several packages that can make your life easier if you work with
+Docker and Emacs.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
+(use-package dockerfile-mode
+  :ensure t)
+
+(use-package docker-tramp
+  :ensure t)
+
+(use-package counsel-tramp
+  :ensure t)
+#+END_SRC
+
 * Programming Modes
 ** Python
 *** Regular Python configuration
