@@ -533,7 +533,7 @@ can usually benefit for a tiny line-height increase.
 (defun set-custom-font (frame)
   (interactive)
   (set-face-attribute 'default frame
-                      :font "Iosevka SS10 12"
+                      :font "Overpass Mono 11"
                       :weight 'semibold))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
@@ -1183,12 +1183,14 @@ similar fashion to =godbolt=.
 ** Docker utils
 
 There are several packages that can make your life easier if you work with
-Docker and Emacs.
+Docker and Emacs. Also, it is important to note that I use =C-x c= as a the
+command to open the prompt for Docker, so... Helm must go somewhere else.
 
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package docker
   :ensure t
-  :bind ("C-c d" . docker))
+  :init (setq helm-command-prefix-key "C-x M-h")
+  :bind ("C-x c" . docker))
 
 (use-package dockerfile-mode
   :ensure t)
