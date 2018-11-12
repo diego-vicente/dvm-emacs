@@ -525,6 +525,10 @@ in the screen. Lately I have also been into Liberation Mono, Fira Mono, Office
 Code Pro and Roboto Mono. All great, readable fonts. In the case of Iosevka, it
 can usually benefit for a tiny line-height increase.
 
+However, recently I have been using [[http://overpassfont.org/][Overpass Mono]], developed by Red Hat. This
+is a beautiful typeface, really easy in the eye and much less aggressive than
+Iosevka in terms of how condensed it is. Give it a try!
+
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
@@ -533,6 +537,9 @@ can usually benefit for a tiny line-height increase.
 (defun set-custom-font (frame)
   (interactive)
   (set-face-attribute 'default frame
+                      :font "Overpass Mono 11"
+                      :weight 'semibold)
+  (set-face-attribute 'variable-pitch frame
                       :font "Overpass Mono 11"
                       :weight 'semibold))
 
@@ -1033,7 +1040,7 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
   (add-hook 'lsp-ui-doc-frame-hook
           (lambda (frame _w)
-            (set-face-attribute 'default frame :font "Iosevka SS10 12")))
+            (set-face-attribute 'default frame :font "Overpass Mono 11")))
   (set-face-attribute 'lsp-ui-sideline-global nil
                       :inherit 'shadow
                       :background "#f9f2d9")
