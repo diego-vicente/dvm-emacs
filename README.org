@@ -935,7 +935,7 @@ to be configured because it really makes things slow.
   :ensure t
   :config 
   (add-hook 'prog-mode-hook #'flycheck-mode)
-  (set-face-underline 'flycheck-error '(:color "Red1" :style line)))
+  (set-face-underline 'flycheck-error '(:color "#dc322f" :style line)))
 #+END_SRC
 
 ** =flyspell=
@@ -956,6 +956,8 @@ example, LaTeX or =org-mode= one) we need the last hook message.
   :config
   (setq ispell-program-name "aspell"
         ispell-dictionary "english")
+  (set-face-underline 'flyspell-incorrect
+                      '(:color "#dc322f" :style line))
 
   (defun change-dictionary-spanish ()
     (interactive)
