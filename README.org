@@ -257,9 +257,9 @@ package to MELPA, so to install it:
   :ensure t
   :demand t
   :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (add-hook 'find-file-hook 'exec-path-from-shell-initialize)))
+  (setq exec-path-from-shell-variables
+        '("PATH" "MANPATH" "DESKTOP_SESSION"))
+  (exec-path-from-shell-initialize))
 #+END_SRC
 
 ** Insert new line without breaking
