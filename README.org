@@ -541,6 +541,9 @@ Iosevka in terms of how condensed it is. Give it a try!
                       :weight 'semibold)
   (set-face-attribute 'variable-pitch frame
                       :font "Overpass Mono 11"
+                      :weight 'semibold)
+  (set-face-attribute 'fixed-pitch frame
+                      :font "Overpass Mono 11"
                       :weight 'semibold))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
