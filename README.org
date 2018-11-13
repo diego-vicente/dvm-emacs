@@ -1110,23 +1110,36 @@ a way, a replacement for vim text objects.
   :bind (("C-=" . er/expand-region)))
 #+END_SRC
 
-** =eshell=
+** =term=
 
-I don't use shell as much as I did before customizing Emacs, but still a good
-command line is the best option sometimes. Bound it to =C-c t= and use all the
-shortcuts of Emacs inside of it!
+As I started to use Emacs, my use of the terminal was drastically reduced: most
+of my workflow was indeed moved to Emacs bindings, one way or another: =git=,
+=ag=, compiling and running... Everything could be done without using a
+terminal! I kept a binding to =eshell=, just because it was kind of cute and
+useful to have it laying around.
+
+However, growing up in Linux means getting your hands dirtier and becoming
+geekier every time. I use i3, and although it revolves around Emacs, I need a
+terminal from time to time: =systemd=, =ssh= for maintenance (please *do* use
+=tramp= the rest of the time!)... It was time to finally start using =term=
+inside Emacs.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(global-set-key (kbd "C-c t") 'eshell)
-#+END_SRC
+(use-package term
+  :config
 
-I also configure a company back-end to get =fish=-like completion, that
-provides suggestions based on previous commands.
+  (defun launch-term ()
+    "Launch a term with all my personal preferences set"
+    (interactive)
+    (term "/bin/bash")
+    (term-set-escape-char ?\C-x))
 
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package esh-autosuggest
-  :hook (eshell-mode . esh-autosuggest-mode)
-  :ensure t)
+  :bind ("C-c t" . launch-term)
+        ;; Just give me my basic commands
+        (:map term-raw-map
+              ("M-y" . yank-pop)
+              ("M-w" . kill-ring-save)
+              ("M-x" . execute-extended-command)))
 #+END_SRC
 
 ** =iedit=
