@@ -1018,7 +1018,7 @@ goodies when using LSP.
 *NOTE*: due to lag when booting up a file and other drawbacks, I would say that
 this is not yet ready to be used as a daily workflow. Your mileage may vary.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package lsp-mode
   :ensure t
   :demand t
@@ -1038,7 +1038,9 @@ this is not yet ready to be used as a daily workflow. Your mileage may vary.
   :ensure t
   :config
   (setq lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-ignore-duplicate t)
+        lsp-ui-sideline-ignore-duplicate t
+        ;; TODO: wtf is going on with the sideline?
+        lsp-ui-sideline-enable nil)
   (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
   (add-hook 'lsp-ui-doc-frame-hook
           (lambda (frame _w)
