@@ -240,7 +240,8 @@ just basically the same.
 (use-package real-auto-save
   :ensure t
   :demand t
-  :config (setq real-auto-save-interval 10))
+  :config (setq real-auto-save-interval 10)
+  :hook (prog-mode . real-auto-save-mode))
 #+END_SRC
 
 
@@ -544,6 +545,9 @@ Iosevka in terms of how condensed it is. Give it a try!
                       :weight 'semibold)
   (set-face-attribute 'fixed-pitch frame
                       :font "Overpass Mono 11"
+                      :weight 'semibold)
+  (set-face-attribute 'tooltip frame
+                      :font "Overpass Mono 11"
                       :weight 'semibold))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
@@ -576,9 +580,8 @@ have it in programming modes and in =org-mode=.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package git-gutter
   :ensure git-gutter-fringe
-  :config
-  (add-hook 'prog-mode-hook 'git-gutter-mode)
-  (add-hook 'org-mode-hook 'git-gutter-mode))
+  :hook ((prog-mode . git-gutter-mode)
+         (org-mode . git-gutter-mode)))
 #+END_SRC
 
 ** Setting my favorite theme
@@ -648,6 +651,7 @@ overriden in order to make everything work seamlessly.
    (shell-command-to-string "echo $DESKTOP_SESSION")))
 
 (defun set-up-i3 ()
+  (interactive)
   (setq-default pop-up-frames 'graphic-only
                 magit-bury-buffer-function 'quit-window-dwim
                 magit-commit-show-diff nil)
@@ -1007,6 +1011,7 @@ good 'ol =auto-complete=.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package company
   :ensure t
+  :demand t
   :config (setq company-tooltip-align-annotations t))
 #+END_SRC
 
@@ -2131,6 +2136,7 @@ full advantage of =gnus=.
         mu4e-confirm-quit nil
         mu4e-completing-read-function 'ivy-completing-read
         mu4e-compose-format-flowed t
+        message-signature-file "~/my-emacs/utils/signature"
         ;; Don't get too clever showing html
         shr-use-colors nil
         shr-use-fonts nil
@@ -2251,7 +2257,6 @@ Emacs' side.
 
   :hook (org-ctrl-c-ctrl-c . htmlize-org-mail))
 #+END_SRC
-
 
 ** =bbdb=: The Insidious Big Brother's Database
 
