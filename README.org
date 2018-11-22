@@ -1107,6 +1107,20 @@ is inserted right after a curly bracket. This is specially useful in C and Go.
   (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 #+END_SRC
 
+** =avy-jump=
+
+This awesome idea turns a key into a kind of i-search with shortcuts to each of
+the occurrences. It may seem like a weird way to move (at least that's what I
+thought first) but it can be super powerful.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package avy
+  :ensure t
+  :bind (("M-SPC" . 'avy-goto-char-timer)
+         ("M-g a" . 'avy-goto-line)))
+  #+END_SRC
+
+
 ** =expand-region=
 
 Expand region allows to select hierarchically different text regions. It is, in
