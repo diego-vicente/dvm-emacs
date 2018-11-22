@@ -1103,6 +1103,7 @@ is inserted right after a curly bracket. This is specially useful in C and Go.
 (use-package smartparens
   :ensure t
   :config
+  (sp-use-paredit-bindings)
   (add-hook 'prog-mode-hook #'smartparens-mode)
   (sp-pair "{" nil :post-handlers '(("||\n[i]" "RET"))))
 #+END_SRC
@@ -1303,6 +1304,34 @@ a solid support in Emacs with everything that there is to be asked for:
   :hook ((nim-mode . company-mode)))
          ;; (nim-mode . nimsuggest-mode)
          ;; (nim-mode . flycheck-mode)))
+#+END_SRC
+
+** Clojure
+
+After several people recommending it, I finally wrapped my head around the idea
+and started to learn my bit of Clojure.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package clojure-mode
+  :ensure t
+  :demand t)
+
+(use-package cider
+  :ensure t
+  :demand t
+  :hook ((clojure-mode . cider-mode)
+         (cider-repl-mode . company-mode)
+         (cider-mode . company-mode)))
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
+(require 'clojure-mode)
+
+(require 'cider)
+(add-hook 'clojure-mode-hook #'cider-mode)
+(add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+(add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 #+END_SRC
 
 ** R
