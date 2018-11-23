@@ -850,7 +850,10 @@ it.
 (use-package ivy-rich
   :ensure t
   :after ivy
-  :config (ivy-rich-mode 1))
+  :config
+  ;; Disable TRAMP buffers extended information to prevent slowdown
+  (setq ivy-rich-parse-remote-buffer nil)
+  (ivy-rich-mode 1))
 #+END_SRC
 
 ** =iy-go-to-char=
