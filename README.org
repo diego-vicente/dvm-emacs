@@ -1122,8 +1122,7 @@ thought first) but it can be super powerful.
   :ensure t
   :bind (("M-SPC" . 'avy-goto-char-timer)
          ("M-g a" . 'avy-goto-line)))
-  #+END_SRC
-
+#+END_SRC
 
 ** =expand-region=
 
@@ -1322,6 +1321,7 @@ and started to learn my bit of Clojure.
 (use-package cider
   :ensure t
   :demand t
+  :config (setq cider-font-lock-dynamically t)
   :hook ((clojure-mode . cider-mode)
          (cider-repl-mode . company-mode)
          (cider-mode . company-mode)))
