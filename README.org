@@ -1147,24 +1147,33 @@ However, growing up in Linux means getting your hands dirtier and becoming
 geekier every time. I use i3, and although it revolves around Emacs, I need a
 terminal from time to time: =systemd=, =ssh= for maintenance (please *do* use
 =tramp= the rest of the time!)... It was time to finally start using =term=
-inside Emacs.
+inside Emacs. However, the defaults were far from intuitive, and although it
+came close, some rough corners still felt off. Through a [[https://lobste.rs/s/whaez0/emacs_everywhere#c_i7cq7w][comment in Lobsters]] by
+its author, [[https://lobste.rs/u/adamrt][adamrt]], I discovered =sane-term=: a group of convenience functions
+that restore basic sanity to the Emacs =ansi-term= and provides the closer to a
+proper shell in Emacs!
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package term
+(use-package sane-term
+  :ensure t
   :config
 
-  (defun launch-term ()
-    "Launch a term with all my personal preferences set"
-    (interactive)
-    (term "/bin/bash")
-    (term-set-escape-char ?\C-x))
+  (defun set-up-sane-term ()
+    "Fix yanking and prepare for sane-term-mode."
+    (setq-local global-hl-line-mode nil)
+    (define-key
+      term-raw-map
+      (kbd "C-y")
+      (lambda ()
+        (interactive)
+        (term-line-mode)
+        (yank)
+        (term-char-mode))))
 
-  :bind ("C-c t" . launch-term)
-        ;; Just give me my basic commands
-        (:map term-raw-map
-              ("M-y" . yank-pop)
-              ("M-w" . kill-ring-save)
-              ("M-x" . execute-extended-command)))
+  :hook (term-mode . set-up-sane-term)
+  :bind (("C-c t" . sane-term)
+         ("C-c T" . sane-term-create)
+         ("C-c C-j" . sane-term-mode-toggle)))
 #+END_SRC
 
 ** =iedit=
