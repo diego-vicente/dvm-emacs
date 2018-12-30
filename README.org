@@ -1260,6 +1260,23 @@ command to open the prompt for Docker, so... Helm must go somewhere else.
   :ensure t)
 #+END_SRC
 
+** SQL console
+
+This snippet allows a smoother usage of the built-in =sql-mode= with my usual
+tools, which are basically PostgreSQL running on docker. The configuration is
+simple, yet enough to turn Emacs into a comfortable and powerful SQL console.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(setq sql-postgres-login-params
+      '((user :default "postgres")
+        (database :default "postgres")
+        (server :default "0.0.0.0")
+        (port :default 5432)))
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+#+END_SRC
 * Programming Modes
 ** Python
 *** Regular Python configuration
