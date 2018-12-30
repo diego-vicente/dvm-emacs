@@ -846,7 +846,7 @@ than =helm=, simpler and faster.
 Apart from =ivy=, I also like to use other alternative packages that complement
 it.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package ivy-rich
   :ensure t
   :after ivy
@@ -1264,7 +1264,7 @@ command to open the prompt for Docker, so... Helm must go somewhere else.
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package elpy
   :ensure t
   :config
