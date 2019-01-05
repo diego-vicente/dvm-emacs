@@ -1898,6 +1898,7 @@ main =.bib= bibliography and the directory where the PDFs can be downloaded to.
   (setq org-ref-bibliography-notes "~/Dropbox/org/bibliography/notes.org"
         org-ref-default-bibliography '("~/Dropbox/org/bibliography/main.bib")
         org-ref-pdf-directory "~/Dropbox/org/bibliography/pdfs"
+        org-ref-insert-cite-function 'org-ref-helm-insert-cite-link
         org-latex-prefer-user-labels t
         org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
