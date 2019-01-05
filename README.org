@@ -1189,17 +1189,6 @@ single keystroke.
   :bind (("C-c i" . iedit-mode)))
 #+END_SRC
 
-** =undo-tree=
-
-This awesome package enables a gret undo-redo system that includes creating new
-undo-redo branches. It's really amazing.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(use-package undo-tree
-  :ensure t
-  :config (global-undo-tree-mode))
-#+END_SRC
-
 ** =yasnippets=
 
 This package is a template and snippet system for Emacs, inspired by the syntax
