@@ -1714,8 +1714,7 @@ I set my org-directory in Dropbox. In there is the agenda files as well.
   "Return the absolute address of an org file, given its relative name."
   (concat (file-name-as-directory org-directory) filename))
 
-(setq org-agenda-files (list (org-file-path "master.org")
-                             (org-file-path "agenda.org")))
+(setq org-agenda-files (list (org-file-path "planner-2019.org")))
 #+END_SRC
 
 *** Add a planning file per project
@@ -1967,6 +1966,19 @@ one needs to take notes in class or other situations where a diagram is needed.
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((dot . t)))
+#+END_SRC
+
+** R notebooks
+
+Not a lot to say here; there is no better notebook than an org file, especially
+when I work on these things by myself!
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package ess-site
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t))))
 #+END_SRC
 
 ** Export settings
