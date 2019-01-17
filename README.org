@@ -894,6 +894,7 @@ also binds the status function to =C-x g=.
 (use-package magit
   :ensure t
   :config
+  (setq magit-section-initial-visibility-alist '((unpushed . show)))
   (git-commit-turn-on-auto-fill)
   (add-hook 'git-commit-mode-hook (lambda () (setq-local fill-column 72)))
   (when (running-i3)
