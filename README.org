@@ -426,7 +426,7 @@ Miscellaneous keybindings that don't really fit anywhere else. Also, not only
 adding but removing some.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(global-set-key (kbd "C-c b") 'bookmark-jump)
+;; (global-set-key (kbd "C-c b") 'bookmark-jump)
 (global-set-key (kbd "M-j") 'mark-word)
 
 (unbind-key "C-z")
@@ -663,6 +663,8 @@ overriden in order to make everything work seamlessly.
                              compilation-mode-map)
   (substitute-key-definition 'quit-window 'quit-window-dwim
                              Buffer-menu-mode-map)
+  (substitute-key-definition 'quit-window 'quit-window-dwim
+                             org-brain-visualize-mode-map)
   (message "Configuration for i3 applied"))
 
 (when (running-i3)
@@ -1940,7 +1942,13 @@ around, not associated with a concrete project.
 (use-package org-brain
   :ensure t
   :init
-  (setq org-brain-path "~/Documents/org-brain/"))
+  (setq org-brain-path "~/Dropbox/org/brain/")
+  :config
+  (setq org-id-track-globally t)
+  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+  (setq org-brain-visualize-default-choices 'all)
+  (setq org-brain-title-max-length 30)
+  :bind (("C-c b" . org-brain-visualize)))
 #+END_SRC
 
 ** =ditaa=
