@@ -2216,7 +2216,7 @@ full advantage of =gnus=.
   (setq send-mail-function 'smtpmail-send-it
         message-send-mail-function 'smtpmail-send-it
         smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-        mu4e-sent-messages-behavior 'delete
+        ;; mu4e-sent-messages-behavior 'delete
         message-kill-buffer-on-exit t
         mu4e-confirm-quit nil
         mu4e-completing-read-function 'ivy-completing-read
