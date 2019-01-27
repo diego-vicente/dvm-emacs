@@ -2359,7 +2359,9 @@ One of the best known packages for contact management in Emacs.
         mu4e-view-mode-hook '(bbdb-mua-auto-update visual-line-mode)
         mu4e-compose-complete-addresses nil
         bbdb-mua-pop-up t
-        bbdb-mua-pop-up-window-size 5))
+        bbdb-mua-pop-up-window-size 5
+        bbdb-phone-style nil
+        org-bbdb-anniversary-field 'birthday))
 #+END_SRC
 
 Also, a secondary package takes advantage of =counsel= integration when
