@@ -2426,3 +2426,23 @@ you want to set another one just change that argument.
 #+BEGIN_SRC emacs-lisp :results silent
 (setq erc-nick "dvicente")
 #+END_SRC
+
+** =elfeed=
+
+Next step after reading mail in Emacs, is to read more things. Down the rabbit
+hole, we can see =elfeed=, a RSS reader. This configuration also uses an org
+file to store the subscriptions (which is darn fine for me).
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-db-directory "~/Dropbox/org/rss/.elfeed"))
+
+(use-package elfeed-org
+  :ensure t
+  :after elfeed
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss/feeds.org")))
+#+END_SRC
