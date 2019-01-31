@@ -1271,6 +1271,18 @@ simple, yet enough to turn Emacs into a comfortable and powerful SQL console.
           (lambda ()
             (toggle-truncate-lines t)))
 #+END_SRC
+** =zeal= documentation
+
+=zeal= is a tool that is able to browse documentation and reference sets
+offline (out of custom docset files). This package enables a smooth integration
+with Emacs, allowing for easy queries programming in it.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package zeal-at-point
+  :ensure t
+  :bind ("C-c d" . zeal-at-point))
+#+END_SRC
+
 * Programming Modes
 ** Python
 *** Regular Python configuration
