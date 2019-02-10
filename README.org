@@ -1969,6 +1969,7 @@ around, not associated with a concrete project.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package org-brain
   :ensure t
+  :demand t
   :init
   (setq org-brain-path "~/Dropbox/org/brain/")
   :config
@@ -1976,6 +1977,7 @@ around, not associated with a concrete project.
   (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
   (setq org-brain-visualize-default-choices 'all)
   (setq org-brain-title-max-length 30)
+  (org-brain-update-id-locations)
   :bind (("C-c b" . org-brain-visualize)))
 #+END_SRC
 
