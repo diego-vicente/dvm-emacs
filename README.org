@@ -2382,7 +2382,8 @@ One of the best known packages for contact management in Emacs.
   ;; (require 'bbdb-loaddefs)
   (autoload 'bbdb-insinuate-mu4e "bbdb-mu4e")
   (bbdb-initialize 'message 'mu4e)
-  (setq bbdb-mail-user-agent 'message-user-agent
+  (setq bbdb-file (concat org-directory "/bbdb")
+        bbdb-mail-user-agent 'message-user-agent
         mu4e-view-mode-hook '(bbdb-mua-auto-update visual-line-mode)
         mu4e-compose-complete-addresses nil
         bbdb-mua-pop-up t
