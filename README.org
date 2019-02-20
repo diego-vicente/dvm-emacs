@@ -666,9 +666,6 @@ overriden in order to make everything work seamlessly.
   (substitute-key-definition 'quit-window 'quit-window-dwim
                              org-brain-visualize-mode-map)
   (message "Configuration for i3 applied"))
-
-(when (running-i3)
-  (set-up-i3))
 #+END_SRC
 
 This last line checks up if i3 is running and sets everything up (duh), but
@@ -2447,4 +2444,14 @@ file to store the subscriptions (which is darn fine for me).
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss/feeds.org")))
+#+END_SRC
+
+* Final set up
+
+As declared before, it is important to check if we are running i3
+(only once everything has been completely loaded).
+
+#+BEGIN_SRC emacs-lisp :results silent
+(when (running-i3)
+  (set-up-i3))
 #+END_SRC
