@@ -1090,11 +1090,20 @@ allows typical interaction via Language Server Protocol. Startup times for
 Python are still terrible (probably =python-language-server= is the one to
 blame here) but seems more resilient to errors.
 
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package eglot
   :ensure t
+  :config
+  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider))
+  (advice-add 'eglot-eldoc-function :around
+              (lambda (oldfun)
+                (let ((help (help-at-pt-kbd-string)))
+                  (if help (message "%s" help) (funcall oldfun)))))
   ;; Automatically recognizes python-language-server
-  :hook (python . eglot))
+  :hook ((python-mode . eglot-ensure)
+         (python-mode . (lambda () (flycheck-mode -1))))
+  :bind (:map eglot-mode-map
+              ("C-c h" . eglot-help-at-point)))
 #+END_SRC
 
 ** =cheat-sh=
@@ -1294,7 +1303,7 @@ with Emacs, allowing for easy queries programming in it.
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package elpy
   :ensure t
   :config
