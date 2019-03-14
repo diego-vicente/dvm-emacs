@@ -945,9 +945,19 @@ to be configured because it really makes things slow.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package flycheck
   :ensure t
-  :config 
+  :config
   (add-hook 'prog-mode-hook #'flycheck-mode)
-  (set-face-underline 'flycheck-error '(:color "#dc322f" :style line)))
+  (set-face-underline 'flycheck-error '(:color "#dc322f" :style line))
+  (set-face-underline 'flycheck-warning '(:color "#e5aa00" :style line))
+  (set-face-underline 'flycheck-info '(:color "#268bd2" :style line)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package flymake
+  :config
+  (set-face-underline 'flymake-error '(:color "#dc322f" :style line))
+  (set-face-underline 'flymake-warning '(:color "#e5aa00" :style line))
+  (set-face-underline 'flymake-note '(:color "#268bd2" :style line)))
 #+END_SRC
 
 ** =flyspell=
@@ -968,8 +978,8 @@ example, LaTeX or =org-mode= one) we need the last hook message.
   :config
   (setq ispell-program-name "aspell"
         ispell-dictionary "english")
-  (set-face-underline 'flyspell-incorrect
-                      '(:color "#dc322f" :style line))
+  (set-face-underline  'flyspell-incorrect '(:color "#dc322f" :style line))
+  (set-face-underline  'flyspell-duplicate '(:color "#e5aa00" :style line))
 
   (defun change-dictionary-spanish ()
     (interactive)
