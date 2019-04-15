@@ -1389,6 +1389,21 @@ and started to learn my bit of Clojure.
 (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 #+END_SRC
 
+** Racket
+
+The language-oriented language, being a direct descendant of Lisp and Scheme,
+is best developed in Emacs, of course! To use Racket I also set up Geiser,
+which is used to support the Scheme dialects.
+
+#+begin_src emacs-lisp :results silent :tangle no
+(use-package geiser
+  :ensure t
+  :config (setq geiser-active-implementations '(racket)))
+
+(use-package racket-mode
+  :ensure t)
+#+end_src
+
 ** R
 
 The quintessential programming language for statistics and numerical methods.
