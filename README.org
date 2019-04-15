@@ -604,10 +604,12 @@ thing that actually annoys me is the fact that it changes the font in
   :config
 
   (defun load-dark-theme ()
-	(interactive)
+    (interactive)
     (disable-theme 'solarized-light)
-	(load-theme 'gruvbox t)
-    (set-face-attribute 'org-block nil :background "#2A2A2A"))
+    (load-theme 'gruvbox t)
+    (setq-default input-block "#2A2A2A"))
+    ;; (set-face-attribute 'org-block nil :background "#2A2A2A")
+    ;; (set-face-attribute 'ein:cell-input-area nil :background "#2A2A2A"))
 
   :bind(("C-c c d" . load-dark-theme)))
 
@@ -616,13 +618,15 @@ thing that actually annoys me is the fact that it changes the font in
   :demand t
   :config
   (setq solarized-use-variable-pitch nil
-		solarized-scale-org-headlines nil)
+        solarized-scale-org-headlines nil)
 
   (defun load-light-theme ()
-	(interactive)
+    (interactive)
     (disable-theme 'gruvbox)
-	(load-theme 'solarized-light t)
-    (set-face-attribute 'org-block nil :background "#f9f2d9"))
+    (load-theme 'solarized-light t)
+    (setq-default input-block "#F9F2D9"))
+    ;; (set-face-attribute 'org-block nil :background "#f9f2d9")
+    ;; (set-face-attribute 'ein:cell-input-area nil :background "#f9f2d9"))
 
   :bind(("C-c c l" . load-light-theme)))
 
@@ -1336,7 +1340,7 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ein
   :ensure t
-  :config
+  :config (set-face-attribute 'ein:input-cell nil :background input-block)
   :hook (ein:notebook-multilang-mode
          . (lambda () (ws-butler-mode -1) (visual-line-mode))))
 #+END_SRC
@@ -1713,6 +1717,7 @@ confirmation of being executed.
   (not (member lang '("emacs-lisp" "python" "sh" "dot"))))
 
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+(set-face-attribute 'org-block nil :background input-block)
 #+END_SRC
 
 *** Native =TAB= in source blocks
