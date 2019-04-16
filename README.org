@@ -930,7 +930,8 @@ project.
   (setq projectile-use-git-grep t
         ;; Fix for compilation command and `generic` projects
         projectile-project-compilation-cmd ""
-        projectile-project-run-cmd ""))
+        projectile-project-run-cmd ""
+        projectile-project-test-cmd ""))
 #+END_SRC
 
 Also, the extension =counsel-projectile= adds integration with =ivy=.
