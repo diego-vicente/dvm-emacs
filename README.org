@@ -1479,7 +1479,7 @@ it to Haskell.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package intero
   :ensure t
-  :init (setenv "PATH" (concat "/usr/local/bin/ghci" (getenv "PATH")))
+  :init (setenv "PATH" (concat "/usr/local/bin/ghci:" (getenv "PATH")))
   :hook (haskell-mode . intero-mode))
 #+END_SRC
 
