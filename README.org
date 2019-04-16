@@ -1099,7 +1099,8 @@ blame here) but seems more resilient to errors.
 (use-package eglot
   :ensure t
   :config
-  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider))
+  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider)
+        eglot--mode-line-format "LSP")
   (advice-add 'eglot-eldoc-function :around
               (lambda (oldfun)
                 (let ((help (help-at-pt-kbd-string)))
@@ -1318,6 +1319,22 @@ with Emacs, allowing for easy queries programming in it.
         python-shell-interpreter-args "-i --simple-prompt")
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+END_SRC
+
+*** Support for environments
+
+#+begin_src emacs-lisp :results silent
+(use-package conda
+  :ensure t
+  :init
+  (custom-set-variables
+   '(conda-anaconda-home "/home/dvicente/Utilities/anaconda3/"))
+  :config
+  ;; (add-to-list 'mode-line-format '(:exec conda-env-current-name) t)
+  (setenv "PATH" (concat "/home/dvicente/Utilities/anaconda3/bin:" (getenv "PATH")))
+  (add-to-list 'exec-path (concat conda-anaconda-home "bin/"))
+  (conda-env-initialize-interactive-shells)
+  (conda-env-autoactivate-mode t))
+#+end_src
 
 *** Package for Python docstrings
 
