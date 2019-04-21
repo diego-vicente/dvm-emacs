@@ -1,4 +1,4 @@
-#+TITLE:  My Emacs Configuration
+#+TITLE:  =dvm-emacs=: Diego Vicente's Emacs Configuration
 #+AUTHOR: Diego Vicente Martín
 #+EMAIL:  mail@diego.codes
 
@@ -191,18 +191,6 @@ smooth scrolling.
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse 't)
-#+END_SRC
-
-** Find the configuration repository
-
-This variable defines where Emacs is supposed to be looking for things. The
-main reason to use this is to differentiate regular Unix-like systems and the
-special configuration NixOS is supposed to deliver.
-
-#+BEGIN_SRC emacs-lisp :results silent
-(if (file-directory-p "~/nixos-setup")
-	(setq configuration-dir "~/nixos-setup/my-emacs/")
-  (setq configuration-dir "~/my-emacs/"))
 #+END_SRC
 
 ** Add =utils= directory
@@ -2305,7 +2293,7 @@ full advantage of =gnus=.
         mu4e-confirm-quit nil
         mu4e-completing-read-function 'ivy-completing-read
         mu4e-compose-format-flowed t
-        message-signature-file "~/my-emacs/utils/signature"
+        message-signature-file (concat configuration-dir "utils/signature")
         ;; Don't get too clever showing html
         shr-use-colors nil
         shr-use-fonts nil

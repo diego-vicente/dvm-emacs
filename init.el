@@ -2,9 +2,7 @@
 (package-initialize)
 
 ;; Loads everything from the real configuration
-(if (file-directory-p "~/nixos-setup")
-	(setq configuration-dir "~/nixos-setup/my-emacs/")
-  (setq configuration-dir "~/my-emacs/"))
+(setq configuration-dir "~/dvm-emacs/")
 
 ;; Autoload use-package
 (eval-when-compile
