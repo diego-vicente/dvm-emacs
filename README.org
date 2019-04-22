@@ -232,7 +232,6 @@ just basically the same.
   :hook (prog-mode . real-auto-save-mode))
 #+END_SRC
 
-
 ** Fill the =exec-path= variable
 
 I spent too much time until I figured this out. Since I mostly use GUI Emacs,
@@ -526,17 +525,13 @@ Iosevka in terms of how condensed it is. Give it a try!
 (defun set-custom-font (frame)
   (interactive)
   (set-face-attribute 'default frame
-                      :font "Iosevka SS10 12"
-                      :weight 'semibold)
+                      :font "Iosevka SS10 12")
   (set-face-attribute 'variable-pitch frame
-                      :font "Iosevka SS10 12"
-                      :weight 'semibold)
+                      :font "Iosevka SS10 12")
   (set-face-attribute 'fixed-pitch frame
-                      :font "Iosevka SS10 12"
-                      :weight 'semibold)
+                      :font "Iosevka SS10 12")
   (set-face-attribute 'tooltip frame
-                      :font "Iosevka SS10 12"
-                      :weight 'semibold))
+                      :font "Iosevka SS10 12"))
 
 (add-to-list 'after-make-frame-functions 'set-custom-font t)
 #+END_SRC
@@ -557,7 +552,7 @@ just increasing the weight a bit (self-deception back to my macOS days).
        (set-face-attribute face nil :weight 'semibold)))
    (face-list)))
 
-(add-hook 'change-major-mode-after-body-hook 'thicken-all-faces)
+;; (add-hook 'change-major-mode-after-body-hook 'thicken-all-faces)
 #+END_SRC
 
 ** Highlight changed and uncommited lines
@@ -574,52 +569,29 @@ have it in programming modes and in =org-mode=.
 
 ** Setting my favorite theme
 
-After a long journey through several of the [[https://github.com/chriskempson/base16][base16 color themes]], =gruvbox=,
-=doom= and other color schemes, I think I have finally found my endgame one of
-the all-time classics: =solarized-light=. It has a great contrast, that does
-not feel tiring on the eyes after a long time using it like some other light
-themes, and it is stupidly pretty overall. Furthermore, it is a great Emacs
-package that offers a lot of customization for different packages. The only
-thing that actually annoys me is the fact that it changes the font in
-=org-mode= headings by default (which is that variable I am setting to =t=).
+Finding the perfect theme has been really difficult. I really enjoyed some
+color themes like =gruvbox= and =solarized-light=, and tried to generate
+functions to alternate between one another. I was also upset by the different
+decisions took by the themes, which were hard to control. The best option was
+to use the =doom-themes= variant of my two favorite color schemes: Nord and
+Solarized Light.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(defadvice load-theme (before theme-dont-propagate activate)
-  (mapc #'disable-theme custom-enabled-themes))
-
-(use-package gruvbox-theme
-  :ensure t
-  :config
-
-  (defun load-dark-theme ()
-    (interactive)
-    (disable-theme 'solarized-light)
-    (load-theme 'gruvbox t)
-    (setq-default input-block "#2A2A2A"))
-    ;; (set-face-attribute 'org-block nil :background "#2A2A2A")
-    ;; (set-face-attribute 'ein:cell-input-area nil :background "#2A2A2A"))
-
-  :bind(("C-c c d" . load-dark-theme)))
-
-(use-package solarized-theme
+(use-package doom-themes
   :ensure t
   :demand t
   :config
-  (setq solarized-use-variable-pitch nil
-        solarized-scale-org-headlines nil)
-
-  (defun load-light-theme ()
-    (interactive)
-    (disable-theme 'gruvbox)
-    (load-theme 'solarized-light t)
-    (setq-default input-block "#F9F2D9"))
-    ;; (set-face-attribute 'org-block nil :background "#f9f2d9")
-    ;; (set-face-attribute 'ein:cell-input-area nil :background "#f9f2d9"))
-
-  :bind(("C-c c l" . load-light-theme)))
-
-;; Start with solarized-light by default
-(load-light-theme)
+  (defadvice load-theme (before theme-dont-propagate activate)
+    (mapc #'disable-theme custom-enabled-themes))
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  :init
+  (load-theme 'doom-nord t)
+  (doom-themes-org-config)
+  :bind (("C-c c d" . (lambda () (interactive)
+                        (load-theme 'doom-nord t)))
+         ("C-c c l" . (lambda () (interactive)
+                        (load-theme 'doom-solarized-light t)))))
 #+END_SRC
 
 ** Disable splitting frames to creating frames
@@ -764,14 +736,6 @@ necessary fonts that come bundled in the package!
 (use-package all-the-icons
   :after font-lock+
   :ensure t)
-#+END_SRC
-
-** Add custom functions for changing themes
-
-#+BEGIN_SRC emacs-lisp :results silent
-
-(global-set-key (kbd "C-c c l") 'load-light-theme)
-(global-set-key (kbd "C-c c d") 'load-dark-theme)
 #+END_SRC
 
 * Packages & Tools
@@ -1346,7 +1310,7 @@ indentation of the comments.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package ein
   :ensure t
-  :config (set-face-attribute 'ein:input-cell nil :background input-block)
+  ;; :config (set-face-attribute 'ein:input-cell nil :background input-block)
   :hook (ein:notebook-multilang-mode
          . (lambda () (ws-butler-mode -1) (visual-line-mode))))
 #+END_SRC
@@ -1738,7 +1702,7 @@ confirmation of being executed.
   (not (member lang '("emacs-lisp" "python" "sh" "dot"))))
 
 (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
-(set-face-attribute 'org-block nil :background input-block)
+;; (set-face-attribute 'org-block nil :background input-block)
 #+END_SRC
 
 *** Native =TAB= in source blocks
