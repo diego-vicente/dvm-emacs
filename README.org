@@ -1245,6 +1245,7 @@ simple, yet enough to turn Emacs into a comfortable and powerful SQL console.
           (lambda ()
             (toggle-truncate-lines t)))
 #+END_SRC
+
 ** =zeal= documentation
 
 =zeal= is a tool that is able to browse documentation and reference sets
@@ -1831,6 +1832,15 @@ I like to have an easy access to the agenda, so I'll just bind it to =C-c a=.
 #+BEGIN_SRC emacs-lisp :results silent
 (setq org-agenda-span 14)
 (global-set-key (kbd "C-c a") 'org-agenda)
+#+END_SRC
+
+*** Default visibility on buffers
+
+This variable sets the default heading visualization to all the headings folded
+(instead of the default, show only top-level headings).
+
+#+BEGIN_SRC emacs-lisp :results silent
+(setq-default org-startup-folded 'content)
 #+END_SRC
 
 ** Graphical aspects
