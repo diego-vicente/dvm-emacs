@@ -1055,7 +1055,7 @@ allows typical interaction via Language Server Protocol. Startup times for
 Python are still terrible (probably =python-language-server= is the one to
 blame here) but seems more resilient to errors.
 
-#+BEGIN_SRC emacs-lisp :results silent
+#+BEGIN_SRC emacs-lisp :results silent :tangle no
 (use-package eglot
   :ensure t
   :config
@@ -1253,16 +1253,16 @@ with Emacs, allowing for easy queries programming in it.
 ** Python
 *** Regular Python configuration
 
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (use-package elpy
   :ensure t
+  :init
+  (setq elpy-env-path "/home/dvicente/Utilities/anaconda3/envs/elpy-tools")
+  (setenv "PYTHONPATH" (concat elpy-env-path "/lib/python3.7/site-packages/"))
   :config
   (elpy-enable)
-  (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
-  (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i --simple-prompt")
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
-#+END_SRC
+#+end_src
 
 *** Support for environments
 
@@ -1273,10 +1273,8 @@ with Emacs, allowing for easy queries programming in it.
   (custom-set-variables
    '(conda-anaconda-home "/home/dvicente/Utilities/anaconda3/"))
   :config
-  ;; (add-to-list 'mode-line-format '(:exec conda-env-current-name) t)
-  (setenv "PATH" (concat "/home/dvicente/Utilities/anaconda3/bin:" (getenv "PATH")))
-  (add-to-list 'exec-path (concat conda-anaconda-home "bin/"))
   (conda-env-initialize-interactive-shells)
+  (conda-env-initialize-eshell)
   (conda-env-autoactivate-mode t))
 #+end_src
 
@@ -1296,6 +1294,13 @@ indentation of the comments.
   :config (setq python-docstring-sentence-end-double-space nil)
   :hook (python-mode . python-docstring-mode))
 #+END_SRC
+
+*** Include Jinja2 template support
+
+#+begin_src emacs-lisp :results silent
+(use-package jinja2-mode
+  :ensure t)
+#+end_src
 
 *** Notebook configuration
 
