@@ -2184,7 +2184,7 @@ mode.
 #+BEGIN_SRC emacs-lisp :results silent
 (use-package markdown-mode
   :ensure t
-  :hook (markdown-mode . visual-line-mode))
+  :hook (markdown-mode . auto-fill-mode))
 #+END_SRC
 
 ** =csv-mode=
