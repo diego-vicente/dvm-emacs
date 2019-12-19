@@ -1312,6 +1312,15 @@ indentation of the comments.
          . (lambda () (ws-butler-mode -1) (visual-line-mode))))
 #+END_SRC
 
+** Julia
+
+It was about time to give it a shot, wasn't it?
+
+#+BEGIN_SRC emacs-lisp :results silent
+(use-package julia-mode
+  :ensure t)
+#+END_SRC
+
 ** Nim
 
 Nim is a compiled language which has several super interesting features, like
