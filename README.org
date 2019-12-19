@@ -879,7 +879,19 @@ project.
         ;; Fix for compilation command and `generic` projects
         projectile-project-compilation-cmd ""
         projectile-project-run-cmd ""
-        projectile-project-test-cmd ""))
+        projectile-project-test-cmd "")
+
+  (ignore-errors
+    (require 'ansi-color)
+    (defun dvm/colorize-compilation-buffer ()
+      "Colorize a (compilation) buffer using ansi-colors."
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+    (add-hook 'compilation-filter-hook 'dvm/colorize-compilation-buffer)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results silent
+(require 'ansi-color)
 #+END_SRC
 
 Also, the extension =counsel-projectile= adds integration with =ivy=.
