@@ -513,10 +513,6 @@ in the screen. Lately I have also been into Liberation Mono, Fira Mono, Office
 Code Pro and Roboto Mono. All great, readable fonts. In the case of Iosevka, it
 can usually benefit for a tiny line-height increase.
 
-However, recently I have been using [[http://overpassfont.org/][Overpass Mono]], developed by Red Hat. This
-is a beautiful typeface, really easy in the eye and much less aggressive than
-Iosevka in terms of how condensed it is. Give it a try!
-
 #+BEGIN_SRC emacs-lisp :results silent
 (if (system-is-chip)
     (set-face-attribute 'default nil :font "Liberation Mono 8")
