@@ -1136,31 +1136,14 @@ terminal from time to time: =systemd=, =ssh= for maintenance (please *do* use
 =tramp= the rest of the time!)... It was time to finally start using =term=
 inside Emacs. However, the defaults were far from intuitive, and although it
 came close, some rough corners still felt off. Through a [[https://lobste.rs/s/whaez0/emacs_everywhere#c_i7cq7w][comment in Lobsters]] by
-its author, [[https://lobste.rs/u/adamrt][adamrt]], I discovered =sane-term=: a group of convenience functions
-that restore basic sanity to the Emacs =ansi-term= and provides the closer to a
-proper shell in Emacs!
+its author, [[https://lobste.rs/u/adamrt][adamrt]], I discovered =sane-term=: a step in the good direction.
+Still, some awkward defaults made me drift away from it once I found what (for
+now) I consider the definitive solution: =vterm=.
 
 #+BEGIN_SRC emacs-lisp :results silent
-(use-package sane-term
-  :ensure t
-  :config
-
-  (defun set-up-sane-term ()
-    "Fix yanking and prepare for sane-term-mode."
-    (setq-local global-hl-line-mode nil)
-    (define-key
-      term-raw-map
-      (kbd "C-y")
-      (lambda ()
-        (interactive)
-        (term-line-mode)
-        (yank)
-        (term-char-mode))))
-
-  :hook (term-mode . set-up-sane-term)
-  :bind (("C-c t" . sane-term)
-         ("C-c T" . sane-term-create)
-         ("C-c C-j" . sane-term-mode-toggle)))
+(use-package vterm
+    :ensure t
+    :bind (("C-c t" . vterm-other-window)))
 #+END_SRC
 
 ** =iedit=
