@@ -1003,49 +1003,39 @@ configurations will be added in this block for convenience, instead of in each
 language's own section. The package =lsp-ui= is used to give some graphic
 goodies when using LSP.
 
-*NOTE*: due to lag when booting up a file and other drawbacks, I would say that
-this is not yet ready to be used as a daily workflow. Your mileage may vary.
-
-#+BEGIN_SRC emacs-lisp :results silent :tangle no
+#+BEGIN_SRC emacs-lisp :results silent
 (use-package lsp-mode
   :ensure t
-  :demand t
-  :config
-  (setq-default lsp-highlight-symbol-at-point nil)
-  (lsp-define-stdio-client lsp-python "python"
-                           #'projectile-project-root
-                           '("/home/dvicente/Utilities/anaconda3/bin/pyls"))
-  :hook (python-mode . lsp-python-enable))
-
-(use-package lsp-imenu
-  :after lsp-mode
-  :hook (lsp-after-open . lsp-enable-imenu))
-
+  :config (setq-default lsp-enable-symbol-highlighting nil)
+  :hook (python-mode . lsp)
+  :commands lsp)
 
 (use-package lsp-ui
   :ensure t
   :config
-  (setq lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-ignore-duplicate t
-        ;; TODO: wtf is going on with the sideline?
-        lsp-ui-sideline-enable nil)
-  (set-face-attribute 'lsp-ui-doc-background  nil :background "#f9f2d9")
-  (add-hook 'lsp-ui-doc-frame-hook
-          (lambda (frame _w)
-            (set-face-attribute 'default frame :font "Overpass Mono 11")))
-  (set-face-attribute 'lsp-ui-sideline-global nil
-                      :inherit 'shadow
-                      :background "#f9f2d9")
-  :hook (lsp-mode . lsp-ui-mode))
+  (defun dvm/lsp-ui-doc-dwim ()
+    "Toggle lsp-ui-doc-mode tooltips on demand."
+    (interactive)
+    (if lsp-ui-doc-mode
+        (lsp-ui-doc-mode -1)
+      (lsp-ui-doc-mode)))
+
+  (defun dvm/lsp-ui-doc-tooltip-appearance (frame _w)
+    "Apply all face customization to the created tooltip frame."
+    (set-face-attribute 'default frame :font "Iosevka SS10"))
+
+  (setq-default
+   lsp-ui-doc-delay 0
+   lsp-ui-doc-enable nil
+   lsp-ui-sideline-enable t)
+
+  :commands lsp-ui-mode
+  :bind (:map lsp-mode-map ("C-c ?" . dvm/lsp-ui-doc-dwim))
+  :hook (lsp-ui-doc-frame . dvm/lsp-ui-doc-tooltip-appearance))
 
 (use-package company-lsp
   :ensure t
-  :config
-  (setq company-lsp-enable-snippet t
-		company-lsp-cache-candidates t)
-  (push 'company-lsp company-backends)
-  (push 'java-mode company-global-modes)
-  (push 'kotlin-mode company-global-modes))
+  :commands company-lsp)
 #+END_SRC
 
 ** =eglot=
@@ -1253,7 +1243,7 @@ with Emacs, allowing for easy queries programming in it.
 ** Python
 *** Regular Python configuration
 
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent :tangle no
 (use-package elpy
   :ensure t
   :init
@@ -1264,9 +1254,23 @@ with Emacs, allowing for easy queries programming in it.
   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1))))
 #+end_src
 
+*** Support for =python-language-server=
+
+Remember to install =pyls= in the base environment so that it is available.
+
+#+BEGIN_SRC shell :tangle no
+conda install -c conda-forge python-language-server
+#+END_SRC
+
+This ensures that the base Anaconda environment is the one used in Emacs.
+
+#+BEGIN_SRC emacs-lisp :results silent
+(add-to-list 'exec-path "/home/dvicente/Utilities/anaconda3/bin")
+#+END_SRC
+
 *** Support for environments
 
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent :tangle no
 (use-package conda
   :ensure t
   :init
