@@ -72,7 +72,7 @@
 (defun dvm/open-emacs-config ()
   "Open the startup configuration file."
   (interactive)
-  (find-file (concat configuration-dir "README.org")))
+  (find-file (concat configuration-dir "init.el")))
 
 (global-set-key (kbd "C-c c o") 'dvm/open-emacs-config)
 
