@@ -1356,7 +1356,11 @@ and started to learn my bit of Clojure.
   :config (setq cider-font-lock-dynamically t)
   :hook ((clojure-mode . cider-mode)
          (cider-repl-mode . company-mode)
-         (cider-mode . company-mode)))
+         (cider-mode . company-mode))
+  :bind (:map cider-mode-map
+              ("C-c C-j" . cider-jack-in)
+              ("C-c p u" . cider-run)
+              ("C-c p P" . cider-test-run-project-tests)))
 #+END_SRC
 
 
