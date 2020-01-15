@@ -85,4 +85,5 @@
   :after font-lock+
   :ensure t)
 
-;;; gui.el ends here
+
+;;; init-gui.el ends here

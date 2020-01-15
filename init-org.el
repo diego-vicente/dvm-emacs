@@ -163,4 +163,4 @@
 
   (add-to-list 'org-export-filter-link-functions 'dvm/filter-local-links))
 
-;;; org.el ends here
+;;; init-org.el ends here

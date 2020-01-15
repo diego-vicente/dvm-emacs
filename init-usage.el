@@ -128,4 +128,4 @@ line in two."
 
 (add-hook 'after-init-hook 'dvm/set-up-i3)
 
-;;; usage.el ends here
+;;; init-usage.el ends here
