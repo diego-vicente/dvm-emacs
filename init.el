@@ -47,7 +47,7 @@ installed one."
 (dvm/load-config-file "./init-gui.el")
 (dvm/load-config-file "./init-tools.el")
 (dvm/load-config-file "./init-org.el")
-
+(dvm/load-config-file "./init-python.el")
 
 ;;; init.el ends here
 (custom-set-variables
