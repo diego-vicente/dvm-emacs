@@ -107,10 +107,9 @@
     "Apply all face customization to the created tooltip frame."
     (set-face-attribute 'default frame :font "Iosevka SS10"))
 
-  (setq-default
-   lsp-ui-doc-delay 0
-   lsp-ui-doc-enable nil
-   lsp-ui-sideline-enable t)
+  (setq-default lsp-ui-doc-delay 0
+                lsp-ui-doc-enable nil
+                lsp-ui-sideline-enable t)
 
   :commands lsp-ui-mode
   :bind (:map lsp-mode-map ("C-c ?" . dvm/lsp-ui-doc-dwim))
@@ -139,4 +138,39 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-;;; tools.el ends here
+
+(use-package flycheck
+  :ensure t
+  :config
+  (set-face-underline 'flycheck-error '(:color "#dc322f" :style line))
+  (set-face-underline 'flycheck-warning '(:color "#e5aa00" :style line))
+  (set-face-underline 'flycheck-info '(:color "#268bd2" :style line))
+  :hook (prog-mode . flycheck-mode))
+
+(use-package flyspell
+  :ensure t
+  :preface
+  (defun dvm/change-dictionary-spanish ()
+    "Change the spell checker to Spanish."
+    (interactive)
+    (ispell-change-dictionary "espanol"))
+
+  (defun dvm/change-dictionary-english ()
+    "Change the spell checker to English."
+    (interactive)
+    (ispell-change-dictionary "english"))
+
+  :config
+  (set-face-underline  'flyspell-incorrect '(:color "#dc322f" :style line))
+  (set-face-underline  'flyspell-duplicate '(:color "#e5aa00" :style line))
+
+  (setq ispell-program-name "aspell"
+        ispell-dictionary "english")
+  :hook (text-mode . flyspell-mode))
+
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:
+
+;;; init-tools.el ends here
