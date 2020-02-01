@@ -8,7 +8,7 @@
 ;;; Code:
 
 ;; Define the global variables to be used later
-(defvar configuration-dir "~/dvm-emacs/")
+(defvar configuration-dir "~/utils/dvm-emacs/")
 
 ;; Ensure that package.el is loaded and ready
 (require 'package)
