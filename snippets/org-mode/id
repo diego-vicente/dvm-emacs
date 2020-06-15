@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: Add an ID field to an org heading
-# key: ?id
-# contributor: Diego Vicente
-# --
-:PROPERTIES:
-:ID: ${1:custom}
-:END:
