@@ -6,7 +6,7 @@
 ;; other packages that make use of org-mode.
 
 ;;; Code:
-(defvar org-dir "~/Dropbox/org")
+(defvar org-dir "~/docs/Dropbox/org")
 
 (use-package org
   :pin org
@@ -78,7 +78,7 @@
   :ensure t
   :config
   (setq org-ref-bibliography-notes (concat org-dir "/bibliography/notes.org")
-        org-ref-default-bibliography '((concat org-dir "/bibliography/main.bib"))
+        org-ref-default-bibliography (concat org-dir "/bibliography/main.bib")
         org-ref-pdf-directory (concat org-dir "/bibliography/pdfs")
         org-ref-insert-cite-function 'org-ref-helm-insert-cite-link
         org-latex-prefer-user-labels t

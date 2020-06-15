@@ -169,6 +169,21 @@
   :hook (text-mode . flyspell-mode))
 
 
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . auto-fill-mode))
+
+
+(use-package yaml-mode
+  :ensure t)
+
+
+(use-package nix-mode
+  :ensure t)
+
+(use-package dockerfile-mode
+  :ensure t)
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
 ;; End:

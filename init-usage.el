@@ -35,13 +35,16 @@
               indent-tabs-mode nil
               c-basic-offset 4
               tab-width 4
-              backup-directory-alist '(("." . "~/.emacs.d/backup"))
               backup-by-copying t
-              version-control t
+              backup-directory-alist `("." . ,(concat user-emacs-directory "backups"))
+              tramp-backup-directory-alist backup-directory-alist
               delete-old-versions t
-              kept-new-versions 20
-              kept-old-versions 5
+              kept-new-versions 3
+              kept-old-versions 2
+              version-control t
+              vc-cvs-stay-local nil
               sentence-end-double-space nil)
+
 
 (unbind-key "C-z")
 

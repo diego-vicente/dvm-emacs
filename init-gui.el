@@ -16,7 +16,7 @@
 (setq-default cursor-type 'bar)
 
 ;; Set the custom font for all new frames created
-(defvar default-font "Iosevka SS10 12")
+(defvar default-font "Iosevka 12")
 
 (defun set-custom-font (frame)
   "Set the default font in a new given FRAME."

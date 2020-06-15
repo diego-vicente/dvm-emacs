@@ -8,10 +8,15 @@
 ;;; Code:
 
 ;; Define the global variables to be used later
-(defvar configuration-dir "~/dvm-emacs/")
+(defvar configuration-dir "~/utils/dvm-emacs/")
 
 ;; Ensure that package.el is loaded and ready
 (require 'package)
+
+;; Had to include these lines to properly install in Debian
+;; (setq package-check-signature nil)
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
@@ -57,7 +62,7 @@ installed one."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-plus-contrib zeal-at-point yaml-mode ws-butler which-key vterm use-package undo-tree sphinx-doc solarized-theme smartparens sane-term rmsbolt request-deferred real-auto-save rainbow-delimiters racer python-docstring pyenv-mode org-ref org-pdfview org-mime org-brain org-autolist nord-theme nim-mode mu4e-alert moody minions magit-todos magit-popup magit-lfs lsp-ui lsp-intellij kotlin-mode jinja2-mode iy-go-to-char ivy-rich intero iedit idris-mode gruvbox-theme graphviz-dot-mode graphql go-playground go-eldoc git-gutter-fringe ghub flycheck-rust find-file-in-project expand-region exec-path-from-shell ess elpy elfeed-org ein eglot doom-themes dockerfile-mode docker dired-sidebar csv-mode counsel-tramp counsel-projectile counsel-bbdb conda company-lsp company-go company-auctex cider cheat-sh buffer-move bbdb avy all-the-icons-dired))))
+    (nix-mode python-black python-docstring-mode python-doc-mode pyvenv markdown spinner org-plus-contrib zeal-at-point yaml-mode ws-butler which-key vterm use-package undo-tree sphinx-doc solarized-theme smartparens sane-term rmsbolt request-deferred real-auto-save rainbow-delimiters racer python-docstring pyenv-mode org-ref org-pdfview org-mime org-brain org-autolist nord-theme nim-mode mu4e-alert moody minions magit-todos magit-popup magit-lfs lsp-ui lsp-intellij kotlin-mode jinja2-mode iy-go-to-char ivy-rich intero iedit idris-mode gruvbox-theme graphviz-dot-mode graphql go-playground go-eldoc git-gutter-fringe ghub flycheck-rust find-file-in-project expand-region exec-path-from-shell ess elpy elfeed-org ein eglot doom-themes dockerfile-mode docker dired-sidebar csv-mode counsel-tramp counsel-projectile counsel-bbdb conda company-lsp company-go company-auctex cider cheat-sh buffer-move bbdb avy all-the-icons-dired))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
