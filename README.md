@@ -33,10 +33,10 @@ sudo apt-get install git ripgrep tar fd-find clang
 # Clone emacs-doom in the emacs directory
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 # Clone this repository in the doom directory
-git clone git@git.sr.ht:~diego/dvm-emacs
+git clone git@git.sr.ht:~diego/dvm-emacs ~/.doom.d
 doom install
 ```
 
 
-[1](https://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz) 
-[2](https://github.com/hlissner/doom-emacs)
+[1]: https://ftp.gnu.org/pub/gnu/emacs/emacs-26.3.tar.gz 
+[2]: https://github.com/hlissner/doom-emacs
