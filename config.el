@@ -58,10 +58,10 @@
 (load (expand-file-name (concat doom-private-dir "/utils.el")))
 
 ;; Change the quit window behavior for some modes
-(dvm/adapt-quit-window-for-mode global-map)
-(dvm/adapt-quit-window-for-mode help-mode-map)
+;; (dvm/adapt-quit-window-for-mode global-map)
+;; (dvm/adapt-quit-window-for-mode help-mode-map)
 ;; (dvm/adapt-quit-window-for-mode compilation-mode-map)
-(dvm/adapt-quit-window-for-mode Buffer-menu-mode-map)
+;; (dvm/adapt-quit-window-for-mode Buffer-menu-mode-map)
 ;; (dvm/adapt-quit-window-for-mode org-brain-visualize-mode-map)
 
 ;; Set some general defaults
@@ -81,7 +81,6 @@
               vc-cvs-stay-local nil
               ;; Desktop specific variables
               pop-up-frames 'graphic-only
-              magit-bury-buffer-function 'dvm/quit-window-dwim)
 
 ;; Auto fill only comments in the programming modes
 (setq-hook! prog-mode comment-auto-fill-only-comments t)
