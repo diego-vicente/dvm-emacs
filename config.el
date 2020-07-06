@@ -81,11 +81,17 @@
               vc-cvs-stay-local nil
               ;; Desktop specific variables
               pop-up-frames 'graphic-only
+              ;; Don't create new workspaces with new frames
+              persp-init-new-frame-behaviour-override 'dvm/workspace-associate-frame-fn
+              persp-emacsclient-init-frame-behaviour-override 'dvm/workspace-associate-frame-fn
+              persp-interactive-init-frame-behaviour-override 'dvm/workspace-associate-frame-fn)
 
 ;; Auto fill only comments in the programming modes
 (setq-hook! prog-mode comment-auto-fill-only-comments t)
 (add-hook! prog-mode auto-fill-mode)
 
+;; Allow remembering risky varibales in .dirs-local.el
+(advice-add 'risky-local-variable-p :override #'ignore)
 
 ;;; Major modes and other tools
 
