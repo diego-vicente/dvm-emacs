@@ -99,6 +99,10 @@
   :commands (markdown-mode)
   :hook (markdown-mode . auto-fill-mode))
 
+;; Rust config
+(after! rustic
+  (setq lsp-rust-server 'rust-analyzer
+        rustic-lsp-server 'rust-analyzer))
 
 ;;; Python configuration
 
