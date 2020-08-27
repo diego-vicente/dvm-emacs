@@ -86,6 +86,8 @@
               persp-emacsclient-init-frame-behaviour-override 'dvm/workspace-associate-frame-fn
               persp-interactive-init-frame-behaviour-override 'dvm/workspace-associate-frame-fn)
 
+(remove-hook! 'delete-frame-functions '+workspaces-delete-associated-workspace-h)
+
 ;; Auto fill only comments in the programming modes
 (setq-hook! prog-mode comment-auto-fill-only-comments t)
 (add-hook! prog-mode auto-fill-mode)
