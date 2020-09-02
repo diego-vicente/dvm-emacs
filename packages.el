@@ -49,6 +49,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! neuron-mode)
 (package! python-black)
 
 (package! org-brain)
