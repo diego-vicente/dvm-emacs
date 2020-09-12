@@ -57,6 +57,11 @@
 ;; Include auxiliar and other custom functions
 (load (expand-file-name (concat doom-private-dir "/utils.el")))
 
+;; Load the environment variables. In order to generate this file:
+;; $ doom env -o ~/.doom.d/local.env
+;; It is important to run this command outside all sandboxes!
+(doom-load-envvars-file (concat doom-private-dir "/local.env"))
+
 ;; Change the quit window behavior for some modes
 ;; (dvm/adapt-quit-window-for-mode global-map)
 ;; (dvm/adapt-quit-window-for-mode help-mode-map)
