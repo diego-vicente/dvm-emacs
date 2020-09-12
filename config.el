@@ -234,3 +234,13 @@
 
        (map! :leader "sz" #'search-zettelkasten)
        (map! :leader "fz" #'find-file-in-zettelkasten))
+
+
+;; Configure email
+(use-package! mu4e
+  :config
+  (setq! mu4e-maildir "/home/dvicente/docs/maildir/"
+         mu4e-trash-folder "/personal/Trash"
+         mu4e-drafts-folder "/personal/Drafts"
+         mu4e-sent-folder "/personal/Sent"
+         mu4e-refile-folder "/personal/Archive"))
