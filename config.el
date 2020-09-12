@@ -108,6 +108,10 @@
 
 ;;; Python configuration
 
+;; If the frame is 1/4 of the screen, lsp-signature-doc can consume the entire
+;; frame - limit it to 2 lines only
+(setq! lsp-signature-doc-lines 2)
+
 ;; Set up the Python auto-formatter on save
 (use-package! python-black
   :commands (python-black-on-save-mode)
