@@ -171,12 +171,9 @@
   "Face for stub links."
   :group 'neuron-faces)
 
-(customize-set-variable 'neuron-default-zettelkasten-directory
-                        (expand-file-name "~/dev/neuron/zettelkasten"))
-
-(customize-set-variable 'neuron-default-tags (list "stub"))
-
-(customize-set-variable 'neuron-tag-specific-title-faces '(("stub" neuron-stub-face)))
+(setq! neuron-default-tags (list "stub")
+       neuron-tag-specific-title-faces '(("stub" neuron-stub-face))
+       neuron-default-zettelkasten-directory (expand-file-name "~/docs/neuron/zettelkasten"))
 
 (defun search-zettelkasten ()
   "Search zettels by content."
