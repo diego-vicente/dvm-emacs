@@ -159,9 +159,6 @@
   (unless (file-exists-p org-ref-pdf-directory)
     (make-directory org-ref-pdf-directory t)))
 
-;; writegood is an interesting tool but not for my use cases
-(disable-packages! writegood)
-
 ;; Configure neuron-mode to work with neuron
  (defface neuron-stub-face
   '((((class color) (min-colors 88) (background dark)) :foreground "#C16069" :underline "#C16069")
