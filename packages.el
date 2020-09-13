@@ -49,8 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! neuron-mode)
-(package! python-black)
+(package! neuron-mode :pin "18d230ce6b126fe7193db9c20ac93811ccfe779d")
+(package! python-black :pin "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
 
-(package! org-brain)
-(package! org-ref)
+(package! org-brain :pin "1662ebd680f041eb7deae68d3a24465a37ffadde")
+(package! org-ref :pin "e94a23e1d44759a946eded7257b475630371fb1c")
