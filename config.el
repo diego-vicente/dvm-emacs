@@ -168,10 +168,6 @@
   "Face for stub links."
   :group 'neuron-faces)
 
-(setq! neuron-default-tags (list "stub")
-       neuron-tag-specific-title-faces '(("stub" neuron-stub-face))
-       neuron-default-zettelkasten-directory (expand-file-name "~/docs/neuron/zettelkasten"))
-
 (defun search-zettelkasten ()
   "Search zettels by content."
   (interactive)
@@ -189,6 +185,10 @@
   ; Enable link autocompletion globally
   :hook (neuron-mode . company-neuron-setup)
   :init
+  (setq! neuron-id-format 'prompt
+         neuron-default-tags (list "stub")
+         neuron-tag-specific-title-faces '(("stub" neuron-stub-face))
+         neuron-default-zettelkasten-directory (expand-file-name "~/docs/neuron/zettelkasten"))
   (map! :leader
         (:prefix ("z" . "zettel")
           "z" #'neuron-new-zettel
@@ -227,12 +227,9 @@
           :ni "l" #'neuron-create-and-insert-zettel-link
           :v  "L" #'neuron-create-zettel-from-selection
           :ni "s" #'neuron-insert-static-link
-          :ni "c" #'neuron-toggle-connection-type
-          )
-        )
-
-       (map! :leader "sz" #'search-zettelkasten)
-       (map! :leader "fz" #'find-file-in-zettelkasten))
+          :ni "c" #'neuron-toggle-connection-type))
+  (map! :leader "sz" #'search-zettelkasten)
+  (map! :leader "fz" #'find-file-in-zettelkasten))
 
 
 ;; Configure email
