@@ -62,6 +62,11 @@
 ;; It is important to run this command outside all sandboxes!
 (doom-load-envvars-file (concat doom-private-dir "/local.env"))
 
+;; Configure the modeline
+(use-package! doom-modeline
+  :config
+  (setq! doom-modeline-mu4e t))
+
 ;; Change the quit window behavior for some modes
 ;; (dvm/adapt-quit-window-for-mode global-map)
 ;; (dvm/adapt-quit-window-for-mode help-mode-map)
@@ -240,3 +245,10 @@
          mu4e-drafts-folder "/personal/Drafts"
          mu4e-sent-folder "/personal/Sent"
          mu4e-refile-folder "/personal/Archive"))
+
+(use-package! mu4e-alert
+  :config
+  (setq! mu4e-alert)
+  (mu4e-alert-set-default-style 'libnotify)
+  :hook ((after-init . mu4e-alert-enable-notifications)
+         (after-init . mu4e-alert-enable-mode-line-display)))

@@ -55,5 +55,7 @@
 (package! org-brain :pin "1662ebd680f041eb7deae68d3a24465a37ffadde")
 (package! org-ref :pin "e94a23e1d44759a946eded7257b475630371fb1c")
 
+(package! mu4e-alert :pin "91f0657c5b245a9de57aa38391221fb5d141d9bd")
+
 ;; writegood is an interesting tool but not for my use cases
 (package! writegood-mode :disable t)
