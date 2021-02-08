@@ -49,6 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! direnv :pin "f5484b0fc33d4e5116612626294efb362ff9ecd4")
+
 (package! neuron-mode :pin "18d230ce6b126fe7193db9c20ac93811ccfe779d")
 (package! python-black :pin "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
 

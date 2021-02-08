@@ -105,6 +105,12 @@
 ;; Allow remembering risky varibales in .dirs-local.el
 (advice-add 'risky-local-variable-p :override #'ignore)
 
+;; Make Emacs able to infer the context-related Nix shells
+(use-package! direnv
+  :config
+  (setq direnv-always-show-summary nil)
+  (direnv-mode))
+
 ;;; Major modes and other tools
 
 (use-package! markdown-mode
