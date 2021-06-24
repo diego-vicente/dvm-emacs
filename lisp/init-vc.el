@@ -23,7 +23,9 @@
 (use-package magit-todos
   :ensure t
   :after magit
-  :config (magit-todos-mode))
+  :config
+  (setq magit-todos-branch-list nil)
+  (magit-todos-mode))
 
 
 (provide 'init-vc)
