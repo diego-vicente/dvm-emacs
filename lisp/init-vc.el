@@ -27,6 +27,25 @@
   (setq magit-todos-branch-list nil)
   (magit-todos-mode))
 
+;; Indicate changes from HEAD in the buffer gutter
+(use-package git-gutter-fringe
+  :demand t
+  :ensure t
+  :config
+  ;; Make the fringe thinner
+  (if (fboundp 'fringe-mode) (fringe-mode '4))
+  ;; Places the git gutter outside the margins
+  (setq fringes-outside-margins t)
+  ;; Use the subtle fringe bitmaps from doom-emacs
+  (define-fringe-bitmap 'git-gutter-fr:added [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
+    nil nil 'bottom)
+  :hook ((prog-mode . git-gutter-mode)
+         (text-mode . git-gutter-mode)))
+
 
 (provide 'init-vc)
 ;;; init-vc.el ends here

@@ -137,6 +137,11 @@
   (magit-branch-remote (:foreground trondheim-nord14))
   ;; TODO: there are some missing faces in the diff buffer
 
+  ;; Fringe indicators for version control
+  (git-gutter-fr:added (:foreground trondheim-nord14))
+  (git-gutter-fr:deleted (:foreground trondheim-nord11))
+  (git-gutter-fr:modified (:foreground trondheim-nord13))
+
   ;; Relative line numbers faces
   (line-number (:foreground trondheim-nord03))
   (line-number-current-line (:foreground trondheim-nord05))
