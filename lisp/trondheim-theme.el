@@ -207,6 +207,15 @@
   (flyspell-incorrect (:underline (:style 'line :color trondheim-nord11)))
   (flyspell-duplicate (:underline (:style 'line :color trondheim-nord13)))
 
+  ;; circe faces
+  (circe-server-face (:foreground trondheim-comment))
+  (circe-highlight-nick-face (:foreground trondheim-nord08))
+  (circe-originator-face (:foreground trondheim-nord08))
+  (circe-prompt-face (:foreground trondheim-nord08 :weight 'bold))
+  (circe-fool-face (:foreground trondheim-nord03))
+  (lui-button-face (:foreground trondheim-nord08))
+  (lui-time-stamp-face (:foreground trondheim-nord15))
+
   ))
 
 

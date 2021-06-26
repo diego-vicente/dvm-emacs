@@ -41,7 +41,7 @@
 (require 'init-python)
 
 ;; Initialize some other modes
-;; (require 'init-irc)
+(require 'init-irc)
 
 
 (provide 'init)
