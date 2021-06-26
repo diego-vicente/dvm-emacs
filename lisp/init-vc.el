@@ -46,6 +46,16 @@
   :hook ((prog-mode . git-gutter-mode)
          (text-mode . git-gutter-mode)))
 
+;; Strip the backend name from the mode-line
+(defadvice vc-mode-line (after strip-backend () activate)
+  (when (stringp vc-mode)
+    ;; TODO: include a branch icon instead of the text?
+    (let ((noback (replace-regexp-in-string 
+                   (format "^ %s:" (vc-backend buffer-file-name))
+                   "Branch: " vc-mode)))
+      (setq vc-mode noback))))
+
+
 
 (provide 'init-vc)
 ;;; init-vc.el ends here
