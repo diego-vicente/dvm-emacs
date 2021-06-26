@@ -52,7 +52,7 @@
     ;; TODO: include a branch icon instead of the text?
     (let ((noback (replace-regexp-in-string 
                    (format "^ %s:" (vc-backend buffer-file-name))
-                   "Branch: " vc-mode)))
+                   " " vc-mode)))
       (setq vc-mode noback))))
 
 
