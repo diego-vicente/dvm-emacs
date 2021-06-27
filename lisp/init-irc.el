@@ -59,7 +59,19 @@
         circe-format-server-mode-change
         (dvm/irc-pad "Mode" "{change} on {target} by {setter} ({userhost})")
         circe-format-server-lurker-activity
-        (dvm/irc-pad "Lurk" "{nick} joined {joindelta} ago")))
+        (dvm/irc-pad "Lurk" "{nick} joined {joindelta} ago")
+
+        circe-network-options
+        `(("Libera"
+           :host "irc.libera.chat"
+           :port 6697
+           :tls t
+           :nick "dvicente"
+           :sasl-username "dvicente"
+           :sasl-password ,(dvm/read-gpg-secret
+                            (expand-file-name "irc.asc"
+                                              dvm/password-directory))
+           :channels ("#emacs" "#sr.ht" "#nixos")))))
 
 
 (provide 'init-irc)

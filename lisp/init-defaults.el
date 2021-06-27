@@ -61,6 +61,10 @@
 ;; Define graphic pop-up frames, since I usually use a tiling wm
 (setq-default pop-up-frames 'graphic-only)
 
+;; Set some general purpose variables
+(defvar dvm/password-directory "~/etc/dotfiles/passwords/"
+  "Directory that stores the GPG encrypted passwords.")
+
 
 (provide 'init-defaults)
 ;;; init-defaults.el ends here

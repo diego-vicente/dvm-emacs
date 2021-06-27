@@ -25,6 +25,14 @@
     (save-buffer)
     (kill-buffer nil)))
 
+(defun dvm/read-gpg-secret (password-file)
+  "Get the decrypted contents of `PASSWORD-FILE'."
+  (interactive "fSecret file: ")
+  (string-trim
+   (shell-command-to-string
+    (format "gpg --decrypt %s 2> /dev/null"
+            password-file))))
+
 
 (provide 'dvm-functions)
 ;;; dvm-functions.el ends here
