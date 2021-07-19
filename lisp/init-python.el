@@ -16,7 +16,7 @@
 
   ;; Configure the variables for python
   (setq lsp-pylsp-plugins-flake8-enabled t
-        lsp-pylsp-plugins-yapf-enabled t
+        lsp-pylsp-plugins-yapf-enabled nil
         lsp-pylsp-plugins-mccabe-enabled nil
         lsp-pylsp-plugins-pycodestyle-enabled nil
         lsp-pylsp-plugins-flake8-ignore ["E501"])
@@ -26,6 +26,7 @@
    '(("pylsp.plugins.mypy_ls.enabled" t t)
      ("pylsp.plugins.mypy_ls.live_mode" nil t)
      ("pylsp.plugins.pyls_isort.enabled" t t)
+     ("pylsp.plugins.pyls_black.enabled" t t)
      ("pylsp.plugins.pyflakes.enabled" nil t))))
 
 
