@@ -121,6 +121,14 @@
   (magit-diff-file-header (:foreground trondheim-nord08 :box (:color trondheim-nord08)))
   (magit-diff-hunk-heading (:foreground trondheim-nord09 :background trondheim-nord01))
   (magit-diff-hunk-heading-highlight (:background trondheim-nord01))
+  (magit-diff-added (:foreground trondheim-nord14 :background trondheim-nord02))
+  (magit-diff-added-highlight (:foreground trondheim-nord14
+                               :background trondheim-nord02
+                               :weight 'bold))
+  (magit-diff-removed (:foreground trondheim-nord11 :background trondheim-nord02))
+  (magit-diff-removed-highlight (:foreground trondheim-nord11
+                                 :background trondheim-nord02
+                                 :weight 'bold))
   (magit-diffstat-added (:foreground trondheim-nord14))
   (magit-diffstat-removed (:foreground trondheim-nord11))
   (magit-item-highlight (:background trondheim-nord01))
@@ -135,7 +143,6 @@
   (magit-branch (:foreground trondheim-nord09 :weight 'bold))
   (magit-branch-local (:foreground trondheim-nord09))
   (magit-branch-remote (:foreground trondheim-nord14))
-  ;; TODO: there are some missing faces in the diff buffer
 
   ;; Fringe indicators for version control
   (git-gutter-fr:added (:foreground trondheim-nord14))
