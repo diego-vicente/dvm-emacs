@@ -33,6 +33,13 @@
     (format "gpg --decrypt %s 2> /dev/null"
             password-file))))
 
+(defun dvm/quit-window-advice (original-fn &rest args)
+  "Quit a buffer and delete the window if needed."
+  (let ((last-window (one-window-p)))
+    (apply original-fn args)
+    (when last-window
+      (delete-frame))))
+
 
 (provide 'dvm-functions)
 ;;; dvm-functions.el ends here

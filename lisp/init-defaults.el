@@ -61,6 +61,9 @@
 ;; Define graphic pop-up frames, since I usually use a tiling wm
 (setq-default pop-up-frames 'graphic-only)
 
+;; Override the usual way of closing windows
+(advice-add 'quit-window :around #'dvm/quit-window-advice)
+
 ;; Set some general purpose variables
 (defvar dvm/password-directory "~/etc/dotfiles/passwords/"
   "Directory that stores the GPG encrypted passwords.")
