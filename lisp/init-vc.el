@@ -11,7 +11,8 @@
   :ensure t
   :after general
   :config
-  (setq magit-section-initial-visibility nil)
+  (setq magit-section-initial-visibility-alist nil
+        magit-commit-show-diff nil)
   ;; Define the bindings with the prefix `SPC g`
   (leader-def
    "g" '(:ignore nil :which-key "magit")
@@ -49,12 +50,10 @@
 ;; Strip the backend name from the mode-line
 (defadvice vc-mode-line (after strip-backend () activate)
   (when (stringp vc-mode)
-    ;; TODO: include a branch icon instead of the text?
     (let ((noback (replace-regexp-in-string 
-                   (format "^ %s:" (vc-backend buffer-file-name))
+                   (format "^ %s[-:!?@]" (vc-backend buffer-file-name))
                    " " vc-mode)))
       (setq vc-mode noback))))
-
 
 
 (provide 'init-vc)
