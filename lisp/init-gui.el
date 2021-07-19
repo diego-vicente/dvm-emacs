@@ -26,11 +26,6 @@
 (add-hook 'prog-mode-hook #'dvm/enable-relative-line-numbers)
 (add-hook 'text-mode-hook #'dvm/enable-relative-line-numbers)
 
-;; Enable icons to be used in the editor
-(use-package all-the-icons
-  ;; Remember to run M-x all-the-icons-install-fonts!
-  :ensure t)
-
 ;; Set the mode-line using moody
 (use-package moody
   :ensure t
@@ -40,22 +35,6 @@
         column-number-mode t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode))
-
-;; Display icons instead of mode names in the mode-line
-(use-package cyphejor
-  :ensure t
-  ;; :after all-the-icons
-  :config
-  (setq
-   cyphejor-rules
-   `(:upcase ; if there is no match, replace with their first letter
-     ("mode" "")
-     ;; FIXME: solve icon issues first
-     ;; ("emacs-lisp" ,(all-the-icons-fileicon "elisp"))
-     ;; ("lisp" ,(all-the-icons-fileicon "lisp"))
-     ;; ("python" ,(all-the-icons-alltheicon "python"))
-     ))
-  (cyphejor-mode 1))
 
 ;; Enable the minor-mode menu using minions
 (use-package minions
