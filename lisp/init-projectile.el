@@ -12,8 +12,10 @@
   :config
   ;; Ignore all projects in the nix store
   (defun dvm/ignore-project-p (project-name)
-    (or (string-prefix-p "/nix" project-name)
-    (string-prefix-p "/nix/store" project-name)))
+    (or
+     (string-prefix-p "/nix" project-name)
+     (string-prefix-p "/nix/store" project-name)
+     (string-prefix-p "~/.emacs.d/" project-name)))
 
   (setq projectile-ignored-project-function #'dvm/ignore-project-p)
 
