@@ -58,6 +58,7 @@
 
   ;; Configure the general LSP leader keys
   (leader-def
+    :keymaps 'lsp-mode-map
     "l" '(:ignore t :which-key "lsp")
     "l e" 'flycheck-list-errors)
   ;; Per-mode hooks are defined in each language's own config
@@ -88,6 +89,7 @@
                                   trondheim-nord10))
 
   (leader-def
+    :keymaps 'lsp-mode-map
     "l d" 'lsp-ui-peek-find-definitions
     "l r" 'lsp-ui-peek-find-references
     "l ?" 'lsp-ui-doc-show
