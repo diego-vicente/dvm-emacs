@@ -35,6 +35,12 @@
 ;; exactly what I would expect it to do
 (delete-selection-mode t)
 
+;; Set the default fill-column and some mode-specific values.
+(setq-default fill-column 79)
+(dvm/setq-hook prog-mode-hook comment-auto-fill-only-comments t)
+(dvm/setq-hook text-mode-hook fill-column 72)
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
 ;; Auto-save and backup defaults -- Perform them often, but put the
 ;; files in dedicated directories instead of polluting the current
 ;; workspace

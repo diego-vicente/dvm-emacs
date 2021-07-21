@@ -40,6 +40,14 @@
     (when last-window
       (delete-frame))))
 
+(defmacro dvm/setq-hook (hook variable value)
+  "Set a `VARIABLE' to `VALUE' when `HOOK' is run."
+  (let* ((fn-name (concat "set-local-" (symbol-name variable)))
+         (fn-symbol (intern fn-name)))
+    `(progn
+       (defun ,fn-symbol ()
+         (setq-local ,variable ,value))
+       (add-hook ',hook ',fn-symbol))))
 
 (provide 'dvm-functions)
 ;;; dvm-functions.el ends here
