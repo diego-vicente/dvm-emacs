@@ -57,13 +57,15 @@
   (default (:background trondheim-nord00 :foreground trondheim-nord05
             ;; TODO: maybe make the font setting conditional?
             :family "Roboto Mono" :height 110))
+  (bold    (:foreground trondheim-nord06 :weight 'extra-bold))
   (fringe  (:background trondheim-nord00 :foreground trondheim-nord05))
   (cursor  (:foreground trondheim-nord06))
-  (link    (:foreground trondheim-nord08))
+  (link    (:foreground trondheim-nord09))
   (error   (:foreground trondheim-nord11 :weight 'bold))
   (warning (:foreground trondheim-nord13 :weight 'bold))
   (success (:foreground trondheim-nord14 :weight 'bold))
   (region  (:background trondheim-nord01))
+  (shadow  (:foreground trondheim-comment))
   (highlight (:background trondheim-nord02))
   (minibuffer-prompt (:foreground trondheim-nord09))
   (tooltip (:background trondheim-nord04 :foreground trondheim-nord01))
@@ -155,14 +157,14 @@
 
   ;; rainbow-delimiters mode faces (a color for each depth)
   (rainbow-delimiters-base-error-face (:foreground trondheim-nord11 :weight 'bold))
-  (rainbow-delimiters-depth-1-face (:foreground trondheim-nord10))
+  (rainbow-delimiters-depth-1-face (:foreground trondheim-nord09))
   (rainbow-delimiters-depth-2-face (:foreground trondheim-nord14))
-  (rainbow-delimiters-depth-3-face (:foreground trondheim-nord09))
+  (rainbow-delimiters-depth-3-face (:foreground trondheim-nord10))
   (rainbow-delimiters-depth-4-face (:foreground trondheim-nord13))
   (rainbow-delimiters-depth-5-face (:foreground trondheim-nord15))
   (rainbow-delimiters-depth-6-face (:foreground trondheim-nord07))
   (rainbow-delimiters-depth-7-face (:foreground trondheim-nord15))
-  (rainbow-delimiters-depth-8-face (:foreground trondheim-nord10))
+  (rainbow-delimiters-depth-8-face (:foreground trondheim-nord09))
   (rainbow-delimiters-depth-9-face (:foreground trondheim-nord14))
 
   ;; lsp specific faces
