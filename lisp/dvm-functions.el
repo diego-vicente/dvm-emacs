@@ -25,6 +25,7 @@
     (save-buffer)
     (kill-buffer nil)))
 
+
 (defun dvm/read-gpg-secret (password-file)
   "Get the decrypted contents of `PASSWORD-FILE'."
   (interactive "fSecret file: ")
@@ -33,12 +34,14 @@
     (format "gpg --decrypt %s 2> /dev/null"
             password-file))))
 
+
 (defun dvm/quit-window-advice (original-fn &rest args)
   "Quit a buffer and delete the window if needed."
   (let ((last-window (one-window-p)))
     (apply original-fn args)
     (when last-window
       (delete-frame))))
+
 
 (defmacro dvm/setq-hook (hook variable value)
   "Set a `VARIABLE' to `VALUE' when `HOOK' is run."
@@ -48,6 +51,20 @@
        (defun ,fn-symbol ()
          (setq-local ,variable ,value))
        (add-hook ',hook ',fn-symbol))))
+
+
+(defvar dvm/negate-keyword-alist
+  '(("false" . "true")
+    ("0" . "1")
+    ("nil" . "t"))
+  "A list of keyword pairs with opposite meanings.")
+
+(defun dvm/negate-word (word &optional word-alist)
+  "Return the `WORD' negated as per `WORD-ALIST'."
+  (or word-alist (setq word-alist dvm/negate-keyword-alist))
+  (or (cdr (assoc word word-alist))
+      (car (rassoc word word-alist))))
+
 
 (provide 'dvm-functions)
 ;;; dvm-functions.el ends here

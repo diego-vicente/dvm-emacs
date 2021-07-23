@@ -27,6 +27,18 @@
   :config
   ;; Disable mode-line indicators
   (setq evil-mode-line-format nil)
+
+  (evil-define-operator dvm/negate-word-at-point (beg end)
+    "Change the current word at point with its opposite."
+    :motion evil-inner-word
+    (let* ((buffer-word (buffer-substring-no-properties beg end))
+           (negated-word (dvm/negate-word buffer-word)))
+      (if negated-word
+          (progn
+            (delete-region beg end)
+            (insert negated-word))
+        (message "No opposite word found in the list."))))
+
   (evil-mode t))
 
 ;; evil-collection fixes evil where is not supported by default
@@ -46,6 +58,12 @@
     :prefix "SPC"
     :keymaps 'override)
 
+  ;; Define the evil normal-mode prefix
+  (general-create-definer normal-z-def
+    :states 'normal
+    :prefix "z"
+    :keymaps 'override)
+
   ;; Define the common key bindings
   (leader-def
    ;; buffer-related functions
@@ -63,7 +81,11 @@
    "h" '(:ignore t :which-key "help")
    "h f" 'describe-function
    "h v" 'describe-variable
-   "h k" 'describe-key))
+   "h k" 'describe-key)
+
+  ;; Define the normal state key bindings
+  (normal-z-def
+   "n" 'dvm/negate-word-at-point))
 
 
 (provide 'init-evil)
