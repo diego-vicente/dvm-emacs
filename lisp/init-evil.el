@@ -39,6 +39,13 @@
             (insert negated-word))
         (message "No opposite word found in the list."))))
 
+  (evil-define-operator dvm/transpose-chars (beg end)
+    "Transpose the character"
+    :motion evil-forward-char
+    (goto-char end)
+    (transpose-hcars 1)
+    (goto-char beg))
+
   (evil-mode t))
 
 ;; evil-collection fixes evil where is not supported by default
@@ -85,7 +92,18 @@
 
   ;; Define the normal state key bindings
   (normal-z-def
-   "n" 'dvm/negate-word-at-point))
+   ;; Define scroll functions
+   "h" 'evil-scroll-column-left
+   "j" 'evil-scroll-line-down
+   "k" 'evil-scroll-line-up
+   "l" 'evil-scroll-column-right
+   "H" 'evil-scroll-left
+   "J" 'evil-scroll-down
+   "K" 'evil-scroll-up
+   "L" 'evil-scroll-right
+   ;; Custom text manipulation functions
+   "n" 'dvm/negate-word-at-point
+   "t" 'dvm/transpose-chars))
 
 
 (provide 'init-evil)
