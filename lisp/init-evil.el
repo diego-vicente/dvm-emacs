@@ -69,7 +69,7 @@
   (general-create-definer normal-z-def
     :states 'normal
     :prefix "z"
-    :keymaps 'evil-normal-state-map)
+    :keymaps 'override)
 
   ;; Define the common key bindings
   (leader-def
