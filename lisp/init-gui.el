@@ -6,12 +6,6 @@
 
 ;;; Code:
 
-;; Set the default font:
-(set-face-attribute 'default nil
-                    :family "Roboto Mono"
-                    :height 110)
-
-
 ;; Load my own custom theme
 (add-to-list 'custom-theme-load-path
              (expand-file-name "lisp" dvm/user-configuration-directory))

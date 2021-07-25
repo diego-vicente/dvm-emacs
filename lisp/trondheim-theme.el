@@ -56,8 +56,8 @@
  (;; Basic Emacs faces
   (default (:background trondheim-nord00 :foreground trondheim-nord05
             ;; TODO: maybe make the font setting conditional?
-            :family "Roboto Mono" :height 110))
-  (bold    (:foreground trondheim-nord06 :weight 'extra-bold))
+            :family "JetBrains Mono" :height 110))
+  (bold    (:foreground trondheim-nord06 :weight 'bold))
   (fringe  (:background trondheim-nord00 :foreground trondheim-comment))
   (cursor  (:foreground trondheim-nord06))
   (link    (:foreground trondheim-nord09))
