@@ -11,11 +11,18 @@
 
 (use-package flycheck
   :ensure t
-  :demand t)
+  :demand t
+  :config
+  ;; Define a function to move the flycheck indicators to the left
+  (defun dvm/set-flycheck-indication ()
+    "Set the flycheck indicators to the right margin."
+    (interactive)
+    (flycheck-set-indication-mode 'right-margin)))
 
 (use-package lsp-mode
   :ensure t
   :demand t
+  :after flycheck
   :init
   ;; TODO: consider lsp-auto-configure to nil if there is too much bloat
   (setq gc-cons-threshold (* 100 1024 1024)      ; 100 mb
@@ -62,7 +69,8 @@
     "l" '(:ignore t :which-key "lsp")
     "l e" 'flycheck-list-errors)
   ;; Per-mode hooks are defined in each language's own config
-  :hook (lsp-mode . lsp-enable-which-key-integration))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . dvm/set-flycheck-indication)))
 
 ;; lsp-ui provides different elements to consume the LSP info
 (use-package lsp-ui
@@ -94,7 +102,8 @@
     "l r" 'lsp-ui-peek-find-references
     "l ?" 'lsp-ui-doc-show
     "l /" 'lsp-ui-doc-hide
-    "l i" 'lsp-ui-imenu))
+    "l i" 'lsp-ui-imenu
+    "l e" 'lsp-ui-flycheck-list))
 
 ;; LSP and ivy integration
 (use-package lsp-ivy

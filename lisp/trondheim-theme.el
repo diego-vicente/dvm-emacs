@@ -58,7 +58,7 @@
             ;; TODO: maybe make the font setting conditional?
             :family "Roboto Mono" :height 110))
   (bold    (:foreground trondheim-nord06 :weight 'extra-bold))
-  (fringe  (:background trondheim-nord00 :foreground trondheim-nord05))
+  (fringe  (:background trondheim-nord00 :foreground trondheim-comment))
   (cursor  (:foreground trondheim-nord06))
   (link    (:foreground trondheim-nord09))
   (error   (:foreground trondheim-nord11 :weight 'bold))
