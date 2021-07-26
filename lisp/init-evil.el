@@ -28,6 +28,7 @@
   ;; Disable mode-line indicators
   (setq evil-mode-line-format nil)
 
+  ;; Define all custom operators for evil-mode
   (evil-define-operator dvm/negate-word-at-point (beg end)
     "Change the current word at point with its opposite."
     :motion evil-inner-word
@@ -66,7 +67,11 @@
      ( ?\[ . ("[" . "]"))
      ( ?\{ . ("{" . "}"))
      ( ?\' . ("'" . "'"))
-     ( ?\" . ("\"" . "\""))))
+     ( ?\" . ("\"" . "\""))
+     ;; org-mode markup syntax
+     ( ?\* . ("*" . "*"))
+     ( ?\/ . ("\/" . "\/"))
+     ( ?\= . ("=" . "="))))
 
   (global-evil-surround-mode 1))
 

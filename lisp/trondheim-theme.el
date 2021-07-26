@@ -225,6 +225,23 @@
   (lui-button-face (:foreground trondheim-nord08))
   (lui-time-stamp-face (:foreground trondheim-nord15))
 
+  ;; org-mode faces
+  (org-level-1 (:foreground trondheim-nord08))
+  (org-level-2 (:foreground trondheim-nord15))
+  (org-level-3 (:foreground trondheim-nord09))
+  (org-level-4 (:foreground trondheim-nord14))
+  (org-level-5 (:foreground trondheim-nord10))
+  (org-level-6 (:foreground trondheim-nord13))
+  (org-level-7 (:foreground trondheim-nord12))
+  (org-level-8 (:foreground trondheim-nord11))
+
+  (org-drawer (:foreground trondheim-comment))
+  (org-warning (:foreground trondheim-nord13))
+  (org-table (:foreground trondheim-nord05))
+  (org-table-header (:foreground trondheim-nord02))
+
+  (org-document-title (:foreground trondheim-nord07 :weight 'bold))
+  (org-document-info (:foreground trondheim-nord07))
   ))
 
 

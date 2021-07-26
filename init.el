@@ -32,6 +32,7 @@
 (require 'init-completion)
 
 ;; Initialize the must-have tools
+(require 'init-org)
 (require 'init-vc)
 (require 'init-projectile)
 (require 'init-lsp)
