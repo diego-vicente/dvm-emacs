@@ -32,6 +32,8 @@
 ;; Use company as an auto-completion backend
 (use-package company
   :ensure t
+  :config
+  (setq company-tooltip-idle-delay 3)
   :hook (after-init . global-company-mode))
 
 (use-package company-box
@@ -39,6 +41,10 @@
   :config (setq company-box-doc-enable nil)
   :hook (company-mode . company-box-mode))
 
+;; smartparens is a package to auto-close and manage parenthesis
+(use-package smartparens-config
+  :ensure smartparens
+  :hook (prog-mode . smartparens-mode))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

@@ -54,6 +54,22 @@
   :after evil
   :config (evil-collection-init))
 
+;; evil-surround manages pairs of characters
+(use-package evil-surround
+  :ensure t
+  :after evil
+  :config
+  ;; Override the default pairs
+  (setq-default
+   evil-surround-pairs-alist
+   '(( ?\( . ("(" . ")"))
+     ( ?\[ . ("[" . "]"))
+     ( ?\{ . ("{" . "}"))
+     ( ?\' . ("'" . "'"))
+     ( ?\" . ("\"" . "\""))))
+
+  (global-evil-surround-mode 1))
+
 ;; general is used to define SPC-prefixed keybindings
 (use-package general
   :ensure t
