@@ -43,7 +43,7 @@
     "Transpose the character"
     :motion evil-forward-char
     (goto-char end)
-    (transpose-hcars 1)
+    (transpose-chars 1)
     (goto-char beg))
 
   (evil-mode t))
