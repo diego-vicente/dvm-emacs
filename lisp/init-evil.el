@@ -122,6 +122,8 @@
    "J" 'evil-scroll-down
    "K" 'evil-scroll-up
    "L" 'evil-scroll-right
+   ;; Other fast access functions
+   ";" 'comment-dwim
    ;; Custom text manipulation functions
    "n" 'dvm/negate-word-at-point
    "t" 'dvm/transpose-chars))
