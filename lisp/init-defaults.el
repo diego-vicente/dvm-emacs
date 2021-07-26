@@ -26,6 +26,9 @@
       mouse-wheel-progressive-speed nil
       mouse-wheel-follow-mouse t)
 
+;; Always remove trailing spaces before saving a file
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
 ;; Indent with spaces by default (can be changed per language later)
 (setq-default indent-tabs-mode nil
               c-basic-offset 4

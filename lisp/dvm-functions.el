@@ -9,7 +9,7 @@
 ;;; Code:
 
 (defun dvm/clean-buffer-dwim (&optional start end)
-  "Remove all tabs and trailign whitespaces in the current buffer."
+  "Remove all tabs and trailing whitespaces in the current buffer."
   (interactive)
   (let ((start (or start (point-min)))
         (end   (or end (point-max))))
