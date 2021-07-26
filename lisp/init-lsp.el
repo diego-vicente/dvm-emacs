@@ -37,7 +37,7 @@
   :config
   ;; Configure the conditional format on save
   (defvar dvm/lsp-format-on-save-p nil
-    "If t, formats the current buffer with LSP before saving.") 
+    "If t, formats the current buffer with LSP before saving.")
 
   (defun dvm/conditional-format-with-lsp ()
     "Format with LSP if dvm/lsp-format-on-save-p is t."
@@ -68,6 +68,7 @@
     :keymaps 'lsp-mode-map
     "l" '(:ignore t :which-key "lsp")
     "l e" 'flycheck-list-errors)
+
   ;; Per-mode hooks are defined in each language's own config
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (lsp-mode . dvm/set-flycheck-indication)))

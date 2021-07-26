@@ -39,7 +39,7 @@
   "Quit a buffer and delete the window if needed."
   (when (one-window-p)
     (delete-frame))
-  (apply originalfn args))
+  (apply original-fn args))
 
 
 (defmacro dvm/setq-hook (hook variable value)
