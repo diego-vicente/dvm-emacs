@@ -39,6 +39,7 @@
 
 ;; Initialize language-specific setups
 (require 'init-python)
+(require 'init-markup)
 
 ;; Initialize some other modes
 (require 'init-irc)
