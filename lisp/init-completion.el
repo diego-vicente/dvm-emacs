@@ -46,5 +46,16 @@
   :ensure smartparens
   :hook (prog-mode . smartparens-mode))
 
+;; yasnippet provides a way to insert snippets into buffers
+(use-package yasnippet
+  :ensure t
+  :config
+  (setq yas-snippet-dirs `(,(expand-file-name "snippets" dvm/user-configuration-directory)))
+  ;; Enable it in all modes, since the snippets are mode-specific
+  (yas-global-mode 1)
+  (leader-def
+    "c" '(:ignore t :which-key "complete")
+    "c y" 'yas-insert-snippet))
+
 (provide 'init-completion)
 ;;; init-completion.el ends here

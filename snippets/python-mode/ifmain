@@ -1,0 +1,5 @@
+# contributor: Diego Vicente <mail@diego.codes>
+# name: if-main
+# --
+if __name__ == "__main__":
+   ${0:main()}
