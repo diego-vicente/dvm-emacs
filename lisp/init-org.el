@@ -50,9 +50,9 @@
 (use-package org-roam
   :ensure t
   :after org
+  :init (setq org-roam-v2-ack t)
   :config
-  (setq org-roam-directory (expand-file-name "roam" org-directory)
-        org-roam-v2-ack t)
+  (setq org-roam-directory (expand-file-name "zettelkasten" org-directory))
 
   (leader-def
     "z" '(:ignore t :which-key "org-roam")
