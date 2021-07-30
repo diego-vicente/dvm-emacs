@@ -13,12 +13,18 @@
   :config
   (setq magit-section-initial-visibility-alist nil
         magit-commit-show-diff nil)
+
   ;; Define the bindings with the prefix `SPC g`
   (leader-def
    "g" '(:ignore nil :which-key "magit")
    "g g" 'magit-status
    "g c" 'magit-clone
-   "g b" 'magit-blame))
+   "g b" 'magit-blame)
+
+  ;; Make sure the z-prefix does not nuke magit-stash
+  (normal-z-def
+    :keymaps 'magit-status-mode-map
+    "z" 'magit-stash))
 
 ;; Include all to-do tags in the magit status buffer
 (use-package magit-todos
