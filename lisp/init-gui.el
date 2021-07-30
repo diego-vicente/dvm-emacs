@@ -10,6 +10,10 @@
 (add-to-list 'custom-theme-load-path
              (expand-file-name "lisp" dvm/user-configuration-directory))
 
+;; TODO: define it as a trondheim-theme dependence?
+(use-package autothemer
+  :ensure t)
+
 (load-theme 'trondheim t)
 
 ;; Enable relative line numbers for regular buffers
