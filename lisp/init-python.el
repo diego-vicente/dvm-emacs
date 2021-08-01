@@ -41,6 +41,11 @@
      ("pylsp.plugins.pyls_black.enabled" t t)
      ("pylsp.plugins.pyflakes.enabled" nil t))))
 
+;; Configure the debugger
+(with-eval-after-load 'dap-mode
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy))
+
 
 (provide 'init-python)
 ;;; init-python.el ends here

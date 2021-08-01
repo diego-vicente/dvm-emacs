@@ -99,8 +99,8 @@
 
   (leader-def
     :keymaps 'lsp-mode-map
-    "l d" 'lsp-ui-peek-find-definitions
-    "l r" 'lsp-ui-peek-find-references
+    "l ." 'lsp-ui-peek-find-definitions
+    "l ," 'lsp-ui-peek-find-references
     "l ?" 'lsp-ui-doc-show
     "l /" 'lsp-ui-doc-hide
     "l i" 'lsp-ui-imenu
@@ -115,7 +115,19 @@
 ;; Enable the debugger mode (for compatible languages)
 (use-package dap-mode
   :ensure t
-  :after lsp-mode)
+  :after lsp-mode
+  :config
+  ;; Automatically trigger the hydra when stopped.
+  (defun dvm/activate-dap-hydra (arg)
+    "Activate interactively dap-hydra."
+    (call-interactively #'dap-hydra))
+
+  (add-hook 'dap-stopped-hook #'dvm/activate-dap-hydra)
+
+  ;; Define the leader modes.
+  (leader-def
+    :keymaps 'lsp-mode-map
+    "l d" 'dap-debug))
 
 
 (provide 'init-lsp)
