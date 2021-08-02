@@ -46,6 +46,14 @@
     "o f m" 'dvm/org-format-monospace
     "o f =" 'dvm/org-format-monospace))
 
+;; enable active source blocks using org-babel
+(use-package ob-shell
+  :after org
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t))))
+
 ;; org-roam provides a way to generate a Zettelkasten
 (use-package org-roam
   :ensure t
