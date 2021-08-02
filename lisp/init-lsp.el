@@ -67,7 +67,10 @@
   (leader-def
     :keymaps 'lsp-mode-map
     "l" '(:ignore t :which-key "lsp")
-    "l e" 'flycheck-list-errors)
+    "l w" '(:ignore t :which-key "workspace")
+    "l w r" 'lsp-workspace-restart
+    "l w q" 'lsp-workspace-shutdown
+    "l w l" 'lsp-workspace-show-log)
 
   ;; Per-mode hooks are defined in each language's own config
   :hook ((lsp-mode . lsp-enable-which-key-integration)
