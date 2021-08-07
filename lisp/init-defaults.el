@@ -77,6 +77,10 @@
 (defvar dvm/password-directory "~/etc/dotfiles/passwords/"
   "Directory that stores the GPG encrypted passwords.")
 
+;; The sole authentication file is bundled with the repository
+(setq auth-sources
+      `(,(expand-file-name "authinfo.gpg"
+                           dvm/user-configuration-directory)))
 
 (provide 'init-defaults)
 ;;; init-defaults.el ends here
