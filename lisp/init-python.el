@@ -31,7 +31,11 @@
         lsp-pylsp-plugins-mccabe-enabled nil
         lsp-pylsp-plugins-pycodestyle-enabled nil
         lsp-pylsp-plugins-pydocstyle-enabled nil
-        lsp-pylsp-plugins-flake8-ignore ["E501"])
+        lsp-pylsp-plugins-flake8-ignore
+        [;; line too long
+         "E501"
+         ;; line break before binary operator
+         "W503"])
 
   ;;Set the LSP options with no proper variable yet
   (lsp-register-custom-settings
