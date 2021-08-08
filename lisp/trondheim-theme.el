@@ -42,7 +42,7 @@
   (trondheim-nord08 "#88C0D0")
   (trondheim-nord09 "#81A1C1")
   (trondheim-nord10 "#5E81AC")
-  ;; Aurora palette -- warmer support colors 
+  ;; Aurora palette -- warmer support colors
   (trondheim-nord11 "#BF616A")
   (trondheim-nord12 "#D08770")
   (trondheim-nord13 "#EBCB8B")
@@ -240,9 +240,14 @@
   (org-table (:foreground trondheim-nord05))
   (org-table-header (:foreground trondheim-nord02))
 
-  (org-document-title (:foreground trondheim-nord07 :weight 'bold))
+  (org-document-title (:foreground trondheim-nord10 :weight 'bold))
   (org-document-info (:foreground trondheim-nord07))
-  ))
+
+  ;; mu4e and mail-related faces
+  (mu4e-title-face (:foreground trondheim-nord10))
+  (message-header-name (:foreground trondheim-nord09))
+  (mu4e-unread-face (:foreground trondheim-nord07 :weight 'bold))
+  (mu4e-header-marks-face (:foreground trondheim-nord12))))
 
 
 (provide-theme 'trondheim)

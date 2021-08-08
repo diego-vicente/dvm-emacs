@@ -44,7 +44,7 @@
 
 ;; Initialize some other modes
 (require 'init-irc)
-
+(require 'init-mail)
 
 (provide 'init)
 ;;; init.el ends here
