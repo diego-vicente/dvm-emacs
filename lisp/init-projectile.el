@@ -8,7 +8,7 @@
 
 (use-package projectile
   :ensure t
-  :after general
+  :after general popper
   :config
   ;; Ignore all projects in the nix store
   (defun dvm/ignore-project-p (project-name)
@@ -19,6 +19,16 @@
 
   (setq projectile-ignored-project-function #'dvm/ignore-project-p)
 
+  (defun dvm/eshell-dwim ()
+    "Turn on eshell as a small popup for a given context."
+    (interactive)
+    ;; FIXME: it does not work if the buffer exists already
+    (dvm/run-in-popup
+     (cond
+      ((projectile-project-p) (projectile-run-eshell))
+      (t (eshell)))))
+
+
   ;; Define the bindings with the prefix `SPC g`
   (leader-def
    "p" '(:ignore t :which-key "projectile")
@@ -28,7 +38,7 @@
    "p t" 'projectile-test-project
    "p s" 'projectile-save-project-buffers
    "p v" 'projectile-run-vterm
-   "p e" 'projectile-run-eshell)
+   "p e" 'dvm/eshell-dwim)
   (projectile-mode))
 
 ;; counsel-projectile has great integration with ripgrep

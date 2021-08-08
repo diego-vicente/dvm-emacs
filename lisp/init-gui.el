@@ -76,6 +76,31 @@
   (which-key-mode t)
   :diminish which-key-mode)
 
+;; popper defines a set of rules to treat different buffers as popups.
+(use-package popper
+  :ensure t
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          help-mode
+          compilation-mode))
+  :config
+  (popper-mode +1)
+
+  (defmacro dvm/run-in-popup (&rest body)
+    "Run `BODY' inside a popup window."
+    `(save-excursion
+       (split-window-below)
+       ,@body
+       (popper-toggle-type)))
+
+  (leader-def
+    "k" '(:ignore t :which-key "popup")
+    "k k" 'popper-toggle-latest
+    "k l" 'popper-cycle
+    "k ." 'popper-toggle-type))
+
 
 (provide 'init-gui)
 ;;; init-gui.el ends here
