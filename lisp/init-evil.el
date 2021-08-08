@@ -109,7 +109,10 @@
    "h" '(:ignore t :which-key "help")
    "h f" 'describe-function
    "h v" 'describe-variable
-   "h k" 'describe-key)
+   "h k" 'describe-key
+   ;; application launch
+   "SPC" '(:ignore t :which-key "launch")
+   "SPC c" 'calendar)
 
   ;; Define the normal state key bindings
   (normal-z-def
