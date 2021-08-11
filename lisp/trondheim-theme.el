@@ -245,9 +245,20 @@
 
   ;; mu4e and mail-related faces
   (mu4e-title-face (:foreground trondheim-nord10))
-  (message-header-name (:foreground trondheim-nord09))
+  (mu4e-header-key-face (:foreground trondheim-nord09))
   (mu4e-unread-face (:foreground trondheim-nord07 :weight 'bold))
-  (mu4e-header-marks-face (:foreground trondheim-nord12))))
+  (mu4e-header-marks-face (:foreground trondheim-nord12))
+  (message-header-name (:foreground trondheim-comment))
+  (message-header-subject (:foreground trondheim-nord10 :weight 'bold))
+  (message-header-to (:foreground trondheim-nord09))
+  (message-header-other (:foreground trondheim-nord07))
+
+  ;; elfeed faces
+  (elfeed-search-date-face (:foreground trondheim-nord15))
+  (elfeed-search-feed-face (:foreground trondheim-nord13))
+  (elfeed-search-tag-face (:foreground trondheim-nord09))
+
+  ))
 
 
 (provide-theme 'trondheim)
