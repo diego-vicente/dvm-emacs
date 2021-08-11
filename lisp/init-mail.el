@@ -55,6 +55,13 @@
   (mu4e-alert-set-default-style 'libnotify)
   :hook (after-init . mu4e-alert-enable-notifications))
 
+;; Configure mu4e in a per-column basis
+;; TODO: requires at least mu4e 1.6.0
+;; (use-package mu4e-column-faces
+;;   :ensure t
+;;   :after mu4e
+;;   :config (mu4e-column-faces-mode))
+
 
 (provide 'init-mail)
 ;;; init-mail.el ends here
