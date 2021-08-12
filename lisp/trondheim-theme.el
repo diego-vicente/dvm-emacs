@@ -234,12 +234,13 @@
   (org-level-6 (:foreground trondheim-nord13))
   (org-level-7 (:foreground trondheim-nord12))
   (org-level-8 (:foreground trondheim-nord11))
-
   (org-drawer (:foreground trondheim-comment))
   (org-warning (:foreground trondheim-nord13))
   (org-table (:foreground trondheim-nord05))
   (org-table-header (:foreground trondheim-nord02))
-
+  (org-block (:inherit 'default))
+  (org-block-begin-line (:inherit 'shadow))
+  (org-block-end-line (:inherit 'shadow))
   (org-document-title (:foreground trondheim-nord10 :weight 'bold))
   (org-document-info (:foreground trondheim-nord07))
 
