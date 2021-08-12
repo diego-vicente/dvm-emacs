@@ -9,6 +9,7 @@
 
 ;; mu4e is my favorite email client
 (use-package mu4e
+  :after shr
   :config
   (setq user-full-name "Diego Vicente"
         user-mail-address "mail@diego.codes"
@@ -16,6 +17,7 @@
         mail-user-agent 'mu4e-user-agent
         ;; Basic settings
         mu4e-completing-read-function #'ivy-completing-read
+        mu4e-view-prefer-html t  ; managed by shr
         ;; Directory settings
         mu4e-maildir (expand-file-name "~/docs/maildir")
         mu4e-attachment-dir (expand-file-name "~/docs/downloads")

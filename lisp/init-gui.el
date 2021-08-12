@@ -101,6 +101,14 @@
     "k l" 'popper-cycle
     "k ." 'popper-toggle-type))
 
+;; shr is a built-in package to display converted HTML
+(use-package shr
+  :config
+  ;; don't get too clever when converting HTML
+  (setq-default shr-use-colors nil
+                shr-use-fonts nil
+                shr-width 72))
+
 
 (provide 'init-gui)
 ;;; init-gui.el ends here

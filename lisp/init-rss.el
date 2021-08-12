@@ -9,6 +9,7 @@
 
 (use-package elfeed
   :ensure t
+  :after shr
   :config
   (setq elfeed-feeds
         '(("https://christine.website/blog.rss" blog)
