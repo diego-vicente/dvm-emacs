@@ -25,7 +25,10 @@
                                 :remove 'unread))
 
   (leader-def
-    "SPC n" 'elfeed))
+    "SPC n" 'elfeed)
+
+  ;; Update by default each time the server starts
+  (elfeed-update))
 
 ;; elfeed-web allows a basic web interface in http://localhost:8080/elfeed/
 (use-package elfeed-web
